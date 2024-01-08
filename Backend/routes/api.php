@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostDutyController;
 use App\Http\Controllers\PostSkillsController;
 use App\Http\Controllers\RequirementController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -32,3 +33,5 @@ Route::resource('vacancy/skills', PostSkillsController::class)->only('store', 'u
 Route::resource('vacancy/duties', PostDutyController::class)->only('store', 'update', 'destroy');
 
 Route::resource('vacancy/requirements', RequirementController::class)->only('store', 'update', 'destroy');
+
+Route::get('searchvacancy/', [SearchController::class, 'Job']);

@@ -11,10 +11,16 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $post = Post::get();
-        return response()->json($post);
+        $search = $request->get('search');
+        if ($search == Null) {
+            $post = Post::get();
+            return response()->json($post);
+        } else {
+            $post = Post::where('id', 'LIKE', "%$search%")->get();
+            return response()->json($post);
+        }
     }
 
     /**

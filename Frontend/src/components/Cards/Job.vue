@@ -15,7 +15,7 @@ const props = defineProps({
 </script>
 <template>
     <!-- component -->
-    <div class="relative mx-auto my-6 w-full max-w-sm border border-gray-700 rounded-md px-4 py-2 bg-slate-200">
+    <div class="relative mx-auto my-6 w-full max-w-sm border border-gray-700 rounded-md px-4 py-2 bg-slate-200" v-if="job">
         <RouterLink :to="{ path: 'vacancies/' + job.id }"
             class="w-full transform transition-transform duration-300 ease-in-out">
             <div class="rounded-lg">
@@ -25,11 +25,11 @@ const props = defineProps({
                             <jobIcon />
                         </div>
                         <div class="flex items-center text-gray-800 xl:flex-row xl:items-center">
-                            <h2 class="line-clamp-1 text-base font-medium text-gray-800 md:text-lg" title="New York">
+                            <h2 class="line-clamp-1 text-base font-medium text-gray-800 md:text-lg" title="New York" v-if="job.job">
                                 {{ job.job.name }}</h2>
                         </div>
                     </div>
-                    <div class="mt-2 grid grid-cols-2 grid-rows-2 gap-4 pb-3 pt-3 border-y border-gray-700">
+                    <div class="mt-2 grid grid-cols-2 grid-rows-2 gap-4 pb-3 pt-3 border-y border-gray-700" v-if="job.organisation">
                         <p class="flex items-center text-gray-800 xl:flex-row xl:items-center gap-x-2">
                             <companyIcon />
                             <span class="xl:mt-0"> {{ job.organisation.name }} </span>

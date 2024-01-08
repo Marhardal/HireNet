@@ -1,12 +1,40 @@
+<script setup>
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import Button from "@/components/Forms/Button.vue";
+import due from "@/components/icons/WarningDate.vue";
+import creation from "@/components/icons/CreationDate.vue";
+import companyIcon from "@/components/icons/Company.vue";
+import locationIcon from "@/components/icons/Location.vue";
+import contractIcon from "@/components/icons/Contract.vue";
+import backIcon from "@/components/icons/Back.vue";
+import moment from 'moment';
+
+const show = ref([]);
+onMounted(async => {
+    const id = useRoute().params.id;
+    showVacancy(id);
+});
+
+const showVacancy = async (id) => {
+    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/${id}`);
+    show.value = response.data.post;
+    console.log(show);
+}
+</script>
+
 <template>
     <div class="max-w-4xl mx-auto">
         <div class="flex justify-between">
-            <RouterLink to="/vacancies" class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600">
+            <RouterLink to="/vacancies"
+                class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600">
                 <backIcon /> Back
             </RouterLink>
         </div>
         <h1 v-if="show.job" class="w-full text-center">{{ show.job.name }}</h1>
-        <div class="flex flex-wrap max-w-md bg-gray-500 justify-center rounded-md py-2 gap-x-4 mx-auto"  v-if="show.organisation">
+        <div class="flex flex-wrap max-w-md bg-gray-500 justify-center rounded-md py-2 gap-x-4 mx-auto"
+            v-if="show.organisation">
             <div class="flex gap-x-2">
                 <companyIcon />
                 <span v-if="show.organisation">{{ show.organisation.name }}</span>
@@ -38,7 +66,8 @@
             </div>
             <div class="flex gap-x-2">
                 <due />
-                <span class="text-base text-black font-semibold">Application Closes {{ moment(show.due_date).fromNow() }}</span>
+                <span class="text-base text-black font-semibold">Application Closes {{ moment(show.due_date).fromNow()
+                }}</span>
             </div>
         </div>
         <hr>
@@ -70,31 +99,5 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import Button from "@/components/Forms/Button.vue";
-import due from "@/components/icons/WarningDate.vue";
-import creation from "@/components/icons/CreationDate.vue";
-import companyIcon from "@/components/icons/Company.vue";
-import locationIcon from "@/components/icons/Location.vue";
-import contractIcon from "@/components/icons/Contract.vue";
-import backIcon from "@/components/icons/Back.vue";
-import moment from 'moment';
-
-const show = ref([]);
-onMounted(async => {
-    const id = useRoute().params.id;
-    showVacancy(id);
-});
-
-const showVacancy = async (id) => {
-    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/${id}`);
-    show.value = response.data.post;
-    console.log(show);
-}
-</script>
 
 <style lang="scss" scoped></style>
