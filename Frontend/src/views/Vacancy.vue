@@ -1,0 +1,100 @@
+<template>
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between">
+            <RouterLink to="/vacancies" class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600">
+                <backIcon /> Back
+            </RouterLink>
+        </div>
+        <h1 v-if="show.job" class="w-full text-center">{{ show.job.name }}</h1>
+        <div class="flex flex-wrap max-w-md bg-gray-500 justify-center rounded-md py-2 gap-x-4 mx-auto"  v-if="show.organisation">
+            <div class="flex gap-x-2">
+                <companyIcon />
+                <span v-if="show.organisation">{{ show.organisation.name }}</span>
+            </div>
+            <div class="flex gap-x-2">
+                <locationIcon />
+                <span>{{ show.organisation.location }}</span>
+            </div>
+            <div class="flex gap-x-2" v-if="show.arrangement">
+                <contractIcon />
+                <span>{{ show.arrangement.name }}</span>
+            </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 my-4">
+            <div class="col-span-1">
+                <Button value="Apply Now" />
+            </div>
+            <div class="col-span-1">
+                <Button value="Bookmark" />
+            </div>
+            <div class="col-span-1">
+                <Button value="Share" />
+            </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4 my-4">
+            <div class="flex gap-x-2">
+                <creation />
+                <span class="text-base text-black font-semibold">Created {{ moment(show.created_at).fromNow() }}</span>
+            </div>
+            <div class="flex gap-x-2">
+                <due />
+                <span class="text-base text-black font-semibold">Application Closes {{ moment(show.due_date).fromNow() }}</span>
+            </div>
+        </div>
+        <hr>
+        <div class="w-full my-4 text-base" v-if="show.organisation">
+            <h3 class="font-semibold text-xl mb-2">Company Background</h3>
+            <p>{{ show.organisation.about }}</p>
+        </div>
+        <div class="w-full my-4 text-base">
+            <h3 class="font-semibold text-xl mb-2">Position Summary</h3>
+            <p>{{ show.about }}</p>
+        </div>
+        <div class="w-full my-4 text-base" v-if="show.duty != 0">
+            <h3 class="font-semibold text-xl mb-2">Responsibilities</h3>
+            <ol>
+                <li v-for="duty in show.duty">{{ duty.name }}</li>
+            </ol>
+        </div>
+        <div class="w-full my-4 text-base" v-if="show.skills != 0">
+            <h3 class="font-semibold text-xl mb-2">Skills</h3>
+            <ol>
+                <li v-for="skill in show.skills">{{ skill.name }}</li>
+            </ol>
+        </div>
+        <div class="w-full my-4 text-base" v-if="show.certificate != 0">
+            <h3 class="font-semibold text-xl mb-2">Qualification</h3>
+            <ol>
+                <li v-for="cert in show.certificate">{{ cert.name }}</li>
+            </ol>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import Button from "@/components/Forms/Button.vue";
+import due from "@/components/icons/WarningDate.vue";
+import creation from "@/components/icons/CreationDate.vue";
+import companyIcon from "@/components/icons/Company.vue";
+import locationIcon from "@/components/icons/Location.vue";
+import contractIcon from "@/components/icons/Contract.vue";
+import backIcon from "@/components/icons/Back.vue";
+import moment from 'moment';
+
+const show = ref([]);
+onMounted(async => {
+    const id = useRoute().params.id;
+    showVacancy(id);
+});
+
+const showVacancy = async (id) => {
+    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/${id}`);
+    show.value = response.data.post;
+    console.log(show);
+}
+</script>
+
+<style lang="scss" scoped></style>
