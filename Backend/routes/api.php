@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArrangementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\PostSkillsController;
 use App\Http\Controllers\RequirementController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
+use App\Models\Arrangement;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +36,4 @@ Route::resource('vacancy/duties', PostDutyController::class)->only('store', 'upd
 
 Route::resource('vacancy/requirements', RequirementController::class)->only('store', 'update', 'destroy');
 
-Route::get('searchvacancy/', [SearchController::class, 'Job']);
+Route::resource('arrangements/', ArrangementController::class)->only(['index']);

@@ -9,18 +9,27 @@ import companyIcon from "@/components/icons/Company.vue";
 import locationIcon from "@/components/icons/Location.vue";
 import contractIcon from "@/components/icons/Contract.vue";
 import backIcon from "@/components/icons/Back.vue";
+import Job from "@/components/Cards/Job.vue";
+
 import moment from 'moment';
 
 const show = ref([]);
+const vacancies = ref([]);
 onMounted(async => {
     const id = useRoute().params.id;
     showVacancy(id);
+    getVacancies()
 });
 
 const showVacancy = async (id) => {
     let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/${id}`);
     show.value = response.data.post;
-    console.log(show);
+}
+
+const getVacancies = async () => {
+    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/`);
+    vacancies.value = response.data;
+    console.log(response.data);
 }
 </script>
 
@@ -97,6 +106,9 @@ const showVacancy = async (id) => {
                 <li v-for="cert in show.certificate">{{ cert.name }}</li>
             </ol>
         </div>
+        <main class="flex flex-wrap gap-2 w-full rounded-md" v-if="vacancies.length > 0">
+            <Job v-for="(vacancy, index) in vacancies" :key="index" :job="vacancy" />
+        </main>
     </div>
 </template>
 

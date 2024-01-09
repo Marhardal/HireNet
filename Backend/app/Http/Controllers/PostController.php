@@ -11,16 +11,11 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $search = $request->get('search');
-        if ($search == Null) {
-            $post = Post::get();
-            return response()->json($post);
-        } else {
-            $post = Post::where('id', 'LIKE', "%$search%")->get();
-            return response()->json($post);
-        }
+
+        $post = Post::latest()->Filters(request(['search']));
+        return response()->json($post->get());
     }
 
     /**
@@ -45,8 +40,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
+
         $post = Post::find($id);
-        return response()->json(['post' => $post]);
+        $posts = Post::latest()->take(6)->get();
+        return response()->json(['post' => $post, 'posts' => $posts]);
     }
 
     /**

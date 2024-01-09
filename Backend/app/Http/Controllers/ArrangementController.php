@@ -12,7 +12,8 @@ class ArrangementController extends Controller
      */
     public function index()
     {
-        //
+        $arrangements = Arrangement::get();
+        return response()->json($arrangements, 200);
     }
 
     /**
