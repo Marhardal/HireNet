@@ -6,6 +6,7 @@ import dateIcon from "../icons/CreationDate.vue";
 import jobIcon from "../icons/Briefcase.vue";
 import moment from "moment";
 import Button from "../Forms/Button.vue";
+
 const props = defineProps({
     job: {
         type: Object,

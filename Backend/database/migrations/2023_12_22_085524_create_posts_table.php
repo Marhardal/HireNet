@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Organisation::class);
             $table->foreignIdFor(Job::class);
             $table->foreignIdFor(Arrangement::class);
+            $table->integer('num');
             $table->text('about');
             $table->date('due_date');
             $table->timestamps();

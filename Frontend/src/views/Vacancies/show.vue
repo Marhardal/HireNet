@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Button from "@/components/Forms/Button.vue";
 import due from "@/components/icons/WarningDate.vue";
@@ -15,10 +15,23 @@ import moment from 'moment';
 
 const show = ref([]);
 const vacancies = ref([]);
+const checks = ref();
+const user_id = ref();
+
+const vid = reactive({
+    'post_id': '',
+    'user_id': 1
+});
+
+let errors = ref([]);
+
 onMounted(async => {
     const id = useRoute().params.id;
     showVacancy(id);
-    getVacancies()
+    user_id.data = 1;
+    bookMarkCheck(user_id);
+    // getVacancies()
+    vid.post_id = id;
 });
 
 const showVacancy = async (id) => {
@@ -26,10 +39,26 @@ const showVacancy = async (id) => {
     show.value = response.data.post;
 }
 
-const getVacancies = async () => {
-    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/`);
-    vacancies.value = response.data;
-    console.log(response.data);
+// const getVacancies = async () => {
+//     let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/`);
+//     vacancies.value = response.data;
+//     console.log(response.data);
+// }
+
+const bookMark = () => {
+    console.log(vid);
+    axios.post('http://127.0.0.1:8000/api/bookmark/', vid).then((response) => {
+        console.log(response.data);
+        router.push('/');
+    }).catch((error) => {
+        errors.value = error?.response?.data?.errors;
+        // console.log(errors);
+    });
+}
+
+const bookMarkCheck = async (user_id) => {
+    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${user_id.data}`);
+    checks.data = response.data;
 }
 </script>
 
@@ -57,17 +86,17 @@ const getVacancies = async () => {
                 <span>{{ show.arrangement.name }}</span>
             </div>
         </div>
-        <div class="grid grid-cols-3 gap-2 my-4">
+        <form class="grid grid-cols-3 gap-2 my-4" @submit.prevent>
             <div class="col-span-1">
                 <Button value="Apply Now" />
             </div>
-            <div class="col-span-1">
-                <Button value="Bookmark" />
+            <div class="col-span-1" >
+                <Button value="Bookmark" @clicked="bookMark" :input="show.id"/>
             </div>
             <div class="col-span-1">
                 <Button value="Share" />
             </div>
-        </div>
+        </form>
         <div class="flex flex-wrap justify-center gap-4 my-4">
             <div class="flex gap-x-2">
                 <creation />

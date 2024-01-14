@@ -1,9 +1,9 @@
 <template>
     <div class="mx-auto max-w-2xl">
         <label class="block text-sm font-medium mb-2 text-black">{{ label }}</label>
-        <input :type="type"
+        <textarea
             class="py-3 px-4 block w-full border border-gray-400 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  text-black dark:focus:ring-gray-600"
-            :placeholder="placeholder" @input="$emit('update:modelValue', $event.target.value)" :value="modelValue" >
+            rows="3" :placeholder="placeholder" @input="$emit('update:modelValue', $event.target.value)" :value="modelValue"></textarea>
     </div>
 </template>
 
@@ -13,17 +13,12 @@ defineProps({
         type: String,
         required: true,
     },
-    type: {
-        type: String,
-        required: false
-    },
     label: {
         type: String,
         required: false,
     },
     modelValue: {
         type: String,
-        default: ""
     }
 });
 

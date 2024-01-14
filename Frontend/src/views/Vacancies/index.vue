@@ -18,13 +18,12 @@ onMounted(async () => (
 const getSearch = async () => {
     let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/?search=${searchtxt.value}`);
     vacancies.value = response.data;
-    console.log(response.data);
 }
 
 const getVacancies = async () => {
     let response = await axios.get("http://127.0.0.1:8000/api/vacancies");
     vacancies.value = response.data;
-    console.log(response.data);
+    console.log(vacancies.value);
 }
 
 </script>

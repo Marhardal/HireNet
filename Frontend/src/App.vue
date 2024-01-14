@@ -7,5 +7,5 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped>
-
+    @import '@vueform/multiselect/themes/tailwind.css';
 </style>

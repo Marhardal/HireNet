@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Bookmark;
 use App\Models\Certificate;
 use App\Models\Job;
 use App\Models\Duty;
@@ -49,5 +50,6 @@ class DatabaseSeeder extends Seeder
         PostDuty::factory(30)->create();
         Certificate::factory(30)->create();
         Requirement::factory(30)->create();
+        Bookmark::factory(5)->create();
     }
 }

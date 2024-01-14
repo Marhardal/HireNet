@@ -26,6 +26,7 @@ class PostFactory extends Factory
             'arrangement_id' => Arrangement::all()->random()->id,
             'about' => fake()->paragraph(),
             'due_date' => now()->addMonth(3),
+            'num' => fake()->randomNumber(),
         ];
     }
 }

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Skill;
+use App\Models\Bookmark;
 use Illuminate\Http\Request;
 
-class SkillController extends Controller
+class BookmarkController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $skill = Skill::get();
-        return response()->json($skill);
+
     }
 
     /**
@@ -29,21 +28,26 @@ class SkillController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $bookmark = Bookmark::create($request->all());
+        return response()->json("Vacancy Bookmarked Successfully", 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Skill $skill)
+    public function show($id)
     {
-        //
+        $bookmark = Bookmark::where('user_id', '=' , $id)->get();
+        $posts = $bookmark->map(function ($bookmark){
+            return $bookmark->post;
+        });
+        return response()->json($posts, 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Skill $skill)
+    public function edit(Bookmark $bookmark)
     {
         //
     }
@@ -51,7 +55,7 @@ class SkillController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Skill $skill)
+    public function update(Request $request, Bookmark $bookmark)
     {
         //
     }
@@ -59,8 +63,9 @@ class SkillController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Skill $skill)
+    public function destroy($id)
     {
-        //
+        Bookmark::destroy($id);
+        return response()->json('BookMarked Vacancy Deleted Successfully', 200);
     }
 }
