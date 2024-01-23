@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArrangementController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -27,6 +28,8 @@ use App\Models\Arrangement;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('sign-in', [LoginController::class, 'Login'])->middleware('guest');
 
 Route::resource('vacancies', PostController::class)->except(['create', 'edit']);
 

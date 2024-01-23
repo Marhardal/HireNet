@@ -24,13 +24,15 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['sometimes', 'required', ],
-            'role_id'=>['sometimes' ,'required', Rule::exists('roles', 'id')],
-            'organisation_id'=>['nullable', Rule::exists('organisations', 'id')],
-            'email'=>['sometimes', 'required', 'email', Rule::unique('users', 'email')->ignore(2)],
-            'username'=>['sometimes', 'required', Rule::unique('users', 'username')->ignore(2)],
-            'dob'=>['sometimes', 'required', ],
-            'password'=>['sometimes', 'required',  Password::min(8)->mixedCase()->symbols()->numbers(),Rule::unique('users', 'password')->ignore(2)],
+            'first_name' => ['required',],
+            'surname' => ['required',],
+            'role_id' => ['required', Rule::exists('roles', 'id')],
+            'organisation_id' => ['nullable', Rule::exists('organisations', 'id')],
+            'phone' => ['required', 'min:9', 'numeric'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore(2)],
+            'username' => ['required', Rule::unique('users', 'username')->ignore(2)],
+            'dob' => ['required',],
+            'password' => ['required',  Password::min(8)->mixedCase()->symbols()->numbers(), Rule::unique('users', 'password')->ignore(2)],
         ];
     }
 }

@@ -7,14 +7,11 @@ import axios from 'axios';
 import { onMounted, ref, reactive } from 'vue';
 import Button from '@/components/Forms/Button.vue'
 import vacancyInputs from '../../Composables/vacancyInput.js';
+import Base from '../Base.vue';
 
 const arrangements = ref([]);
 
 const step = ref(0);
-
-// const {
-//     values
-// } = vacancyInputs();
 
 const values = reactive({
     job_id: '1',
@@ -22,37 +19,12 @@ const values = reactive({
     arrangement_id: '1',
     location: '',
     about: '',
-    skill_id: '',
-    duty_id: '',
+    skill_id: [],
+    duty_id: [],
     certificate_id: '',
     organisation_id: '1',
     due_date: '',
 });
-
-const selectedValue = reactive({});
-
-const sendValues = () => {
-    if (step.value == 0) {
-        selectedValue = [
-            values.job_id,
-            values.num,
-            values.arrangement_id,
-            values.location,
-            values.about]
-        }
-    else if (step.value == 1) {
-        selectedValue = [
-            values.job_id,
-            values.skill_id
-        ]
-    }
-    else {
-        selectedValue = [
-            values.job_id,
-            values.duty_id
-        ]
-    }
-}
 
 const errors = ref();
 
@@ -66,43 +38,37 @@ const previousStep = () => {
     step.value--;
 }
 const nextStep = () => {
-    // if (step.value == 0) {
-    //     createVacancy();
-    // } 
-    // else if (step.value == 1) {
-    //     createVacancySkills();
-    // }
-    // else {
-    //     createVacancyDuties();
-    // }
-    // console.log(selectedValue);
     step.value++;
 }
 
-const createVacancy = async () => {
-    axios.post('http://127.0.0.1:8000/api/vacancies', values).then((response) => {
-        console.log(response.data);
-    }).catch((error) => {
-        errors.value = error?.response?.data?.errors;
-        console.log(errors);
-    });
-}
+// const createVacancy = async () => {
+//     axios.post('http://127.0.0.1:8000/api/vacancies', values).then((response) => {
+//         console.log(response.data);
+//     }).catch((error) => {
+//         errors.value = error?.response?.data?.errors;
+//         console.log(errors);
+//     });
+// }
 
 </script>
 
 <template>
-    <div class="grid grid-cols-10 gap-4">
-        <div class="col-span-10">
-            <Header title="Create Job" />
+    <Base>
+    <template v-slot:header>
+        <Header title="Create Job" />
+    </template>
+    <template v-slot:other>
+        <div class="max-w-4xl mx-auto">
+            <component v-bind:is="steps[step]" v-bind:input="values"></component>
+            <div class="grid grid-cols-2 gap-x-4">
+                <div class="col-span-1">
+                    <Button value="Previous" v-on:clicked="previousStep" v-if="step > 0" />
+                </div>
+                <div class="col-span-1 right-0">
+                    <Button value="Next" v-on:clicked="nextStep" v-if="step < 2" class=""/>
+                </div>
+            </div>
         </div>
-        <component v-bind:is="steps[step]" v-bind:input="sendValues"></component>
-        <div class="col-span-5">
-            <Button value="Previous" v-on:clicked="previousStep" v-if="step > 0" />
-            <Button value="Cancel" v-on:clicked="" v-if="step == 0" />
-        </div>
-        <div class="col-span-5">
-            <Button value="Next" v-on:clicked="nextStep" v-if="step < 1" />
-            <Button value="Submit" v-on:clicked="createVacancy" v-if="step == 0" />
-        </div>
-    </div>
+    </template>
+    </Base>
 </template> 

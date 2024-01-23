@@ -4,6 +4,7 @@ import Textarea from '@/components/Forms/Textarea.vue';
 import axios from 'axios';
 import { onMounted, ref, reactive } from 'vue';
 import Multiselect from '@vueform/multiselect';
+import Select from '@/components/Forms/Select.vue';
 
 const props = defineProps(['input']);
 
@@ -30,15 +31,12 @@ const getArrangements = async () => {
                 <Input placeholder="Enter Number of Employees Wanted." label="Number of Employees." type="number"
                     v-model="input.num" />
             </div>
-            <div class="my-4" v-if="arrangements.length > 0">
-                <div class="mx-auto max-w-2xl">
-                    <Multiselect v-model="input.arrangement_id" :options="arrangements"
-                        placeholder="Select an Arrangement for the job." />
-                </div>
+            <div class="my-4">
+                <Select v-model="input.arrangement_id" v-if="arrangements.length > 0" :options="arrangements" label="Select Job Arrangement Type"
+                    placeholder="Select an Arrangement for the job." />
             </div>
             <div class="my-4">
-                <Input placeholder="Enter a Job Location." label="Job Location" type="text"
-                    v-model="input.location" />
+                <Input placeholder="Enter a Job Location." label="Job Location" type="text" v-model="input.location" />
             </div>
             <div class="my-4">
                 <Input placeholder="Enter a Job Location." label="Job Application Closes on" type="date"

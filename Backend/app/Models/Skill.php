@@ -14,6 +14,13 @@ class Skill extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
+
+    function scopeFilters($query, array $filters){
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->where('id', 'LIKE', '%' . $search . '%');
+        });
+    }
+
     public function Post()
     {
         return $this->belongsToMany(Post::class, 'post_skills');

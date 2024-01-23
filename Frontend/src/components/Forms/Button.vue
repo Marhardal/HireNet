@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-sm mx-auto">
+    <div class="">
         <button class="bg-blue-500 py-2 text-base text-white font-semibold rounded-md items-center w-full"
             @click="buttonClicked()">{{ value }}</button>
     </div>

@@ -12,8 +12,8 @@ class SkillController extends Controller
      */
     public function index()
     {
-        $skill = Skill::get();
-        return response()->json($skill);
+        $skill = Skill::Filters(request(['search']));
+        return response()->json($skill->get());
     }
 
     /**

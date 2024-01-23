@@ -17,7 +17,6 @@ const uid = shallowRef([]);
 onMounted(async () => {
     uid.data = 4;
     getBookMarks(uid);
-    console.log(bookMarks.count);
 });
 
 const getBookMarks = async (uid) => {

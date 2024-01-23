@@ -45,7 +45,7 @@ const props = defineProps({
                         </p>
                         <p class="flex items-center text-gray-800 xl:flex-row xl:items-center gap-x-2">
                             <dateIcon />
-                            <span class="mt-0"> {{ moment(job.due_date).fromNow() }} </span>
+                            <span class="mt-0">Closes {{ moment(job.due_date).fromNow() }} </span>
                         </p>
                     </div>
                     <div class="flex flex-cols gap-2 mt-2">
