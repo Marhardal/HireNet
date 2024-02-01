@@ -17,9 +17,9 @@ defineProps({
         required: true
     },
     modelValue: {
-        type: Array,
+        type: String,
         required: true,
-        default: []
+        default: ""
     }
 })
 

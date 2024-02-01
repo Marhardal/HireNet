@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Skill;
+use App\Models\Apply;
 use Illuminate\Http\Request;
+use App\Http\Requests\ApplyRequest;
 
-class SkillController extends Controller
+class ApplyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $skill = Skill::all(['id', 'name']);
-        return response()->json(['skills'=>$skill], 200);
+        //
     }
 
     /**
@@ -27,15 +27,17 @@ class SkillController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ApplyRequest $request)
     {
-        //
+        $file=$request->file('document')->store('Resumes');
+        Apply::create($request->all());
+        return response()->json("You have applied to a position successfully.", 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Skill $skill)
+    public function show(Apply $apply)
     {
         //
     }
@@ -43,7 +45,7 @@ class SkillController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Skill $skill)
+    public function edit(Apply $apply)
     {
         //
     }
@@ -51,7 +53,7 @@ class SkillController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Skill $skill)
+    public function update(Request $request, Apply $apply)
     {
         //
     }
@@ -59,7 +61,7 @@ class SkillController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Skill $skill)
+    public function destroy(Apply $apply)
     {
         //
     }

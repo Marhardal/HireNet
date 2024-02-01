@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class PostRequest extends FormRequest
+class ApplyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,10 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_id' => ['required', Rule::exists('jobs', 'id')],
-            'num'=>['required', 'numeric'],
-            'organisation_id' => ['required', Rule::exists('organisations', 'id')],
-            'arrangement_id' => ['required', Rule::exists('arrangements', 'id')],
-            'about' => ['required'],
-            'due_date' => ['required'],
+            'user_id' => ['required', Rule::exists('users', 'id')],
+            'post_id' => ['required', Rule::exists('posts', 'id')],
+            'message' => ['required', 'min:100', 'max:400'],
+            'document' => ['required', 'file', 'mimes:pdf, docx, doc', 'max:2048']
         ];
     }
 }

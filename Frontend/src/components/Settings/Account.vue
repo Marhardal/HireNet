@@ -1,12 +1,12 @@
 <script setup>
-import { onMounted, shallowRef, shallowReactive, shallowReadonly } from 'vue';
+import { onMounted, shallowRef } from 'vue';
 import axios from "axios";
 import Input from '../Forms/Input.vue';
 import Button from '../Forms/Button.vue';
 
 const bookMark = shallowRef([]);
 
-const uid = shallowRef(5);
+const userId = shallowRef(5);
 
 const values = shallowRef([]);
 
@@ -26,14 +26,14 @@ const values = shallowRef([]);
 const errors = shallowRef([]);
 
 onMounted(async () => {
-    // uid = 1;
-    // console.log(uid);
-    getBookMarks(uid);
+    // userId = 1;
+    // console.log(userId);
+    getBookMarks(userId);
     // console.log(values);
 });
 
-const getBookMarks = async (uid) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/users/${uid.value}`);
+const getBookMarks = async (userId) => {
+    const response = await axios.get(`http://127.0.0.1:8000/api/users/${userId.value}`);
     values.value = response.data.user;
     console.log(values.value);
 }

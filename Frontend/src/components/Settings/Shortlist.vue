@@ -10,15 +10,14 @@ import axios from "axios";
 
 const bookMarks = ref();
 
-const uid = ref();
+const userId = ref(1);
 
 onMounted( async () => {
-    uid = 1;
-    getBookMarks(uid);
+    getBookMarks(userId);
 });
 
-const getBookMarks = async (uid) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/shortlist/${uid}`);
+const getBookMarks = async (userId) => {
+    const response = await axios.get(`http://127.0.0.1:8000/api/shortlist/${userId}`);
     bookMarks.value = response.data;
 }
 </script>

@@ -12,7 +12,8 @@ class DutyController extends Controller
      */
     public function index()
     {
-        //
+        $duty = Duty::get();
+        return response()->json($duty, 200);
     }
 
     /**

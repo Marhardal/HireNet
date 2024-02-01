@@ -101,4 +101,14 @@ class Post extends Model
     {
         return $this->belongsToMany(Certificate::class, 'requirements');
     }
+
+    /**
+     * Get the Post that owns the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Post()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

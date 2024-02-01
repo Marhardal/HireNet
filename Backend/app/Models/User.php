@@ -52,6 +52,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the Apply that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Apply()
+    {
+        return $this->belongsTo(Apply::class);
+    }
+
+    /**
      * Get the Organisation that owns the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

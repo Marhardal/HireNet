@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\ArrangementController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\DutyController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +47,8 @@ Route::resource('arrangements/', ArrangementController::class)->only(['index']);
 
 Route::resource('skills/', SkillController::class)->only(['index']);
 
+Route::resource('duties/', DutyController::class)->only(['index']);
+
 Route::resource('bookmark', BookmarkController::class)->only(['index', 'store', 'destroy', 'show']);
+
+Route::resource('apply', ApplyController::class)->except('create', 'edit', 'destroy');

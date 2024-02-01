@@ -13,7 +13,9 @@ import SettingsIcon from '../icons/SettingsIcon.vue';
             <div class="space-y-48 rounded-md bg-blue-500">
                 <ul>
                     <li class="p-5">
-                        <DashboardIcon />
+                        <RouterLink to="/">
+                            <DashboardIcon />
+                        </RouterLink>
                     </li>
                     <li class="p-5">
                         <RouterLink to="/vacancies">

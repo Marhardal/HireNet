@@ -12,16 +12,16 @@ import Job from '../Cards/Job.vue';
 
 const bookMarks = shallowRef([]);
 
-const uid = shallowRef([]);
+const userId = shallowRef(2);
 
 onMounted(async () => {
-    uid.data = 4;
-    getBookMarks(uid);
+    getBookMarks(userId.value);
 });
 
-const getBookMarks = async (uid) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${uid.data}`);
+const getBookMarks = async (userId) => {
+    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${userId}`);
     bookMarks.value = response.data;
+    console.log(bookMarks.value);
 }
 </script>
 

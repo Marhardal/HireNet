@@ -24,7 +24,9 @@ const props = defineProps({
         default: ""
     },
     click: {
-        required: true
+        type: Array,
+        required: true,
+        default: []
     }
 });
 
@@ -67,7 +69,7 @@ const bookMark = () => {
         </div>
         <form class="grid grid-cols-3 gap-2 my-4" @submit.prevent>
             <div class="col-span-1">
-                <Button value="Apply Now" @clicked="click"/>
+                <Button value="Apply Now" v-if="click[0]" @clicked="click[0]"/>
             </div>
             <div class="col-span-1">
                 <Button value="Bookmark" @clicked="bookMark" :input="show.id" />

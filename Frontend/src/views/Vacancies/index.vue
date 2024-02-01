@@ -39,11 +39,11 @@ const getVacancies = async () => {
     </template>
     <template v-slot:main>
         <div class="flex mx-8 py-4">
-            <div class="flex w-full justify-start">
+            <div class="flex justify-start">
                 <div class='flex items-center justify-center'>
-                    <div class="flex max-w-sm rounded bg-white">
+                    <div class="flex rounded bg-white">
                         <input
-                            class="w-full border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
+                            class="max-w-md  border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
                             type="search" name="search" placeholder="Search..." v-model="searchtxt" @keyup="getSearch()" />
                         <button type="submit" class="rounded bg-blue-600 py-2 px-4 text-white">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@ const getVacancies = async () => {
                 </div>
             </div>
             <div class="flex w-full justify-end">
-                <RouterLink to="/create" class="bg-blue-500 py-2 px-4 rounded-md text-white">Create Vacancy
+                <RouterLink to="vacancy/create" class="bg-blue-500 py-2 px-4 rounded-md text-white">Create Vacancy
                 </RouterLink>
             </div>
         </div>

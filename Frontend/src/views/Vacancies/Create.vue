@@ -8,22 +8,27 @@ import { onMounted, ref, reactive } from 'vue';
 import Button from '@/components/Forms/Button.vue'
 import vacancyInputs from '../../Composables/vacancyInput.js';
 import Base from '../Base.vue';
+import Third from '@/components/Multi-Step/Vacancy/Third.vue';
 
 const arrangements = ref([]);
 
 const step = ref(0);
 
 const values = reactive({
-    job_id: '1',
-    num: '',
-    arrangement_id: '1',
-    location: '',
-    about: '',
-    skill_id: [],
-    duty_id: [],
-    certificate_id: '',
-    organisation_id: '1',
-    due_date: '',
+    First: {
+        job_id: '',
+        num: '',
+        arrangement_id: '',
+        about: '',
+        organisation_id: '1',
+        due_date: '',
+    },
+    Second: {
+        skill_id: '',
+    },
+    Third: {
+        duty_id: '',
+    },
 });
 
 const errors = ref();
@@ -31,6 +36,7 @@ const errors = ref();
 const steps = [
     First,
     Second,
+    Third,
     Final
 ];
 
@@ -38,17 +44,18 @@ const previousStep = () => {
     step.value--;
 }
 const nextStep = () => {
-    step.value++;
+    createVacancy()
 }
 
-// const createVacancy = async () => {
-//     axios.post('http://127.0.0.1:8000/api/vacancies', values).then((response) => {
-//         console.log(response.data);
-//     }).catch((error) => {
-//         errors.value = error?.response?.data?.errors;
-//         console.log(errors);
-//     });
-// }
+const createVacancy = async () => {
+    // axios.post('http://127.0.0.1:8000/api/vacancies', values.First).then((response) => {
+    //     console.log(response.data);
+    // }).catch((error) => {
+    //     errors.value = error?.response?.data?.errors;
+    //     console.log(errors);
+    // });
+    console.log(values.First);
+}
 
 </script>
 
@@ -59,13 +66,13 @@ const nextStep = () => {
     </template>
     <template v-slot:other>
         <div class="max-w-4xl mx-auto">
-            <component v-bind:is="steps[step]" v-bind:input="values"></component>
+            <component v-bind:is="steps[step]" :input="values"></component>
             <div class="grid grid-cols-2 gap-x-4">
                 <div class="col-span-1">
                     <Button value="Previous" v-on:clicked="previousStep" v-if="step > 0" />
                 </div>
                 <div class="col-span-1 right-0">
-                    <Button value="Next" v-on:clicked="nextStep" v-if="step < 2" class=""/>
+                    <Button value="Next" v-on:clicked="nextStep" v-if="step < 3" class="" />
                 </div>
             </div>
         </div>

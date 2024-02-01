@@ -51,6 +51,9 @@ const nextPage = () => {
     step.value ++;
 }
 
+const previousPage = () => {
+    step.value --;
+}
 // const getVacancies = async () => {
 //     let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/`);
 //     vacancies.value = response.data;
@@ -67,7 +70,9 @@ const bookMarkCheck = async (user_id) => {
 <template>
     <Base>
     <template v-slot:other>
-        <component :is="steps[step]" :show="show" input="vid" :click="nextPage"></component>
+        <div class="max-w-4xl mx-auto">
+            <component :is="steps[step]" :show="show" input="vid" :click="[nextPage, previousPage]"></component>
+        </div>
     </template>
     </Base>
 </template>

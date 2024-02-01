@@ -3,7 +3,7 @@
         <form action="">
             {{ input.skill_id }}
             <div class="mx-auto max-w-2xl" v-if="skills">
-                <CheckboxGroup v-if="skills.length > 0" :options="skills" v-model="input.skill_id" />
+                <CheckboxGroup v-if="skills.length > 0" :options="skills" v-model="input.Second.skill_id" />
             </div>
             <div class="my-4">
             </div>

@@ -2,10 +2,10 @@
     <div class="col-span-10">
         <div class="flex justify-center">
             <ul>
-                <li class="list-item" v-text="input.job_id"></li>
-                <li class="list-item" v-text="input.number"></li>
-                <li class="list-item" v-text="input.location"></li>
-                <li class="list-item" v-text="input.about"></li>
+                <li class="list-item" v-text="input.Second.skill_id"></li>
+                <li class="list-item" v-text="input.Third.duty_id"></li>
+                <li class="list-item" v-text="input.First.location"></li>
+                <li class="list-item" v-text="input.First.about"></li>
             </ul>
         </div>
     </div>
