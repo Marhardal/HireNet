@@ -25,8 +25,8 @@ class ApplyRequest extends FormRequest
         return [
             'user_id' => ['required', Rule::exists('users', 'id')],
             'post_id' => ['required', Rule::exists('posts', 'id')],
-            'message' => ['required', 'min:100', 'max:400'],
-            'document' => ['required', 'file', 'mimes:pdf, docx, doc', 'max:2048']
+            'message' => ['required',],
+            'document' => ['required']
         ];
     }
 }

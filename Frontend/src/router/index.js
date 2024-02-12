@@ -8,6 +8,7 @@ import FirstVue from '@/views/Vacancies/Create/First.vue';
 import SecondVue from '@/views/Vacancies/Create/Second.vue';
 import ThirdVue from '@/views/Vacancies/Create/Third.vue';
 import HomeViewVue from '@/views/HomeView.vue';
+import ApplyVue from '@/views/Apply.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,7 +58,12 @@ const router = createRouter({
       name: 'User Login',
       component: LoginVue,
     },
-
+    {
+      path: '/apply/:id',
+      name: 'Vacancy Apply',
+      component: ApplyVue,
+    },
+    
   ]
 })
 

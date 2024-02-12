@@ -43,7 +43,7 @@ const getVacancies = async () => {
                 <div class='flex items-center justify-center'>
                     <div class="flex rounded bg-white">
                         <input
-                            class="max-w-md  border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
+                            class="max-w-full border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
                             type="search" name="search" placeholder="Search..." v-model="searchtxt" @keyup="getSearch()" />
                         <button type="submit" class="rounded bg-blue-600 py-2 px-4 text-white">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"

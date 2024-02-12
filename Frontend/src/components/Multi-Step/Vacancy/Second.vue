@@ -3,9 +3,18 @@
         <form action="">
             {{ input.skill_id }}
             <div class="mx-auto max-w-2xl" v-if="skills">
-                <CheckboxGroup v-if="skills.length > 0" :options="skills" v-model="input.Second.skill_id" />
+                <Listbox v-model="selectedPeople" multiple>
+                    <ListboxButton>
+                        {{ selectedPeople.map((Skill) => Skill.name).join(', ') }}
+                    </ListboxButton>
+                    <ListboxOptions>
+                        <ListboxOption v-for="Skill in name" :key="Skill.id" :value="Skill">
+                            {{ Skill.name }}
+                        </ListboxOption>
+                    </ListboxOptions>
+                </Listbox>
             </div>
-            <div class="my-4">
+            <div class="my-4">skills
             </div>
         </form>
     </div>
@@ -15,6 +24,13 @@
 import CheckboxGroup from '@/components/Forms/CheckboxGroup.vue';
 import axios from 'axios';
 import { onMounted, ref, reactive } from 'vue';
+import { ref } from 'vue'
+import {
+    Listbox,
+    ListboxButton,
+    ListboxOptions,
+    ListboxOption,
+} from '@headlessui/vue'
 
 const props = defineProps(['input']);
 

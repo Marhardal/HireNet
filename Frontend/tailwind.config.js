@@ -3,6 +3,9 @@ const svgToDataUri = require('mini-svg-data-uri')
 
 module.exports = {
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: [
+    // "./formkit.theme.ts" // <-- add your theme fil
+  ],
    darkMode: true, // or 'media' or 'class'
    theme: {
     extend: {

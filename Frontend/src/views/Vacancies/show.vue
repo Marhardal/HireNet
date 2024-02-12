@@ -15,12 +15,14 @@ import moment from 'moment';
 import Base from '../Base.vue';
 import Show from '@/components/Multi-Step/Vacancy/Show/Show.vue';
 import Apply from '@/components/Multi-Step/Vacancy/Show/Apply.vue';
+import { useToast } from "vue-toastification";
 
 const step = shallowRef(0);
 const show = shallowRef({});
 const vacancies = shallowRef([]);
 const checks = shallowRef();
 const user_id = shallowRef(1);
+const toast = useToast();
 
 const vid = reactive({
     'post_id': '',
@@ -71,7 +73,7 @@ const bookMarkCheck = async (user_id) => {
     <Base>
     <template v-slot:other>
         <div class="max-w-4xl mx-auto">
-            <component :is="steps[step]" :show="show" input="vid" :click="[nextPage, previousPage]"></component>
+            <component :is="steps[step]" :show="show" :click="[nextPage, previousPage]"></component>
         </div>
     </template>
     </Base>

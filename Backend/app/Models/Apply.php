@@ -9,6 +9,7 @@ class Apply extends Model
 {
     use HasFactory;
 
+    protected $with = ['posts'];
     /**
      * Get the user associated with the Apply
      *

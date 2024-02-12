@@ -107,8 +107,8 @@ class Post extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Post()
+    public function Apply()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Apply::class);
     }
 }

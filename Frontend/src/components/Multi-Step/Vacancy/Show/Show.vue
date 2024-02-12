@@ -8,20 +8,20 @@ import contractIcon from "@/components/icons/Contract.vue";
 import backIcon from "@/components/icons/Back.vue";
 import Job from "@/components/Cards/Job.vue";
 import moment from 'moment';
-import { shallowRef } from "vue";
+import { shallowRef, shallowReactive } from "vue";
+import { useToast } from 'vue-toastification';
+import axios from "axios";
+import { onMounted } from "vue";
 
 let errors = shallowRef([]);
+
+const toast = useToast();
 
 const props = defineProps({
     show: {
         type: Object,
         required: true,
         default: {}
-    },
-    input: {
-        type: String,
-        required: true,
-        default: ""
     },
     click: {
         type: Array,
@@ -30,16 +30,31 @@ const props = defineProps({
     }
 });
 
-// console.log(props.show);
+const id = props.show.id;
+
+onMounted(async () => {
+
+})
+
+const input =  shallowReactive({
+    'user_id': 5,
+    'post_id': props.show.id
+})
 
 const bookMark = () => {
-    console.log(vid);
-    axios.post('http://127.0.0.1:8000/api/bookmark/', vid).then((response) => {
-        console.log(response.data);
-        router.push('/');
+    axios.post('http://127.0.0.1:8000/api/bookmark/', input).then((response) => {
+        toast.success("This job has been added to your favorites!");
     }).catch((error) => {
         errors.value = error?.response?.data?.errors;
-        // console.log(errors);
+        toast.error("Failed to Add the Job to your Favorites!");
+    });
+}
+
+const vacacyDelete =  async () => {
+    axios.delete(`http://127.0.0.1:8000/api/vacancies/${props.show.id}`).then((response) => {
+        toast.success("Vacancy has been deleted successfully");
+    }).catch(error => {
+        toast.error("Failed to delete a vacancy.");
     });
 }
 </script>
@@ -67,15 +82,19 @@ const bookMark = () => {
                 <span>{{ show.arrangement.name }}</span>
             </div>
         </div>
-        <form class="grid grid-cols-3 gap-2 my-4" @submit.prevent>
+        <form class="grid grid-cols-4 gap-2 my-4" @submit.prevent>
             <div class="col-span-1">
                 <Button value="Apply Now" v-if="click[0]" @clicked="click[0]"/>
+                <!-- <RouterLink :to="{path: '/apply/' + show.id}">Apply</RouterLink> -->
             </div>
             <div class="col-span-1">
-                <Button value="Bookmark" @clicked="bookMark" :input="show.id" />
+                <Button value="Bookmark" @clicked="bookMark" />
             </div>
             <div class="col-span-1">
                 <Button value="Share" />
+            </div>
+            <div class="col-span-1">
+                <Button value="Delete" @clicked="vacacyDelete"/>
             </div>
         </form>
         <div class="flex flex-wrap justify-center gap-4 my-4">

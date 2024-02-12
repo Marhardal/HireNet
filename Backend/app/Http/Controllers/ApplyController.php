@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Apply;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApplyRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ApplyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $posts = Apply::where('user_id', $id)->get();
+        return response()->json(['posts'=>$posts], 200);
     }
 
     /**
@@ -29,9 +31,14 @@ class ApplyController extends Controller
      */
     public function store(ApplyRequest $request)
     {
-        $file=$request->file('document')->store('Resumes');
-        Apply::create($request->all());
-        return response()->json("You have applied to a position successfully.", 200);
+        $file = $request->file('document')->store('Resumes');
+        Apply::create([
+            'user_id' => request()->user_id,
+            'post_id' => request()->post_id,
+            'document' => $file,
+            'message' => request()->message,
+        ]);
+        return response()->json("You have applied to a vacancy successfully.", 200);
     }
 
     /**
@@ -45,9 +52,10 @@ class ApplyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Apply $apply)
+    public function edit($id)
     {
-        //
+        $posts = Apply::where('user_id', $id)->get();
+        return response()->json(['posts'=>$posts], 200);
     }
 
     /**
@@ -64,5 +72,11 @@ class ApplyController extends Controller
     public function destroy(Apply $apply)
     {
         //
+    }
+
+    public function applied($id)
+    {
+        $posts = Apply::where('user_id', $id)->get();
+        return response()->json(['posts'=>$posts->posts], 200);
     }
 }
