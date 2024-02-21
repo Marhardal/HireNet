@@ -38,7 +38,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected $with = ['role', 'organisation'];
+    protected $with = ['role', 'organisation', ];
 
 
     /**
@@ -56,7 +56,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Apply()
+    public function Applicant()
     {
         return $this->belongsTo(Applicant::class);
     }
@@ -71,5 +71,14 @@ class User extends Authenticatable
         return $this->belongsTo(Organisation::class);
     }
 
+    /**
+     * The Post that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Posts()
+    {
+        return $this->belongsToMany(Post::class, 'applicants');
+    }
 
 }

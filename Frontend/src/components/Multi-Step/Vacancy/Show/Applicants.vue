@@ -9,6 +9,7 @@ import { useRoute } from 'vue-router';
     const id = useRoute().params.id;
 
     onMounted( async () => {
+        console.log(id);
         getApplicants(id)
     });
 
@@ -21,12 +22,12 @@ import { useRoute } from 'vue-router';
             }
         });
         applicants.value = response.data.applicants;
-        console.log(applicants.value);
     }
 </script>
 <template>
     <div class="" v-if="applicants.length > 0">
-        <Applicant v-for="(applicant, index) in applicants" :key="index" :applicant="applicant"/>
+        {{ id.value }}
+        <Applicant v-for="(applicant, index) in applicants" :key="index" :applicant="applicant" :postId="id"/>
     </div>
 </template>
 

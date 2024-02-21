@@ -20,11 +20,6 @@ const props = defineProps({
         type: Object,
         required: true,
         default: {}
-    },
-    click: {
-        type: Array,
-        required: true,
-        default: []
     }
 });
 
@@ -59,23 +54,6 @@ const vacacyDelete = async () => {
 </script>
 
 <template>
-    <form class="grid grid-cols-3 gap-2 my-4" @submit.prevent v-if="authStore.authRole">
-        <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
-            <Button value="Apply Now" v-if="click[0]" @clicked="click[0]" />
-        </div>
-        <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
-            <Button value="Bookmark" @clicked="bookMark" />
-        </div>
-        <div class="col-span-1">
-            <Button value="Share" />
-        </div>
-        <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
-            <Button value="Delete" @clicked="vacacyDelete" />
-        </div>
-        <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
-            <Button value="Applicants" @clicked="click['applicant']" />
-        </div>
-    </form>
     <div class="flex flex-wrap justify-center gap-4 my-4">
         <div class="flex gap-x-2">
             <creation />

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApplyRequest;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class ApplicantController extends Controller
@@ -44,9 +46,13 @@ class ApplicantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Applicant $apply)
+    public function show($postId, $userId)
     {
-        //
+        // $post = Post::find($postId);
+        // $applicant = $post->wherePivot('user_id', $userId);
+        $applicant = User::find($userId);
+        $post = $applicant->wherePivot('post_id', $postId);
+        return response()->json(['post' => $post, 'applicants' => $applicant], 200);
     }
 
     /**

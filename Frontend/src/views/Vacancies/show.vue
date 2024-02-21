@@ -11,6 +11,8 @@ import companyIcon from "@/components/icons/Company.vue";
 import locationIcon from "@/components/icons/Location.vue";
 import contractIcon from "@/components/icons/Contract.vue";
 import backIcon from "@/components/icons/Back.vue";
+import Button from '@/components/Forms/Button.vue';
+import { Step } from '@tiptap/pm/transform';
 
 const step = shallowRef(0);
 const show = shallowRef({});
@@ -22,11 +24,12 @@ const vid = reactive({
     'user_id': 1
 });
 
-const authUser = useAuthStore();
+const authStore = useAuthStore();
+
 let errors = shallowRef([]);
 
 onMounted(async => {
-    authUser.getUser();
+    authStore.getUser();
     const id = useRoute().params.id;
     showVacancy(id);
     bookMarkCheck(user_id.value);
@@ -102,7 +105,24 @@ const bookMarkCheck = async (user_id) => {
                     </div>
                 </div>
             </div>
-            <component :is="steps[step]" :show="show" :click="[nextPage, previousPage]"></component>
+            <div class="grid grid-cols-3 gap-2 my-4" v-if="authStore.authRole">
+                <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
+                    <Button value="Apply Now" v-if="steps[1]" @clicked="click[1]" />
+                </div>
+                <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
+                    <Button value="Bookmark" @clicked="bookMark" />
+                </div>
+                <div class="col-span-1">
+                    <Button value="Share" />
+                </div>
+                <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
+                    <Button value="Delete" @clicked="vacacyDelete" />
+                </div>
+                <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
+                    <Button value="Applicants" v-if="steps[1]" @clicked="click[2]" />
+                </div>
+            </div>
+            <component :is="steps[Step]" :show="show" :click="[nextPage, previousPage]"></component>
         </div>
     </template>
     </Base>

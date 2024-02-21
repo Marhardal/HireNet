@@ -56,8 +56,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        $applicants = Applicant::where('post_id', $id)->get();
-        return response()->json(['post' => $post, 'applicants' => $applicants]);
+        return response()->json(['post' => $post, 'applicants' => $post->users]);
     }
 
     /**

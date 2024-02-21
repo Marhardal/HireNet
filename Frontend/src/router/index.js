@@ -10,6 +10,7 @@ import ThirdVue from '@/views/Vacancies/Create/Third.vue';
 import HomeViewVue from '@/views/HomeView.vue';
 import ApplyVue from '@/views/Apply.vue';
 import { useAuthStore } from '../Stores/Auth';
+import ApplicantVue from '@/components/Multi-Step/Vacancy/Show/Applicant.vue';
 
 function auth(to, from) {
     const auth = useAuthStore();
@@ -86,6 +87,12 @@ const router = createRouter({
       name: 'Vacancy Apply',
       beforeEnter: auth,
       component: ApplyVue,
+    },
+    {
+      path: '/applicant/:id',
+      name: 'Vacancy Applicant',
+      beforeEnter: auth,
+      component: ApplicantVue,
     },
     
   ]

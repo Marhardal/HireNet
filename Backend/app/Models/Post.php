@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $with = ['organisation', 'job', 'duty', 'skills', 'certificate', 'arrangement'];
+    protected $with = ['organisation', 'job', 'duty', 'skills', 'certificate', 'arrangement',];
 
     function scopeFilters($query, array $filters)
     {
@@ -103,12 +103,12 @@ class Post extends Model
     }
 
     /**
-     * Get all of the Applicants for the Post
+     * The User that belong to the Post
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function Applicants()
+    public function Users()
     {
-        return $this->hasMany(Applicant::class);
+        return $this->belongsToMany(User::class, 'applicants');
     }
 }
