@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Organisation;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,13 @@ class OrganisationController extends Controller
     public function index()
     {
         //
+    }
+
+    public function Vacancies()
+    {
+        // $posts = Post::where('organisation_id', auth()->user()->organisation_id)->get();
+
+        return response()->json(auth()->check(), 200);
     }
 
     /**

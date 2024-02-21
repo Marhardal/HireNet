@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Apply extends Model
+class Applicant extends Model
 {
     use HasFactory;
 
-    protected $with = ['posts'];
+    protected $with = ['post'];
     /**
      * Get the user associated with the Apply
      *
@@ -21,12 +21,12 @@ class Apply extends Model
     }
 
     /**
-     * Get all of the Post for the Apply
+     * Get the Post that owns the Applicant
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function Post()
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsTo(Post::class);
     }
 }

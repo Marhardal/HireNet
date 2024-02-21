@@ -2,12 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Apply>
  */
-class ApplyFactory extends Factory
+class ApplicantFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +19,10 @@ class ApplyFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::all()->where('role_id', 2)->random()->id,
+            'post_id' => Post::all()->random()->id,
+            'document'=> '/Resumes/qCzt4PBRmx8FHvbFUW6VIldDZBNbS1elaTveCwEN.pdf',
+            'message' => fake()->paragraph(2)
         ];
     }
 }

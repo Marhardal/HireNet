@@ -58,7 +58,7 @@ class User extends Authenticatable
      */
     public function Apply()
     {
-        return $this->belongsTo(Apply::class);
+        return $this->belongsTo(Applicant::class);
     }
 
     /**

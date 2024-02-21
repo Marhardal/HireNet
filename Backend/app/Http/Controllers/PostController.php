@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Models\Applicant;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,23 @@ class PostController extends Controller
      */
     public function index()
     {
+        $post = "";
+        $user = auth()->user();
+        if (auth()->guest() || $user->role->name == "Seeker") {
+            $post = Post::latest()->Filters(request(['search']))->where('status', true)->get();
+        }
+        elseif ($user->role->name == "Recruiter") {
+            $post = Post::latest()->Filters(request(['search']))->where('organisation_id', $user->organisation_id)->get();
+        }else {
+            $post = Post::latest()->Filters(request(['search']))->where('status', false)->get();
+        }
+        return response()->json($post, 200);
+    }
 
-        $post = Post::latest()->Filters(request(['search']));
-        return response()->json($post->get());
+    public function Vacancies()
+    {
+        $posts = Post::where('organisation_id', auth()->user()->organisation_id)->get();
+        return response()->json($posts, 200);
     }
 
     /**
@@ -40,10 +55,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-
         $post = Post::find($id);
-        $posts = Post::latest()->take(6)->get();
-        return response()->json(['post' => $post, 'posts' => $posts]);
+        $applicants = Applicant::where('post_id', $id)->get();
+        return response()->json(['post' => $post, 'applicants' => $applicants]);
     }
 
     /**
@@ -71,4 +85,5 @@ class PostController extends Controller
         Post::find($id)->delete();
         return response()->json('Vacancy Deleted', 200);
     }
+
 }

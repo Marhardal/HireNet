@@ -17,10 +17,15 @@
                             <h3 class="text-md font-semibold">{{ title }}</h3>
                         </a>
                     </div>
-                    <!-- group-hover:text-indigo-500
-group-hover:text-indigo-500 -->
-                    <div class="flex-1 group">
-                        
+                    <div class="flex-1 group pt-2" v-if="authStore.authUser">
+                        <div class="flex items-right justify-end">
+                            <ProfileCMB :name="authStore.authUser.first_name +' '+ authStore.authUser.surname"/>
+                        </div>
+                    </div>
+                    <div class="flex-1 group pt-2" v-else>
+                        <div class="flex items-right justify-end">
+                            <RouterLink to="sign-in">Sign-in</RouterLink>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -30,12 +35,20 @@ group-hover:text-indigo-500 -->
 </template>
 
 <script setup>
+    import { onMounted } from "vue";
+import { useAuthStore } from "../../Stores/Auth";
+import ProfileCMB from "../Forms/ProfileCMB.vue";
+    const authStore = useAuthStore();
     defineProps({
         title: {
             type: String,
             required: true,
         }
-    })
+    });
+
+    onMounted(async () => {
+        authStore.getUser()
+    });
 </script>
 
 <style lang="scss" scoped></style>

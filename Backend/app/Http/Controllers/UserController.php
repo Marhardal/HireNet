@@ -30,8 +30,9 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        User::create($request->all());
-        return response()->json('User Created Successfully', 200);
+        $user = User::create($request->all());
+        $token = $user->createToken('authToken')->plainTextToken;
+        return response()->json(['token' => $token, 'Message' => 'User Created Successfully'], 201);
     }
 
     /**
@@ -46,7 +47,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function login(string $id)
     {
         //
     }

@@ -9,17 +9,28 @@
 import { onMounted, shallowRef } from 'vue';
 import axios from "axios";
 import Job from '../Cards/Job.vue';
+import { useAuthStore } from '@/Stores/Auth';
 
 const bookMarks = shallowRef([]);
 
-const userId = shallowRef(2);
+const userId = shallowRef();
+
+const authStore = useAuthStore();
 
 onMounted(async () => {
-    getBookMarks(userId.value);
+    authStore.getUser();
+    if (authStore.authUser) {
+        userId = authStore.authUser.id;
+        getBookMarks(userId.value);
+    }
 });
 
-const getBookMarks = async (userId) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${userId}`);
+const getBookMarks = async () => {
+    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${authStore.authToken}`,
+        }
+    });
     bookMarks.value = response.data;
     console.log(bookMarks.value);
 }

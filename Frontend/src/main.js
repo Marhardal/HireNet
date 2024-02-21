@@ -1,6 +1,6 @@
 import './assets/index.css'
 
-import { createApp } from 'vue'
+import { createApp, markRaw } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { plugin, defaultConfig} from "@formkit/vue"
@@ -10,9 +10,19 @@ import '@formkit/themes/genesis'
 import Toast, {POSITION} from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+import { createPinia } from 'pinia'
+
 const app = createApp(App);
 
-app.use(router)
+const pinia = createPinia();
+
+pinia.use(({store}) => {
+    store.router = markRaw(router);
+});
+
+app.use(pinia);
+
+app.use(router);
 
 const options = {
     timeout: 5000,
@@ -21,7 +31,7 @@ const options = {
 
 app.use(plugin, defaultConfig(config));
 
-app.use( Toast, options)
+app.use( Toast, options);
 
 app.mount('#app');
 

@@ -2,36 +2,31 @@
 import axios from 'axios';
 import { onMounted, reactive, shallowRef } from 'vue';
 import { useRoute } from 'vue-router';
-import Button from "@/components/Forms/Button.vue";
-import due from "@/components/icons/WarningDate.vue";
-import creation from "@/components/icons/CreationDate.vue";
+import Base from '../Base.vue';
+import Show from '@/components/Multi-Step/Vacancy/Show/Show.vue';
+import Apply from '@/components/Multi-Step/Vacancy/Show/Apply.vue';
+import Applicants from '@/components/Multi-Step/Vacancy/Show/Applicants.vue';
+import { useAuthStore } from '@/Stores/Auth';
 import companyIcon from "@/components/icons/Company.vue";
 import locationIcon from "@/components/icons/Location.vue";
 import contractIcon from "@/components/icons/Contract.vue";
 import backIcon from "@/components/icons/Back.vue";
-import Job from "@/components/Cards/Job.vue";
-
-import moment from 'moment';
-import Base from '../Base.vue';
-import Show from '@/components/Multi-Step/Vacancy/Show/Show.vue';
-import Apply from '@/components/Multi-Step/Vacancy/Show/Apply.vue';
-import { useToast } from "vue-toastification";
 
 const step = shallowRef(0);
 const show = shallowRef({});
-const vacancies = shallowRef([]);
 const checks = shallowRef();
 const user_id = shallowRef(1);
-const toast = useToast();
 
 const vid = reactive({
     'post_id': '',
     'user_id': 1
 });
 
+const authUser = useAuthStore();
 let errors = shallowRef([]);
 
 onMounted(async => {
+    authUser.getUser();
     const id = useRoute().params.id;
     showVacancy(id);
     bookMarkCheck(user_id.value);
@@ -39,32 +34,38 @@ onMounted(async => {
 });
 
 const steps = shallowRef([
+    Applicants,
     Show,
-    Apply
+    Apply,
 ])
 
 const showVacancy = async (id) => {
-    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/${id}`);
+    const authToken = localStorage.getItem('authToken');
+    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/${id}`, {
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${authToken}`
+        }
+    });
     show.value = response.data.post;
-    // console.log(show);
 }
 
 const nextPage = () => {
-    step.value ++;
+    step.value++;
 }
 
 const previousPage = () => {
-    step.value --;
+    step.value--;
 }
-// const getVacancies = async () => {
-//     let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/`);
-//     vacancies.value = response.data;
-//     console.log(response.data);
-// }
-
 
 const bookMarkCheck = async (user_id) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${user_id.data}`);
+    const authToken = localStorage.getItem('authToken');
+    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${user_id.data}`, {
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${authToken}`
+        }
+    });
     checks.data = response.data;
 }
 </script>
@@ -73,6 +74,34 @@ const bookMarkCheck = async (user_id) => {
     <Base>
     <template v-slot:other>
         <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between">
+                <RouterLink to="/vacancies"
+                    class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600 py-2">
+                    <backIcon /> Back
+                </RouterLink>
+            </div>
+            <div
+                class="h-32 text-white text-center grid bg-cover rounded-md bg-center bg-[url('@/assets/Header/1696668225508.jpg')]">
+                <div class="col-start-1 row-start-1 bg-gray-800 bg-opacity-70 w-full h-full rounded-md"></div>
+                <div class="col-start-1 row-start-1 mx-auto my-auto">
+                    <h1 v-if="show.job" class="w-full text-center text-xl font-bold py-2" v-text="show.job.name"></h1>
+                    <div class="flex flex-wrap max-w-full bg-blue-300 text-black justify-center rounded-md py-2 gap-x-4 px-5"
+                        v-if="show.organisation">
+                        <div class="flex gap-x-2">
+                            <companyIcon />
+                            <span v-if="show.organisation">{{ show.organisation.name }}</span>
+                        </div>
+                        <div class="flex gap-x-2">
+                            <locationIcon />
+                            <span>{{ show.organisation.location }}</span>
+                        </div>
+                        <div class="flex gap-x-2" v-if="show.arrangement">
+                            <contractIcon />
+                            <span>{{ show.arrangement.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <component :is="steps[step]" :show="show" :click="[nextPage, previousPage]"></component>
         </div>
     </template>

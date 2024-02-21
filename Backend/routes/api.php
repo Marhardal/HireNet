@@ -1,21 +1,23 @@
 <?php
 
-use App\Http\Controllers\ApplyController;
-use App\Http\Controllers\ArrangementController;
-use App\Http\Controllers\BookmarkController;
-use App\Http\Controllers\DutyController;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\LoginController;
+use App\Models\Arrangement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\DutyController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\PostDutyController;
-use App\Http\Controllers\PostSkillsController;
-use App\Http\Controllers\RequirementController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
-use App\Models\Arrangement;
+use App\Http\Controllers\ApplyController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\PostDutyController;
+use App\Http\Controllers\ApplicantController;
+use App\Http\Controllers\PostSkillsController;
+use App\Http\Controllers\ArrangementController;
+use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\RequirementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,32 +30,53 @@ use App\Models\Arrangement;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('user', [LoginController::class, 'User']);
+
+// Route::middleware('auth:sanctum')->post('sign-out', [LoginController::class, 'Logout']);
 
 Route::post('sign-in', [LoginController::class, 'Login'])->middleware('guest');
 
-Route::resource('vacancies', PostController::class)->except(['create', 'edit']);
+// Route::get('user', [LoginController::class, 'User']);
 
 Route::resource('users', UserController::class)->except('create', 'edit');
 
-Route::resource('vacancy/skills', PostSkillsController::class)->only('store', 'update', 'destroy');
 
-Route::resource('vacancy/duties', PostDutyController::class)->only('store', 'update', 'destroy');
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('user', [LoginController::class, 'User']);
 
-Route::resource('vacancy/requirements', RequirementController::class)->only('store', 'update', 'destroy');
+    Route::resource('vacancies', PostController::class)->except(['create', 'edit']);
 
-Route::resource('arrangements/', ArrangementController::class)->only(['index']);
+    Route::get('organisation/vacancy', [OrganisationController::class, 'Vacancies']);
 
-Route::resource('skills/', SkillController::class)->only(['index']);
+    Route::post('sign-out', [LoginController::class, 'Logout']);
 
-Route::resource('jobs/', JobController::class)->only(['index']);
+    Route::resource('vacancy/skills', PostSkillsController::class)->only('store', 'update', 'destroy');
 
-Route::resource('duties/', DutyController::class)->only(['index']);
+    Route::resource('vacancy/duties', PostDutyController::class)->only('store', 'update', 'destroy');
 
-Route::resource('bookmark', BookmarkController::class)->only(['index', 'store', 'destroy', 'show']);
+    Route::resource('vacancy/requirements', RequirementController::class)->only('store', 'update', 'destroy');
 
-Route::resource('apply', ApplyController::class)->except('create', 'edit', 'destroy');
+    Route::resource('arrangements/', ArrangementController::class)->only(['index']);
 
-Route::get('applied/{id}', [ApplyController::class, 'applied']);
+    Route::resource('skills/', SkillController::class)->only(['index']);
+
+    Route::resource('jobs/', JobController::class)->only(['index']);
+
+    Route::resource('duties/', DutyController::class)->only(['index']);
+
+    Route::resource('bookmark', BookmarkController::class)->only(['index', 'store', 'destroy', 'show']);
+
+    Route::resource('applicants', ApplicantController::class)->except('create', 'edit', 'destroy');
+
+    Route::get('applied/{id}', [ApplicantController::class, 'applied']);
+});
+
+// Route::middleware(['guest'])->group(function () {
+//     Route::resource('vacancies', PostController::class)->only(['index', 'show']);
+// });
+
+
+
+// Route::middleware('auth:sanctum')->post('sign-out', [LoginController::class, 'Logout']);
+
+// Route::post('logout', [LoginController::class, 'Logout']);

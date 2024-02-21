@@ -103,12 +103,12 @@ class Post extends Model
     }
 
     /**
-     * Get the Post that owns the Post
+     * Get all of the Applicants for the Post
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Apply()
+    public function Applicants()
     {
-        return $this->belongsTo(Apply::class);
+        return $this->hasMany(Applicant::class);
     }
 }

@@ -48,10 +48,7 @@ const props = defineProps({
                             <span class="mt-0">Closes {{ moment(job.due_date).fromNow() }} </span>
                         </p>
                     </div>
-                    <div class="flex flex-cols gap-2 mt-2">
-                        <div class="flex-auto">
-                            <Button value="Apply Now"/>
-                        </div>
+                    <div class="flex gap-2 mt-2">
                         <div class="flex-auto">
                             <Button value="BookMark"/>
                         </div>

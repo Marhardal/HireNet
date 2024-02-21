@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Apply;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApplyRequest;
 use Illuminate\Support\Facades\Storage;
 
-class ApplyController extends Controller
+class ApplicantController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    public function index()
     {
-        $posts = Apply::where('user_id', $id)->get();
+        $posts = Applicant::where('post_id', 2)->get();
         return response()->json(['posts'=>$posts], 200);
     }
 
@@ -32,7 +32,7 @@ class ApplyController extends Controller
     public function store(ApplyRequest $request)
     {
         $file = $request->file('document')->store('Resumes');
-        Apply::create([
+        Applicant::create([
             'user_id' => request()->user_id,
             'post_id' => request()->post_id,
             'document' => $file,
@@ -44,7 +44,7 @@ class ApplyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Apply $apply)
+    public function show(Applicant $apply)
     {
         //
     }
@@ -54,14 +54,14 @@ class ApplyController extends Controller
      */
     public function edit($id)
     {
-        $posts = Apply::where('user_id', $id)->get();
-        return response()->json(['posts'=>$posts], 200);
+        $posts = Applicant::where('user_id', $id)->get();
+        return response()->json($posts, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Apply $apply)
+    public function update(Request $request, Applicant $apply)
     {
         //
     }
@@ -69,14 +69,14 @@ class ApplyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Apply $apply)
+    public function destroy(Applicant $apply)
     {
         //
     }
 
     public function applied($id)
     {
-        $posts = Apply::where('user_id', $id)->get();
-        return response()->json(['posts'=>$posts->posts], 200);
+        $posts = Applicant::where('user_id', $id)->get();
+        return response()->json(['posts'=>$posts], 200);
     }
 }

@@ -3,10 +3,11 @@ import { onMounted, shallowRef } from 'vue';
 import axios from "axios";
 import Input from '../Forms/Input.vue';
 import Button from '../Forms/Button.vue';
+import { useAuthStore } from "../../Stores/Auth";
 
 const bookMark = shallowRef([]);
 
-const userId = shallowRef(5);
+const authStore = useAuthStore();
 
 const values = shallowRef([]);
 
@@ -26,17 +27,9 @@ const values = shallowRef([]);
 const errors = shallowRef([]);
 
 onMounted(async () => {
-    // userId = 1;
-    // console.log(userId);
-    getBookMarks(userId);
-    // console.log(values);
+    await authStore.getToken();
 });
 
-const getBookMarks = async (userId) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/users/${userId.value}`);
-    values.value = response.data.user;
-    console.log(values.value);
-}
 </script>
 
 <template>
