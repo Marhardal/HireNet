@@ -12,31 +12,42 @@ import locationIcon from "@/components/icons/Location.vue";
 import contractIcon from "@/components/icons/Contract.vue";
 import backIcon from "@/components/icons/Back.vue";
 import Button from '@/components/Forms/Button.vue';
-import { Step } from '@tiptap/pm/transform';
+import { useToast } from 'vue-toastification';
+import Applicant from '@/components/Multi-Step/Vacancy/Show/Applicant.vue';
 
-const step = shallowRef(0);
+const step = shallowRef(2);
 const show = shallowRef({});
 const checks = shallowRef();
-const user_id = shallowRef(1);
 
-const vid = reactive({
-    'post_id': '',
-    'user_id': 1
-});
+
+const toast = useToast();
 
 const authStore = useAuthStore();
+
+const userId = shallowRef();
+
 
 let errors = shallowRef([]);
 
 onMounted(async => {
     authStore.getUser();
+    
     const id = useRoute().params.id;
     showVacancy(id);
-    bookMarkCheck(user_id.value);
+    if (authStore.User) {
+        userId.value = authStore.User.id;
+    }
+    bookMarkCheck(userId);
     vid.post_id = id;
 });
 
+const vid = reactive({
+    'post_id': '',
+    'user_id': userId,
+});
+
 const steps = shallowRef([
+    Applicant,
     Applicants,
     Show,
     Apply,
@@ -61,9 +72,9 @@ const previousPage = () => {
     step.value--;
 }
 
-const bookMarkCheck = async (user_id) => {
+const bookMarkCheck = async (userId) => {
     const authToken = localStorage.getItem('authToken');
-    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${user_id.data}`, {
+    const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${userId.data}`, {
         headers: {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`
@@ -71,12 +82,29 @@ const bookMarkCheck = async (user_id) => {
     });
     checks.data = response.data;
 }
+
+const bookMark = () => {
+    axios.post('http://127.0.0.1:8000/api/bookmark/', input).then((response) => {
+        toast.success("This job has been added to your favorites!");
+    }).catch((error) => {
+        errors.value = error?.response?.data?.errors;
+        toast.error("Failed to Add the Job to your Favorites!");
+    });
+}
+
+const vacacyDelete = async () => {
+    axios.delete(`http://127.0.0.1:8000/api/vacancies/${props.show.id}`).then((response) => {
+        toast.success("Vacancy has been deleted successfully");
+    }).catch(error => {
+        toast.error("Failed to delete a vacancy.");
+    });
+}
 </script>
 
 <template>
     <Base>
     <template v-slot:other>
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-4xl mx-auto" v-if="authStore.User">
             <div class="flex justify-between">
                 <RouterLink to="/vacancies"
                     class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600 py-2">
@@ -107,7 +135,8 @@ const bookMarkCheck = async (user_id) => {
             </div>
             <div class="grid grid-cols-3 gap-2 my-4" v-if="authStore.authRole">
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
-                    <Button value="Apply Now" v-if="steps[1]" @clicked="click[1]" />
+                    <Button value="Apply Now" @clicked="nextPage" v-if="step == 1" />
+                    <Button value="Cancel" @clicked="previousPage" v-if="step == 2" />
                 </div>
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
                     <Button value="Bookmark" @clicked="bookMark" />
@@ -119,10 +148,11 @@ const bookMarkCheck = async (user_id) => {
                     <Button value="Delete" @clicked="vacacyDelete" />
                 </div>
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
-                    <Button value="Applicants" v-if="steps[1]" @clicked="click[2]" />
+                    <Button value="Applicants" @clicked="previousPage" v-if="step == 2"/>
+                    <Button value="Back" @clicked="nextPage" v-if="step == 1"/>
                 </div>
             </div>
-            <component :is="steps[Step]" :show="show" :click="[nextPage, previousPage]"></component>
+            <component :is="steps[step]" :show="show" :User="authStore.User" />
         </div>
     </template>
     </Base>

@@ -7,9 +7,6 @@ import { shallowRef, shallowReactive } from "vue";
 import { useToast } from 'vue-toastification';
 import axios from "axios";
 import { onMounted } from "vue";
-import { useAuthStore } from "@/Stores/Auth";
-
-const authStore = useAuthStore();
 
 let errors = shallowRef([]);
 
@@ -20,37 +17,23 @@ const props = defineProps({
         type: Object,
         required: true,
         default: {}
+    },
+    User: {
+        type: Object,
+        required: true,
+        default: {}
     }
 });
 
-const id = props.show.id;
-
 onMounted(async () => {
-    authStore.getUser();
-    // console.log(authStore.authRole.name);
+    console.log(props.User);
 })
 
 const input = shallowReactive({
-    'user_id': 5,
+    'user_id': props.User.id,
     'post_id': props.show.id
 })
 
-const bookMark = () => {
-    axios.post('http://127.0.0.1:8000/api/bookmark/', input).then((response) => {
-        toast.success("This job has been added to your favorites!");
-    }).catch((error) => {
-        errors.value = error?.response?.data?.errors;
-        toast.error("Failed to Add the Job to your Favorites!");
-    });
-}
-
-const vacacyDelete = async () => {
-    axios.delete(`http://127.0.0.1:8000/api/vacancies/${props.show.id}`).then((response) => {
-        toast.success("Vacancy has been deleted successfully");
-    }).catch(error => {
-        toast.error("Failed to delete a vacancy.");
-    });
-}
 </script>
 
 <template>

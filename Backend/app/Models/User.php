@@ -78,7 +78,7 @@ class User extends Authenticatable
      */
     public function Posts()
     {
-        return $this->belongsToMany(Post::class, 'applicants');
+        return $this->belongsToMany(Post::class, 'applicants')->withPivot(['document', 'message']);
     }
 
 }

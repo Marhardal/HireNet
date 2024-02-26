@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('document');
             $table->text('message');
             $table->timestamps();
+            $table->boolean('shortlisted')->default(false);
         });
     }
 

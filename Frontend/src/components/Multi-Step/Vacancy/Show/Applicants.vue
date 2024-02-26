@@ -1,5 +1,6 @@
 <script setup>
 import Applicant from '@/components/Cards/Applicant.vue';
+import Button from '@/components/Forms/Button.vue';
 import axios from "axios";
 import { shallowRef, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -23,10 +24,17 @@ import { useRoute } from 'vue-router';
         });
         applicants.value = response.data.applicants;
     }
+
+    defineProps({
+        // click: {
+        //     type: Array,
+        //     required: true,
+        //     default: []
+        // }
+    })
 </script>
 <template>
-    <div class="" v-if="applicants.length > 0">
-        {{ id.value }}
+    <div class="bg-blue-200 flex flex-wrap gap-2 w-full rounded-md" v-if="applicants.length > 0">
         <Applicant v-for="(applicant, index) in applicants" :key="index" :applicant="applicant" :postId="id"/>
     </div>
 </template>

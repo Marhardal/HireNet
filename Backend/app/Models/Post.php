@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $with = ['organisation', 'job', 'duty', 'skills', 'certificate', 'arrangement',];
+    protected $with = ['organisation', 'job', 'duty', 'skills', 'certificate', 'arrangement', 'users'];
 
     function scopeFilters($query, array $filters)
     {
@@ -109,6 +109,6 @@ class Post extends Model
      */
     public function Users()
     {
-        return $this->belongsToMany(User::class, 'applicants');
+        return $this->belongsToMany(User::class, 'applicants')->withPivot(['document', 'message']);
     }
 }

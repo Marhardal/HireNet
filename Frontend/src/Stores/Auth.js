@@ -9,7 +9,7 @@ export const useAuthStore = defineStore("auth", {
     }),
 
     getters: {
-        user: (state) => state.authUser
+        User: (state) => state.authUser,
     },
 
     actions: {

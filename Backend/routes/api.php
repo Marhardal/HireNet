@@ -18,6 +18,7 @@ use App\Http\Controllers\PostSkillsController;
 use App\Http\Controllers\ArrangementController;
 use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\RequirementController;
+use App\Http\Controllers\ShortlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +69,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::resource('applicants', ApplicantController::class)->except('create', 'edit', 'destroy');
 
+    Route::resource('shortlist', ShortlistController::class)->except(['create', 'edit']);
+
     Route::get('applied/{id}', [ApplicantController::class, 'applied']);
+
+    Route::get('/view/applicant/{id}', [ApplicantController::class, 'viewPdf']);
 });
 
 // Route::middleware(['guest'])->group(function () {

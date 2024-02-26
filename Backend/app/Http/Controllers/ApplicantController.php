@@ -17,7 +17,7 @@ class ApplicantController extends Controller
     public function index()
     {
         $posts = Applicant::where('post_id', 2)->get();
-        return response()->json(['posts'=>$posts], 200);
+        return response()->json(['posts' => $posts], 200);
     }
 
     /**
@@ -48,11 +48,9 @@ class ApplicantController extends Controller
      */
     public function show($postId, $userId)
     {
-        // $post = Post::find($postId);
-        // $applicant = $post->wherePivot('user_id', $userId);
         $applicant = User::find($userId);
-        $post = $applicant->wherePivot('post_id', $postId);
-        return response()->json(['post' => $post, 'applicants' => $applicant], 200);
+        $post = $applicant->posts()->wherePivot('post_id', $postId)->first();
+        return response()->json(['post' => $post, 'applicant' => $applicant, 'attach' => $post->pivot], 200);
     }
 
     /**
@@ -83,6 +81,6 @@ class ApplicantController extends Controller
     public function applied($id)
     {
         $posts = Applicant::where('user_id', $id)->get();
-        return response()->json(['posts'=>$posts], 200);
+        return response()->json(['posts' => $posts], 200);
     }
 }
