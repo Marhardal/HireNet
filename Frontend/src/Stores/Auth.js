@@ -59,11 +59,10 @@ export const useAuthStore = defineStore("auth", {
 
         async Logout(){
             await this.getToken();
-            this.authToken = localStorage.getItem('authToken');
             try {
+                this.authToken = localStorage.getItem('authToken');
                 await axios.post("http://127.0.0.1:8000/api/sign-out", {
                     headers: {
-                        Accept: 'application/json',
                         Authorization : `Bearer ${this.authToken}`
                     }
                 });

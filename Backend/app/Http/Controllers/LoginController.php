@@ -23,6 +23,7 @@ class LoginController extends Controller
 
     public function Logout(Request $request)
     {
+        Auth::logout();
         request()->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out']);
     }

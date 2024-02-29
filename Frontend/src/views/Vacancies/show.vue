@@ -29,10 +29,15 @@ const userId = shallowRef();
 
 let errors = shallowRef([]);
 
+const authToken = localStorage.getItem('authToken');
+
+const router = useRoute();
+
+const id =router.params.id;
+
 onMounted(async => {
     authStore.getUser();
-    
-    const id = useRoute().params.id;
+
     showVacancy(id);
     if (authStore.User) {
         userId.value = authStore.User.id;
@@ -54,7 +59,6 @@ const steps = shallowRef([
 ])
 
 const showVacancy = async (id) => {
-    const authToken = localStorage.getItem('authToken');
     let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/${id}`, {
         headers: {
             Accept: 'application/json',
@@ -73,7 +77,6 @@ const previousPage = () => {
 }
 
 const bookMarkCheck = async (userId) => {
-    const authToken = localStorage.getItem('authToken');
     const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${userId.data}`, {
         headers: {
             Accept: 'application/json',
@@ -93,8 +96,14 @@ const bookMark = () => {
 }
 
 const vacacyDelete = async () => {
-    axios.delete(`http://127.0.0.1:8000/api/vacancies/${props.show.id}`).then((response) => {
+    axios.delete(`http://127.0.0.1:8000/api/vacancies/${id}`, {
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${authToken}`
+        }
+    }).then((response) => {
         toast.success("Vacancy has been deleted successfully");
+        router.push('vacancies')
     }).catch(error => {
         toast.error("Failed to delete a vacancy.");
     });
@@ -148,8 +157,8 @@ const vacacyDelete = async () => {
                     <Button value="Delete" @clicked="vacacyDelete" />
                 </div>
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
-                    <Button value="Applicants" @clicked="previousPage" v-if="step == 2"/>
-                    <Button value="Back" @clicked="nextPage" v-if="step == 1"/>
+                    <Button value="Applicants" @clicked="previousPage" v-if="step == 2" />
+                    <Button value="Back" @clicked="nextPage" v-if="step == 1" />
                 </div>
             </div>
             <component :is="steps[step]" :show="show" :User="authStore.User" />

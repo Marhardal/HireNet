@@ -16,9 +16,11 @@ use App\Http\Controllers\PostDutyController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\PostSkillsController;
 use App\Http\Controllers\ArrangementController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\RequirementController;
 use App\Http\Controllers\ShortlistController;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,11 @@ Route::post('sign-in', [LoginController::class, 'Login'])->middleware('guest');
 
 Route::resource('users', UserController::class)->except('create', 'edit');
 
+Route::get('auth/redirect', function () {
+    Socialite::driver('google')->redirect();
+});
+
+Route::get('auth/callback', [AuthController::class, 'google']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user', [LoginController::class, 'User']);

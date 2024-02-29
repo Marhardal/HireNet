@@ -20,29 +20,6 @@
         </div>
     </template>
     </Base>
-    <!-- <div class="grid grid-cols-12">
-        <div class="col-span-12">
-        </div>
-        <div class="col-span-1">
-        </div>
-        <div class="col-span-11">
-            <div>
-                <div class="border-b border-gray-200 dark:border-gray-700">
-                    <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
-                        <TabButton v-for="(tab, index) in tabs" :name="tab.label" @click="changeTab(index)" />
-                    </nav>
-                </div>
-
-                <div class="mt-3">
-                    <div id="tabs-with-underline-1" role="tabpanel" aria-labelledby="tabs-with-underline-item-1">
-                        <component :is="tabs[currentTab].component"></component>
-                    </div>
-                </div>
-            </div>
-            <component v-bind:is="pages[num]"></component>
-        </div>
-
-    </div> -->
 </template>
 
 <script setup>
@@ -55,13 +32,49 @@ import Bookmark from "@/components/Settings/Bookmark.vue";
 import Shortlist from "@/components/Settings/Shortlist.vue";
 import { shallowRef } from "vue";
 import Base from "./Base.vue";
+import Organisation from "@/components/Settings/Organisation.vue";
+import Subscription from "@/components/Settings/Subscription.vue";
+import { onMounted } from "vue";
+import { useAuthStore } from "@/Stores/Auth";
+
+
+const authStore = useAuthStore();
+
+onMounted(async => {
+    authStore.getUser()
+});
+
+const pages = shallowRef([]);
 
 const tabs = shallowRef([
+    { label: 'Account', component: Account },
+    { label: 'Organization', component: Organisation },
+    { label: 'subscription', component: Subscription },
     { label: 'Bookmark', component: Bookmark },
     { label: 'Applied', component: Applied },
     { label: 'Shortlist', component: Shortlist },
-    { label: 'Account', component: Account },
 ]);
+
+// if (authStore.authRole) {
+//     if (authStore.authRole.name == 'Recruiter') {
+//         tabs = [
+//             { label: 'Account', component: Account },
+//             { label: 'Organization', component: Organisation },
+//             { label: 'subscription', component: Subscription }
+//         ]
+//     } else if (authStore.authRole.name == 'Admin') {
+//         tabs = [
+//             { label: 'Account', component: Account },
+//         ]
+//     } else if (authStore.authRole.name == 'Seeker') {
+//         tabs = [
+//             { label: 'Bookmark', component: Bookmark },
+//             { label: 'Applied', component: Applied },
+//             { label: 'Shortlist', component: Shortlist },
+//             { label: 'Account', component: Account }
+//         ]
+//     }
+// }
 
 const currentTab = shallowRef(0);
 

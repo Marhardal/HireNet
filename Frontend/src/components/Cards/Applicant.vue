@@ -22,8 +22,15 @@ import { shallowRef } from 'vue';
 import Button from '../Forms/Button.vue';
 import Applicant from '../Multi-Step/Vacancy/Show/Applicant.vue';
 import ResumeIcon from '../icons/ResumeIcon.vue';
+import { onMounted } from 'vue';
 
 const attach = shallowRef([]);
+
+onMounted(async=>{
+    // if (props.applicant.pivot) {
+    //     console.log(props.applicant.pivot.post_id);
+    // }
+});
 
 const getApplicant = async ([postId, userId]) => {
     const authToken = localStorage.getItem('authToken');
@@ -36,28 +43,13 @@ const getApplicant = async ([postId, userId]) => {
     attach.value = response.data.attach;
 }
 
-// const page = shallowRef(0);
-
-//     const pages = shallowRef([
-//         Applicants,
-//         Applicants
-//     ])
-
-//     const nextPage = () => {
-//         page++;
-//     }
-
-//     const previousPage = () => {
-//         page--;
-//     }
-
 const props = defineProps({
     applicant: {
         type: Object,
         required: true,
     },
     postId: {
-        type: String,
+        type: [String,  Number],
         required: true,
     },
     

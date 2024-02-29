@@ -12,6 +12,7 @@ import ApplyVue from '@/views/Apply.vue';
 import { useAuthStore } from '../Stores/Auth';
 import ApplicantVue from '@/components/Multi-Step/Vacancy/Show/Applicant.vue';
 import indexVue from '@/views/Shortlist/index.vue';
+import showVue from '@/views/Shortlist/show.vue';
 
 function auth(to, from) {
     const auth = useAuthStore();
@@ -94,6 +95,12 @@ const router = createRouter({
       name: 'Vacancy Shortlist',
       beforeEnter: auth,
       component: indexVue,
+    },
+    {
+      path: '/shortlist/:id',
+      name: 'Vacancy Shortlist Applicants',
+      beforeEnter: auth,
+      component: showVue,
     },
     
   ]

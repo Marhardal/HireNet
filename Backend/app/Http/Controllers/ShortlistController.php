@@ -14,14 +14,18 @@ class ShortlistController extends Controller
      */
     public function index()
     {
-        $looped = "";
         $user = auth()->user();
         $posts = Post::where('organisation_id', $user->organisation_id)->get();
+        $shortlist = [];
         foreach ($posts as $post => $value) {
-            // $looped = Applicant::where('shortlisted', true)->where('post_id', $value->id)->get();
-            $looped = $value->users()->wherePivot('post_id', $value->id)->wherePivot('shortlisted', true)->get()->groupBy('post_id');
+            $totalUsersCount = $value->users()->wherePivot('post_id', $value->id)->wherePivot('shortlisted', true);
+            $shortlist[] = [
+                'id'=> $value->id,
+                'name' => $value->job->name,
+                'count' => $totalUsersCount->count(),
+            ];
         }
-        return response()->json(["shortlisted" => $looped], 200);
+        return response()->json(["shortlisted" => $shortlist], 200);
     }
 
     /**
@@ -45,7 +49,10 @@ class ShortlistController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = auth()->user();
+        $post = Post::find($id)->where('organisation_id', $user->organisation_id)->first();
+        $applicants = $post->users()->wherePivot('shortlisted', true);
+        return response()->json(["applicants" => $applicants->get()], 200);
     }
 
     /**

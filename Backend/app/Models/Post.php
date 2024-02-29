@@ -109,6 +109,6 @@ class Post extends Model
      */
     public function Users()
     {
-        return $this->belongsToMany(User::class, 'applicants')->withPivot(['document', 'message']);
+        return $this->belongsToMany(User::class, 'applicants')->withPivot(['document', 'message', 'post_id', 'user_id']);
     }
 }
