@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostRequest;
-use App\Models\Applicant;
 use App\Models\Post;
+use App\Models\PostDuty;
+use App\Models\Applicant;
+use App\Models\PostSkills;
+use App\Models\Requirement;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -18,10 +21,9 @@ class PostController extends Controller
         $user = auth()->user();
         if (auth()->guest() || $user->role->name == "Seeker") {
             $post = Post::latest()->Filters(request(['search']))->where('status', true)->get();
-        }
-        elseif ($user->role->name == "Recruiter") {
+        } elseif ($user->role->name == "Recruiter") {
             $post = Post::latest()->Filters(request(['search']))->where('organisation_id', $user->organisation_id)->get();
-        }else {
+        } else {
             $post = Post::latest()->Filters(request(['search']))->where('status', false)->get();
         }
         return response()->json($post, 200);
@@ -46,7 +48,22 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        Post::create($request->all());
+        $post = Post::create([
+            'organisation_id' => auth()->user()->organisation->id,
+            'job_id' => $request->job_id,
+            'arrangement_id' => $request->arrangement_id,
+            'status' => false,
+            'num'=>$request->num,
+            'about' => $request->about,
+            'due_date' => $request->due_date
+        ]);
+
+        $post->duty()->attach($request->duty_id);
+
+        $post->skills()->attach($request->skill_id);
+
+        $post->certificate()->attach($request->certificate_id);
+
         return response()->json('Vacancy Created Successfully', 200);
     }
 
@@ -84,5 +101,4 @@ class PostController extends Controller
         Post::find($id)->delete();
         return response()->json('Vacancy Deleted', 200);
     }
-
 }

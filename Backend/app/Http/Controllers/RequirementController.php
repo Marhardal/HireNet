@@ -13,7 +13,8 @@ class RequirementController extends Controller
      */
     public function index()
     {
-        //
+        // $requirement = Requirement::get();
+        // return response()->json(['requirements' => $requirement], 200);
     }
 
     /**
@@ -30,10 +31,9 @@ class RequirementController extends Controller
     public function store(Request $request)
     {
         $values = $request->validate([
-            'post_id' => ['required', Rule::Exists('posts', 'id')],
             'certificate_id' => ['required', Rule::Exists('certificates', 'id')],
         ]);
-
+        $values['post_id']=$request->session()->get('postId');
         Requirement::create($values);
 
         return response()->json('Vacancy Requirement Created', 200);

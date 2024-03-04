@@ -30,10 +30,9 @@ class PostSkillsController extends Controller
     public function store(Request $request)
     {
         $values = $request->validate([
-            'post_id' => ['required', Rule::Exists('posts', 'id')],
             'skill_id' => ['required', Rule::Exists('skills', 'id')],
         ]);
-
+        $values['post_id'] = $request->session()->get('postId');
         PostSkills::create($values);
         return response()->json('Post Skills Created', 200);
     }

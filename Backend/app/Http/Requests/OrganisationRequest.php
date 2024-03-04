@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class PostRequest extends FormRequest
+class OrganisationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +22,7 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_id' => ['required', Rule::exists('jobs', 'id')],
-            'num'=>['required', 'numeric'],
-            'arrangement_id' => ['required', Rule::exists('arrangements', 'id')],
-            'about' => ['required'],
-            'due_date' => ['required'],
-            'duty_id'=>['required'],
-            'skill_id'=>['required'],
-            'certificate_id'=>['required']
+            
         ];
     }
 }

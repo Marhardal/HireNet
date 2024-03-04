@@ -13,7 +13,8 @@ class OrganisationController extends Controller
      */
     public function index()
     {
-        //
+        $organisation = Organisation::all();
+        return response()->json($organisation);
     }
 
     public function Vacancies()
@@ -42,9 +43,9 @@ class OrganisationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Organisation $organisation)
+    public function show(string $id)
     {
-        //
+        return response()->json($id, 200);
     }
 
     /**
@@ -60,7 +61,8 @@ class OrganisationController extends Controller
      */
     public function update(Request $request, Organisation $organisation)
     {
-        //
+        $organisation->update($request->all());
+        return response()->json($organisation, 200);
     }
 
     /**

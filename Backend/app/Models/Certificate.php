@@ -16,6 +16,6 @@ class Certificate extends Model
      */
     public function Post()
     {
-        return $this->belongsToMany(Role::class, 'requirements');
+        return $this->belongsToMany(Post::class, 'requirements');
     }
 }

@@ -30,12 +30,10 @@ class PostDutyController extends Controller
     public function store(Request $request)
     {
         $values = $request->validate([
-            'post_id' => ['required', Rule::Exists('posts', 'id')],
             'duty_id' => ['required', Rule::Exists('duties', 'id')],
         ]);
-
+        $values['post_id']=$request->session()->get('postId');
         PostDuty::create($values);
-
         return response()->json('Post Duty Added', 200);
     }
 

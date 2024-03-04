@@ -79,7 +79,7 @@ class Post extends Model
      */
     public function Duty()
     {
-        return $this->belongsToMany(Duty::class, 'post_duties', 'post_id', 'duty_id');
+        return $this->belongsToMany(Duty::class, 'post_duties', 'post_id', 'duty_id')->withTimestamps();
     }
 
     /**
@@ -89,7 +89,7 @@ class Post extends Model
      */
     public function Skills()
     {
-        return $this->belongsToMany(Skill::class, 'post_skills');
+        return $this->belongsToMany(Skill::class, 'post_skills')->withTimestamps();
     }
 
     /**
@@ -99,7 +99,7 @@ class Post extends Model
      */
     public function Certificate()
     {
-        return $this->belongsToMany(Certificate::class, 'requirements');
+        return $this->belongsToMany(Certificate::class, 'requirements')->withTimestamps();
     }
 
     /**

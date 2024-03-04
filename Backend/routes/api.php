@@ -17,9 +17,11 @@ use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\PostSkillsController;
 use App\Http\Controllers\ArrangementController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\RequirementController;
 use App\Http\Controllers\ShortlistController;
+use App\Models\Certificate;
 use Laravel\Socialite\Facades\Socialite;
 
 /*
@@ -53,24 +55,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user', [LoginController::class, 'User']);
 
     Route::resource('vacancies', PostController::class)->except(['create', 'edit']);
+    Route::resource('vacancy/duties', PostDutyController::class)->except(['create', 'edit']);
+    Route::resource('vacancy/skills', PostSkillsController::class)->except(['create', 'edit']);
+    Route::resource('vacancy/requirements', RequirementController::class)->except(['create', 'edit']);
 
     Route::get('vacancy/{postId}/applicant/{userId}', [ApplicantController::class, 'show']);
 
     Route::post('sign-out', [LoginController::class, 'Logout']);
 
-    Route::resource('vacancy/skills', PostSkillsController::class)->only('store', 'update', 'destroy');
+    Route::resource('skills', SkillController::class)->only('store', 'update', 'destroy', 'index');
 
-    Route::resource('vacancy/duties', PostDutyController::class)->only('store', 'update', 'destroy');
+    Route::resource('duties', DutyController::class)->only('store', 'update', 'destroy', 'index');
 
-    Route::resource('vacancy/requirements', RequirementController::class)->only('store', 'update', 'destroy');
+    Route::resource('certificates', CertificateController::class)->only('store', 'update', 'destroy', 'index');
 
     Route::resource('arrangements/', ArrangementController::class)->only(['index']);
 
-    Route::resource('skills/', SkillController::class)->only(['index']);
+    Route::resource('organisation/', OrganisationController::class)->except('create', 'edit');
 
     Route::resource('jobs/', JobController::class)->only(['index']);
-
-    Route::resource('duties/', DutyController::class)->only(['index']);
 
     Route::resource('bookmark', BookmarkController::class)->only(['index', 'store', 'destroy', 'show']);
 

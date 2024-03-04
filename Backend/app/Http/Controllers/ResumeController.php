@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Duty;
-use Illuminate\Http\Request;
+use App\Models\Resume;
+use App\Http\Requests\StoreResumeRequest;
+use App\Http\Requests\UpdateResumeRequest;
 
-class DutyController extends Controller
+class ResumeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $duty = Duty::get();
-        return response()->json(['duties' => $duty], 200);
+        //
     }
 
     /**
@@ -27,7 +27,7 @@ class DutyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreResumeRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class DutyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Duty $duty)
+    public function show(Resume $resume)
     {
         //
     }
@@ -43,7 +43,7 @@ class DutyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Duty $duty)
+    public function edit(Resume $resume)
     {
         //
     }
@@ -51,7 +51,7 @@ class DutyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Duty $duty)
+    public function update(UpdateResumeRequest $request, Resume $resume)
     {
         //
     }
@@ -59,7 +59,7 @@ class DutyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Duty $duty)
+    public function destroy(Resume $resume)
     {
         //
     }

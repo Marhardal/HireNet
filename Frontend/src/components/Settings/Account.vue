@@ -24,6 +24,7 @@ const values = shallowRef([]);
 // 'organisation_id': null
 // });
 
+
 const errors = shallowRef([]);
 
 onMounted(async () => {
@@ -33,54 +34,43 @@ onMounted(async () => {
 </script>
 
 <template>
-    <form @submit.prevent class="grid grid-cols-2 gap-x-2 mx-auto justify-center my-6">
-        <div class="col-span-2">
-            <h2 class="mb-4 text-xl font-bold w-full">Account Settings</h2>
-        </div>
-        <div class="col-span-2 grid grid-cols-2 gap-x-2 border-y border-white">
+    <FormKit type="form" submit-label="Sign-up" @submit="authStore.Register(values)" v-if="authStore.authUser">
+        <div class="grid grid-cols-2 gap-x-4 mx-auto justify-center max-w-4xl">
             <div class="col-span-1">
-                <!-- {{ values.first_name }} -->
-                <Input label="First Name" placeholder="Enter your First Name." v-model="values.first_name"
-                    :errors="errors.first_name" :modelValue="bookMark.first_name" />
-                <!-- <span class="text-red-500" v-if="errors" v-for="message in errors.first_name">{{ message }}</span> -->
+                <FormKit type="text" placeholder="Enter your First Name." v-model="values.first_name" label="First Name"
+                    validation="required" :value="authStore.authUser.first_name" />
             </div>
             <div class="col-span-1">
-                <Input label="Surname" placeholder="Enter your Surname." v-model="values.surname"
-                    :errors="errors.surname" />
-                <!-- <span class="text-red-500" v-if="errors" v-for="message in errors.surname">{{ message }}</span> -->
+                <FormKit type="text" label="Surname" placeholder="Enter your Surname." v-model="values.surname"
+                    validation="required" :value="authStore.authUser.surname" />
             </div>
             <div class="col-span-1">
-                <Input label="Date of Birth" placeholder="Enter your Date of Birth." v-model="values.dob" type="date"
-                    :errors="errors.dob" />
-                <!-- <span class="text-red-500" v-if="errors" v-for="message in errors.dob">{{ message }}</span> -->
+                <FormKit type="tel" label="Phone Number" validation="required" v-model="values.phone"
+                    placeholder="Enter your Phone Number." :value="authStore.authUser.phone" />
             </div>
             <div class="col-span-1">
-                <Input label="Username" placeholder="Enter Username you will be Using." v-model="values.username"
-                    :errors="errors.username" />
-                <!-- <span class="text-red-500" v-if="errors" v-for="message in errors.username">{{ message }}</span> -->
+                <FormKit type="text" label="Username" placeholder="Enter your Username." v-model="values.username"
+                    validation="required" :value="authStore.authUser.username" />
+            </div>
+            <div class="col-span-1">
+                <FormKit type="email" label="Email Address" validation="required|email"
+                    placeholder="Enter your Email Address." v-model="values.email" :value="authStore.authUser.email" />
+            </div>
+            <div class="col-span-1">
+                <FormKit type="date" label="Date of Birth" validation="required|date"
+                    placeholder="Enter your Date of Birth." v-model="values.dob" :value="authStore.authUser.dob" />
+            </div>
+            <div class="col-span-1">
+                <FormKit type="password" name="password" v-model="values.password" label="Password"
+                    placeholder="Enter your Password." validation="required" :value="authStore.authUser.password" />
+            </div>
+            <div class="col-span-1">
+                <FormKit type="password" name="password_confirm" label="Confirm Password"
+                    placeholder="Please Confirm Password." validation="required|confirm"
+                    validation-label="Password confirmation" />
             </div>
         </div>
-        <div class="col-span-1">
-            <Input label="Email" placeholder="Enter your Email Address." type="email" v-model="values.email"
-                :errors="errors.email" />
-        </div>
-        <div class="col-span-1">
-            <Input label="Phone Number" placeholder="Enter your Phone Number." v-model="values.phone" type="tel"
-                :errors="errors.phone" />
-        </div>
-        <div class="col-span-1">
-            <Input label="Password" placeholder="Enter Password you will be Using." v-model="values.password"
-                type="password" :errors="errors.dob" />
-            <!-- <span class="text-red-500" v-if="errors" v-for="message in errors.password">{{ message }}</span> -->
-        </div>
-        <div class="col-span-1">
-            <!-- <Input label="Confirm Password" placeholder="Confirm Password." v-model="values.password_confirmation" type="password"/>
-                    <span class="text-red-500" v-if="errors" v-for="message in errors.password_confirmation">{{ message }}</span> -->
-        </div>
-        <div class="col-span-2">
-            <Button value="Sign Up" @clicked="" />
-        </div>
-    </form>
+    </FormKit>
 </template>
 
 <style lang="scss" scoped></style>

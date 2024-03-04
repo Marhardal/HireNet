@@ -13,6 +13,7 @@ import { useAuthStore } from '../Stores/Auth';
 import ApplicantVue from '@/components/Multi-Step/Vacancy/Show/Applicant.vue';
 import indexVue from '@/views/Shortlist/index.vue';
 import showVue from '@/views/Shortlist/show.vue';
+import CreateVue from '@/views/Vacancies/Create.vue';
 
 function auth(to, from) {
     const auth = useAuthStore();
@@ -52,7 +53,7 @@ const router = createRouter({
       path: '/vacancy/create',
       name: 'Vacancy Create',
       beforeEnter: auth,
-      component: FirstVue
+      component: CreateVue
     },
     {
       path: '/vacancy/skills/create',
