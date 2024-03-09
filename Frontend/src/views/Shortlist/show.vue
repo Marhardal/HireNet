@@ -12,7 +12,6 @@ const Applicants = shallowRef([]);
 const id = useRoute().params.id;
 
 onMounted(async => {
-    // console.log(id);
     getApplicants(id)
 })
 
@@ -26,7 +25,6 @@ const getApplicants = async (id) => {
         }
     });
     Applicants.value = response.data.applicants;
-    // console.log(Applicants.value);
 }
 
 

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Certificate;
+use App\Models\Resume;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,8 @@ class ResumeQualificationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'resume_id' => Resume::get()->random()->id,
+            'certificate_id' => Certificate::get()->random()->id,
         ];
     }
 }

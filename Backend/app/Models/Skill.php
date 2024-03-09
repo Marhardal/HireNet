@@ -25,4 +25,14 @@ class Skill extends Model
     {
         return $this->belongsToMany(Post::class, 'post_skills');
     }
+
+    /**
+     * The Resume that belong to the Skill
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Resume()
+    {
+        return $this->belongsToMany(Resume::class, 'resume_skills', 'resume_id', 'skill_id');
+    }
 }

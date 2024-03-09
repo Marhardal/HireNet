@@ -95,6 +95,20 @@ const bookMark = () => {
     });
 }
 
+const Approve = () => {
+    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, {'status': true}, {
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${authToken}`
+        }
+    }).then((response) => {
+        toast.success("Vacancy Approved Successfully.");
+    }).catch((error) => {
+        errors.value = error?.response?.data?.errors;
+        toast.error("Failed to Approve Vacancy!");
+    });
+}
+
 const vacacyDelete = async () => {
     axios.delete(`http://127.0.0.1:8000/api/vacancies/${id}`, {
         headers: {
@@ -159,6 +173,9 @@ const vacacyDelete = async () => {
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
                     <Button value="Applicants" @clicked="previousPage" v-if="step == 2" />
                     <Button value="Back" @clicked="nextPage" v-if="step == 1" />
+                </div>
+                <div class="col-span-1" v-if="authStore.authRole.name == 'Admin'">
+                    <Button value="Approve" @clicked="Approve" v-if="step == 2" />
                 </div>
             </div>
             <component :is="steps[step]" :show="show" :User="authStore.User" />

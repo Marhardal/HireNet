@@ -18,7 +18,7 @@
                     v-model="values.password" validation="required" />
             </FormKit>
             <div class="text-base py-2">
-                <h3>Don't have an account.<RouterLink to="">Create Account.</RouterLink></h3>
+                <h3>Don't have an account.<RouterLink :to="{ path : 'sign-up'}">Create Account.</RouterLink></h3>
             </div>
             <div class="text-base py-2">
                 <RouterLink to="">Reset Password.</RouterLink>
@@ -40,21 +40,6 @@ const values = reactive({
     'username': '',
     'password': ''
 })
-
-// const errors = ref([]);
-
-// const router = useRouter();
-
-// const Login = async () => {
-//     await axios.post(`http://127.0.0.1:8000/api/sign-in`, values).then((response) => {
-//         console.log(response.data);
-//         router.push('/');
-//     }).catch((error) => {
-//         errors.value = error?.response?.data?.errors;
-//         console.log(errors.value);
-//     });
-// }
-
 
 </script>
 

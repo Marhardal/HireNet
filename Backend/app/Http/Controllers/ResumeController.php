@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Resume;
 use App\Http\Requests\StoreResumeRequest;
 use App\Http\Requests\UpdateResumeRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ResumeController extends Controller
 {
@@ -35,9 +36,10 @@ class ResumeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Resume $resume)
+    public function show($id)
     {
-        //
+        $resume=Resume::where('user_id', $id)->get();
+        return response()->json(['resume' => $resume], 200);
     }
 
     /**

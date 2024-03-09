@@ -1,27 +1,37 @@
 <template>
-    <div>
-        This is the shortlist Tab.
+    <div class="flex flex-wrap gap-2 w-full rounded-md">
+        <!-- v-if="applied.value.length > 0" -->
+        <Job v-for="shortlist in shortlists" :job="shortlist" />
     </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from "axios";
+import { useAuthStore } from '@/Stores/Auth';
+import Job from '../Cards/Job.vue';
 
-const bookMarks = ref();
+const authStore = useAuthStore();
 
-const userId = ref(1);
+const shortlists = ref();
 
-onMounted( async () => {
-    getBookMarks(userId);
+const userId = ref();
+
+const authToken = localStorage.getItem('authToken');
+
+onMounted(async () => {
+    await authStore.getUser();
+    getShortlist();
 });
 
-const getBookMarks = async (userId) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/shortlist/${userId}`);
-    bookMarks.value = response.data;
+const getShortlist = async () => {
+    const response = await axios.get(`http://127.0.0.1:8000/api/shortlist/`, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    });
+    shortlists.value = response.data;
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

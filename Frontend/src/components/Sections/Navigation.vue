@@ -31,7 +31,9 @@ onMounted(async => {
                         </RouterLink>
                     </li>
                     <li class="p-5" v-if="authStore.authRole && authStore.authRole.name == 'Seeker'">
-                            <ResumeIcon />
+                            <RouterLink :to="{path: 'resume'}">
+                                <ResumeIcon />
+                            </RouterLink>
                         <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor"
                             class="h-6 w-6 cursor-pointer text-gray-500 transition-all hover:text-blue-600">

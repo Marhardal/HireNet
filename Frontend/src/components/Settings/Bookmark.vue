@@ -18,14 +18,12 @@ const userId = shallowRef();
 const authStore = useAuthStore();
 
 onMounted(async () => {
-    authStore.getUser();
-    if (authStore.authUser) {
-        userId = authStore.authUser.id;
-        getBookMarks(userId.value);
-    }
+    await authStore.getUser();
+    userId.value = authStore.authUser.id;
+    getBookMarks(userId.value);
 });
 
-const getBookMarks = async () => {
+const getBookMarks = async ($userId) => {
     const response = await axios.get(`http://127.0.0.1:8000/api/bookmark/${userId}`, {
         headers: {
             Authorization: `Bearer ${authStore.authToken}`,

@@ -72,6 +72,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the Resume associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function Resume()
+    {
+        return $this->hasOne(Resume::class);
+    }
+
+    /**
      * The Post that belong to the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

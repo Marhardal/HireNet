@@ -32,7 +32,7 @@ const getAppliedPosts = async (userId) => {
         }
     });
     applied.value = response.data.posts;
-    console.log(applied.value)
+    // console.log(applied.value)
 }
 </script>
 

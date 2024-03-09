@@ -18,8 +18,10 @@ use App\Http\Controllers\PostSkillsController;
 use App\Http\Controllers\ArrangementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\RequirementController;
+use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\ShortlistController;
 use App\Models\Certificate;
 use Laravel\Socialite\Facades\Socialite;
@@ -84,7 +86,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('applied/{id}', [ApplicantController::class, 'applied']);
 
     Route::get('/view/applicant/{id}', [ApplicantController::class, 'viewPdf']);
+
+    Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
 });
+
+Route::get('/send', [NotificationController::class, 'sendVacancy']);
 
 // Route::middleware(['guest'])->group(function () {
 //     Route::resource('vacancies', PostController::class)->only(['index', 'show']);

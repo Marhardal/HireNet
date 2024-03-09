@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-2 max-w-md mx-auto justify-center">
+    <div class="grid grid-cols-2 max-w-md mx-auto justify-center" v-if="authStore.authRole.name === 'Recruiter'">
         <div class="col-span-2">
             <FormKit type="form" submit-label="Update" @submit="updateOrganization" v-if="authStore.authUser.role">
                 <FormKit type="text" placeholder="Enter Organisation Name." v-model="values.name" label="Organisation Name"

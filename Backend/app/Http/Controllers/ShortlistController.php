@@ -15,17 +15,22 @@ class ShortlistController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $posts = Post::where('organisation_id', $user->organisation_id)->get();
-        $shortlist = [];
-        foreach ($posts as $post => $value) {
-            $totalUsersCount = $value->users()->wherePivot('post_id', $value->id)->wherePivot('shortlisted', true);
-            $shortlist[] = [
-                'id'=> $value->id,
-                'name' => $value->job->name,
-                'count' => $totalUsersCount->count(),
-            ];
+        if ($user->organisation_id != '') {
+            $posts = Post::where('organisation_id', $user->organisation_id)->get();
+            $shortlist = [];
+            foreach ($posts as $post => $value) {
+                $totalUsersCount = $value->users()->wherePivot('post_id', $value->id)->wherePivot('shortlisted', true);
+                $shortlist[] = [
+                    'id' => $value->id,
+                    'name' => $value->job->name,
+                    'count' => $totalUsersCount->count(),
+                ];
+            }
+            return response()->json(["shortlisted" => $shortlist], 200);
+        } else {
+            $post = $user->posts()->wherePivot('shortlisted', true);
+            return response()->json(["applicants" => $post->get()], 200);
         }
-        return response()->json(["shortlisted" => $shortlist], 200);
     }
 
     /**

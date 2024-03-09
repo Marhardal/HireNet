@@ -3,19 +3,54 @@
     <template v-slot:header>
         <Header title="Settings" />
     </template>
+
     <template v-slot:navigation>
         <Navigation />
     </template>
-    <template v-slot:main>
-        <div class="border-b border-white dark:border-gray-700 mx-4">
-            <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
-                <TabButton v-for="(tab, index) in tabs" :name="tab.label" @click="changeTab(index)" />
-            </nav>
-        </div>
 
-        <div class="mt-3 mx-4">
-            <div id="tabs-with-underline-1" role="tabpanel" aria-labelledby="tabs-with-underline-item-1">
-                <component :is="tabs[currentTab].component"></component>
+    <template v-slot:main>
+        <div class="" v-if="authStore.authUser">
+            <div class="" v-if="authStore.authRole.name == 'Recruiter'">
+                <div class="border-b border-white dark:border-gray-700 mx-4">
+                    <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
+                        <TabButton v-for="(tab, index) in RecruiterTabs" :name="tab.label"
+                            @click="RecruiterChange(index)" />
+                    </nav>
+                </div>
+
+                <div class="mt-3 mx-4">
+                    <div id="tabs-with-underline-1" role="tabpanel" aria-labelledby="tabs-with-underline-item-1">
+                        <component :is="RecruiterTabs[RecruiterCurrentTab].component"></component>
+                    </div>
+                </div>
+            </div>
+            <div class="" v-if="authStore.authRole.name == 'Seeker'">
+                <div class="border-b border-white dark:border-gray-700 mx-4">
+                    <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
+                        <TabButton v-for="(tab, index) in SeekerTabs" :name="tab.label"
+                            @click="SeekerChange(index)" />
+                    </nav>
+                </div>
+
+                <div class="mt-3 mx-4">
+                    <div id="tabs-with-underline-1" role="tabpanel" aria-labelledby="tabs-with-underline-item-1">
+                        <component :is="SeekerTabs[SeekerCurrentTab].component"></component>
+                    </div>
+                </div>
+            </div>
+            <div class="" v-if="authStore.authRole.name == 'Admin'">
+                <div class="border-b border-white dark:border-gray-700 mx-4">
+                    <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
+                        <TabButton v-for="(tab, index) in AdminTabs" :name="tab.label"
+                            @click="AdminChange(index)" />
+                    </nav>
+                </div>
+
+                <div class="mt-3 mx-4">
+                    <div id="tabs-with-underline-1" role="tabpanel" aria-labelledby="tabs-with-underline-item-1">
+                        <component :is="AdminTabs[AdminCurrentTab].component"></component>
+                    </div>
+                </div>
             </div>
         </div>
     </template>
@@ -46,40 +81,41 @@ onMounted(async => {
 
 const pages = shallowRef([]);
 
-const tabs = shallowRef([
+const RecruiterTabs = shallowRef([
     { label: 'Account', component: Account },
     { label: 'Organization', component: Organisation },
+    { label: 'subscription', component: Subscription },
+]);
+
+const SeekerTabs = shallowRef([
+    { label: 'Account', component: Account },
     { label: 'subscription', component: Subscription },
     { label: 'Bookmark', component: Bookmark },
     { label: 'Applied', component: Applied },
     { label: 'Shortlist', component: Shortlist },
 ]);
 
-// if (authStore.authRole) {
-//     if (authStore.authRole.name == 'Recruiter') {
-//         tabs = [
-//             { label: 'Account', component: Account },
-//             { label: 'Organization', component: Organisation },
-//             { label: 'subscription', component: Subscription }
-//         ]
-//     } else if (authStore.authRole.name == 'Admin') {
-//         tabs = [
-//             { label: 'Account', component: Account },
-//         ]
-//     } else if (authStore.authRole.name == 'Seeker') {
-//         tabs = [
-//             { label: 'Bookmark', component: Bookmark },
-//             { label: 'Applied', component: Applied },
-//             { label: 'Shortlist', component: Shortlist },
-//             { label: 'Account', component: Account }
-//         ]
-//     }
-// }
+const AdminTabs = shallowRef([
+    { label: 'Account', component: Account },
+    { label: 'subscription', component: Subscription },
+]);
 
-const currentTab = shallowRef(0);
+const RecruiterCurrentTab = shallowRef(0);
 
-const changeTab = (index) => {
-    currentTab.value = index;
+const SeekerCurrentTab = shallowRef(0);
+
+const AdminCurrentTab = shallowRef(0);
+
+const RecruiterChange = (index) => {
+    RecruiterCurrentTab.value = index;
+}
+
+const SeekerChange = (index) => {
+    SeekerCurrentTab.value = index;
+}
+
+const AdminChange = (index) => {
+    AdminCurrentTab.value = index;
 }
 
 </script>

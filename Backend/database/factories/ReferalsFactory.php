@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Resume;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class ReferalsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'resume_id' => Resume::get()->random()->id,
+            'full_name'=>fake()->name(),
+            'phone'=>fake()->phoneNumber(),
+            'email'=>fake()->email()
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Resume;
+use App\Models\Skill;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,8 @@ class ResumeSkillsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'resume_id'=>Resume::get()->random()->id,
+            'skill_id'=>Skill::get()->random()->id,
         ];
     }
 }

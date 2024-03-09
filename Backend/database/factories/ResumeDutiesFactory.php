@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Duty;
+use App\Models\Resume;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,8 @@ class ResumeDutiesFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'resume_id' => Resume::get()->random()->id,
+            'duty_id' => Duty::get()->random()->id
         ];
     }
 }

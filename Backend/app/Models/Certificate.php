@@ -18,4 +18,14 @@ class Certificate extends Model
     {
         return $this->belongsToMany(Post::class, 'requirements');
     }
+
+    /**
+     * The Resume that belong to the Certificate
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Resume()
+    {
+        return $this->belongsToMany(Resume::class, 'resume_certificates');
+    }
 }
