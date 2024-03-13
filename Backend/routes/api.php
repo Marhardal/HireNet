@@ -88,6 +88,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/view/applicant/{id}', [ApplicantController::class, 'viewPdf']);
 
     Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
+    Route::get('/apply/notification', [NotificationController::class, 'applyNotification']);
+
+    Route::get('/shortlist/accepted/notification', [NotificationController::class, 'shortlisted']);
+
+    Route::get('/shortlist/denied/notification', [NotificationController::class, 'notShortlisted']);
+
 });
 
 Route::get('/send', [NotificationController::class, 'sendVacancy']);

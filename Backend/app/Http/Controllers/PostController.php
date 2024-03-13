@@ -17,16 +17,17 @@ class PostController extends Controller
      */
     public function index()
     {
+        $posts = Post::Filters(request(['search']));
         $post = "";
         $user = auth()->user();
         if (auth()->guest() || $user->role->name == "Seeker") {
-            $post = Post::latest()->Filters(request(['search']))->where('status', true)->get();
+            $post = $posts->where('status', true)->get();
         } elseif ($user->role->name == "Recruiter") {
-            $post = Post::latest()->Filters(request(['search']))->where('organisation_id', $user->organisation_id)->get();
+            $post = $posts->where('organisation_id', $user->organisation_id)->get();
         } else {
-            $post = Post::latest()->Filters(request(['search']))->where('status', false)->get();
+            $post = $posts->where('status', false)->get();
         }
-        return response()->json($post, 200);
+        return response()->json($post);
     }
 
     public function Vacancies()

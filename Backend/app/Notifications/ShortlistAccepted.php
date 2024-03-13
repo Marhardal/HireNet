@@ -11,12 +11,13 @@ class ShortlistAccepted extends Notification
 {
     use Queueable;
 
+    protected $shortlist;
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($shortlist)
     {
-        //
+        $this->shortlist = $shortlist;
     }
 
     /**
@@ -35,8 +36,11 @@ class ShortlistAccepted extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->subject($this->shortlist['subject'])
+                    ->line($this->shortlist['salutation'])
+                    ->line($this->shortlist['body'])
+                    ->line($this->shortlist['closing'])
+                    ->line($this->shortlist['recruiter'])
                     ->line('Thank you for using our application!');
     }
 
