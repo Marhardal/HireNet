@@ -7,18 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ApplyNotification extends Notification
+class VacancyCreated extends Notification
 {
     use Queueable;
 
-    private $apply;
+    protected $created;
+
     /**
      * Create a new notification instance.
      */
-
-    public function __construct($apply)
+    public function __construct($created)
     {
-        $this->apply = $apply;
+        $this->created = $created;
     }
 
     /**
@@ -37,11 +37,12 @@ class ApplyNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject($this->apply['subject'])
-                    ->line($this->apply['salutation'])
-                    ->line($this->apply['body'])
-                    ->action($this->apply['text'], url('/'))
-                    ->line('Thank you for using HireNet!');
+            ->subject($this->created['subject'])
+            ->line($this->created['salutation'])
+            ->line($this->created['body'])
+            ->action('Notification Action', url('/'))
+            ->line($this->created['closing'])
+            ->line('Thank you for using our application!');
     }
 
     /**

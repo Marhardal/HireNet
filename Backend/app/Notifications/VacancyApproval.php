@@ -11,12 +11,14 @@ class VacancyApproval extends Notification
 {
     use Queueable;
 
+    protected $approved;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($approved)
     {
-        //
+        $this->approved = $approved;
     }
 
     /**
@@ -35,8 +37,11 @@ class VacancyApproval extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->subject($this->approved['subject'])
+                    ->line($this->approved['salutation'])
+                    ->line($this->approved['body'])
+                    // ->action('Notification Action', url('/'))
+                    ->line($this->approved['closing'])
                     ->line('Thank you for using our application!');
     }
 

@@ -11,12 +11,14 @@ class VacancyApplied extends Notification
 {
     use Queueable;
 
+    protected $applied;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($applied)
     {
-        //
+        $this->applied = $applied;
     }
 
     /**
@@ -35,9 +37,12 @@ class VacancyApplied extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject($this->applied['subject'])
+            ->line($this->applied['salutation'])
+            ->line($this->applied['body'])
+            ->action('Notification Action', url('/'))
+            ->line($this->applied['closing'])
+            ->line('Thank you for using our application!');
     }
 
     /**
