@@ -46,7 +46,7 @@ const getResume = async (userId) => {
     </template>
 
     <template v-slot:main>
-        <div class="max-w-4xl mx-auto text-black" v-if="resume">
+        <div class="max-w-4xl mx-auto text-black" v-if="resume.length">
             <div class="w-full max-w-sm rounded bg-white h-96 m-auto shadow flex flex-col">
                 <div class="mx-8 shadow rounded border h-10 mt-4 flex p-1 relative items-center bg-gray-200">
                     <div class="w-full flex justify-center">

@@ -15,6 +15,7 @@ import indexVue from '@/views/Shortlist/index.vue';
 import showVue from '@/views/Shortlist/show.vue';
 import CreateVue from '@/views/Vacancies/Create.vue';
 import Show from '@/views/Resumes/Show.vue';
+import ResumeCreate from '@/views/Resumes/Create.vue';
 
 function auth(to, from) {
     const auth = useAuthStore();
@@ -109,6 +110,12 @@ const router = createRouter({
       name: 'Seeker Resume',
       beforeEnter: auth,
       component: Show,
+    },
+    {
+      path: '/resume/create',
+      name: 'Seeker Resume Create',
+      beforeEnter: auth,
+      component: ResumeCreate,
     },
     
   ]
