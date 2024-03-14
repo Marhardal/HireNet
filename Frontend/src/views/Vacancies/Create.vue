@@ -30,17 +30,16 @@ const certificates = ref([]);
 
 const org_id = ref();
 
-onMounted(async => {
-    if (authStore.authUser) {
-        org_id.value = authStore.authUser.organisation.id;
-    }
-    authStore.getUser(),
-    getArrangements(),
-    getJobs(),
-    getSkills(),
-    getDuties(),
-    getCertificates(),
-    getDuties()
+const errors = ref([]);
+
+onMounted(async () => {
+    await authStore.getUser(),
+        getArrangements(),
+        getJobs(),
+        getSkills(),
+        getDuties(),
+        getCertificates(),
+        getDuties()
 })
 
 const authToken = localStorage.getItem('authToken');
@@ -96,7 +95,7 @@ const getSkills = async () => {
 }
 
 const values = reactive({
-    'organisation_id' : org_id
+    'organisation_id': org_id
 });
 
 
@@ -152,7 +151,7 @@ const createVacancy = async () => {
                         <FormKit type="select" v-model="values.certificate_id" placeholder="Select Job Requirements."
                             multiple :options="certificates" label="Select Job Requirements" validation="required" />
                         <template #stepNext>
-                            <FormKit type="submit" @click.prevent="createVacancy"/>
+                            <FormKit type="submit" @click.prevent="createVacancy" />
                         </template>
                     </FormKit>
                 </FormKit>
@@ -160,4 +159,4 @@ const createVacancy = async () => {
         </div>
     </template>
     </Base>
-</template> 
+</template>

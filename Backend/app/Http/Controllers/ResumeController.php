@@ -38,7 +38,8 @@ class ResumeController extends Controller
      */
     public function show($id)
     {
-        $resume=Resume::where('user_id', $id)->get();
+        $user = auth()->user();
+        $resume=Resume::where('user_id', $user->id)->get();
         return response()->json(['resume' => $resume], 200);
     }
 

@@ -47,7 +47,7 @@ const Apply = async () => {
     formData.append('user_id', form.user_id);
     formData.append('post_id', form.post_id);
     formData.append('message', form.message);
-    await axios.post("http://127.0.0.1:8000/api/apply", formData, {
+    await axios.post("http://127.0.0.1:8000/api/applicants", formData, {
         headers: {
             Authorization: `Bearer ${authStore.authToken}`,
         }

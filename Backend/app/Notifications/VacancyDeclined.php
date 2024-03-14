@@ -11,12 +11,14 @@ class VacancyDeclined extends Notification
 {
     use Queueable;
 
+    protected $denied;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($denied)
     {
-        //
+        $this->denied = $denied;
     }
 
     /**
@@ -35,9 +37,12 @@ class VacancyDeclined extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject($this->denied['subject'])
+            ->line($this->denied['salutation'])
+            ->line($this->denied['body'])
+            // ->action('Notification Action', url('/'))
+            ->line($this->denied['closing'])
+            ->line('Thank you for using our application!');
     }
 
     /**
