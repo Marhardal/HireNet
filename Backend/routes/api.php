@@ -57,8 +57,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user', [LoginController::class, 'User']);
 
     Route::resource('vacancies', PostController::class)->except(['create', 'edit']);
+
     Route::resource('vacancy/duties', PostDutyController::class)->except(['create', 'edit']);
+
     Route::resource('vacancy/skills', PostSkillsController::class)->except(['create', 'edit']);
+
     Route::resource('vacancy/requirements', RequirementController::class)->except(['create', 'edit']);
 
     Route::get('vacancy/{postId}/applicant/{userId}', [ApplicantController::class, 'show']);

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApplyRequest;
 use App\Notifications\VacancyApplied;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\ApplyNotification;
 use Illuminate\Support\Facades\Notification;
 
 class ApplicantController extends Controller
@@ -34,24 +36,27 @@ class ApplicantController extends Controller
      */
     public function store(ApplyRequest $request)
     {
-        $file = $request->file('document')->store('Resumes');
+        // $file = $request->file('document')->store('Resumes');
         Applicant::create([
-            'user_id' => request()->user_id,
+            'user_id' => auth()->user()->id,
             'post_id' => request()->post_id,
-            'document' => $file,
+            'document' => request()->document,
             'message' => request()->message,
         ]);
 
         $user = auth()->user();
-        $applicant = $user()->posts()->wherePivot('post_id', $request->post_id)->first();
 
-        session()->put('applicant', $applicant);
+        $post = Post::find(request()->post_id);
 
-        $this->applied($applicant);
+        $applicant = $post->users()->wherePivot('user_id', auth()->user()->id)->first();
 
-        return redirect('api/apply/notification');
+        session()->put(['post' => $post]);
 
-        return response()->json("You have applied to a vacancy successfully.", 200);
+        $this->applied($post);
+
+        $this->applyNotification($post);
+
+        return response()->json($post, 200);
     }
 
     /**
@@ -95,18 +100,34 @@ class ApplicantController extends Controller
     //     return response()->json(['posts' => $posts], 200);
     // }
 
-    public function Applied($applicant)
+    public function Applied($post)
     {
         $user = auth()->user();
         $applied = [
-            'subject' => 'Application for ' . $applicant->post->job->name . ' - ' . $user->first_name . ' ' . $user->surname,
+            'subject' => 'Application for ' . $post->job->name . ' - ' . $user->first_name . ' ' . $user->surname,
             'salutation' => 'Dear Recruiter,',
-            'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $applicant->post->job->name . " position that you recently advertised. [He/She/They] are interested in learning more about this opportunity and how [his/her/their] skills and experience can benefit your team.",
+            'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $post->job->name . " position that you recently advertised. [He/She/They] are interested in learning more about this opportunity and how [his/her/their] skills and experience can benefit your team.",
             'closing' => 'Thank you'
         ];
 
         Notification::send($user, new VacancyApplied($applied));
 
         return response()->json("Vacancy Declined Notification sent.", 200);
+    }
+
+    public function applyNotification($post)
+    {
+        $user =  auth()->user();
+        $apply = [
+            'subject' => "Your application for " . $post->job->name . " at " . $post->organisation->name . " is submitted!",
+            'salutation' => "Dear " . $user->first_name,
+            'body' => "Your application for the " . $post->job->name . " position at " . $post->organisation->name . " has been successfully submitted. We look forward to reviewing your qualifications and will be in touch with you regarding next steps.",
+            'text' => 'View Vacancy.',
+            'url' => url('/')
+        ];
+
+        Notification::send($user, new ApplyNotification($apply));
+
+        return response()->json("Apply Notification sent.", 200);
     }
 }

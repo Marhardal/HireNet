@@ -23,7 +23,6 @@ class ApplyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', Rule::exists('users', 'id')],
             'post_id' => ['required', Rule::exists('posts', 'id')],
             'message' => ['required',],
             'document' => ['required']

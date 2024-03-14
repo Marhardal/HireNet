@@ -35,11 +35,11 @@ class NotificationController extends Controller
     public function applyNotification()
     {
         $user =  auth()->user();
-        $applicant = session()->get('applicant');
+        $post = session()->get('post');
         $apply = [
-            'subject' => "Your application for " . $applicant->post->job->name . " at " . $applicant->user->organisation->name . " is submitted!",
+            'subject' => "Your application for " . $post->job->name . " at " . $post->organisation->name . " is submitted!",
             'salutation' => "Dear " . $user->first_name,
-            'body' => "Your application for the " . $applicant->post->job->name . " position at " . $applicant->user->organisation->name . " has been successfully submitted. We look forward to reviewing your qualifications and will be in touch with you regarding next steps.",
+            'body' => "Your application for the " . $post->job->name . " position at " . $post->organisation->name . " has been successfully submitted. We look forward to reviewing your qualifications and will be in touch with you regarding next steps.",
             'text' => 'View Vacancy.',
             'url' => url('/')
         ];
