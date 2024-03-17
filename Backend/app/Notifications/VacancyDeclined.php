@@ -28,7 +28,7 @@ class VacancyDeclined extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -53,7 +53,7 @@ class VacancyDeclined extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'data' => auth()->user()
         ];
     }
 }

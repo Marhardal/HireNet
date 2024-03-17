@@ -13,12 +13,18 @@ class VacancyApplied extends Notification
 
     protected $applied;
 
+    protected $post;
+
+    protected $applicant;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct($applied)
+    public function __construct($applied, $applicant, $post)
     {
         $this->applied = $applied;
+        $this->applicant = $applicant;
+        $this->post = $post;
     }
 
     /**
@@ -28,7 +34,8 @@ class VacancyApplied extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        // return ['mail', 'database'];
+        return ['database'];
     }
 
     /**
@@ -53,7 +60,10 @@ class VacancyApplied extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'title' => 'New Application Received.',
+            'applicant_id' => $this->applicant->id,
+            'message' => auth()->user()->first_name. ' '. auth()->user()->surname .' has submitted their application for '. $this->post->name . ' role.',
+            // 'data' => auth()->user()
         ];
     }
 }

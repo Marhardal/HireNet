@@ -14,8 +14,22 @@ use App\Notifications\VacancyDeclined;
 use App\Notifications\VacancyNotification;
 use Illuminate\Support\Facades\Notification;
 
+use function Clue\StreamFilter\fun;
+
 class NotificationController extends Controller
 {
+    public function index()
+    {
+        $notifications = auth()->user()->notifications;
+        $notifies = $notifications->map(function ($notification) {
+            return [
+                'data' => $notification->data,
+                'created_at' => $notification->created_at
+            ];
+        });
+        return response()->json($notifies, 200);
+    }
+
     public function sendVacancy()
     {
         $user = User::first();
@@ -44,7 +58,7 @@ class NotificationController extends Controller
             'url' => url('/')
         ];
 
-        Notification::send($user, new ApplyNotification($apply));
+        Notification::send($user, new ApplyNotification($apply, $post));
 
         return response()->json("Apply Notification sent.", 200);
     }
@@ -142,9 +156,9 @@ class NotificationController extends Controller
         $user = auth()->user();
         $applicant = session()->get('applicant');
         $applied = [
-            'subject' => 'Application for ' . $applicant->post->job->name . ' - '.$user->first_name.' '. $user->surname,
+            'subject' => 'Application for ' . $applicant->post->job->name . ' - ' . $user->first_name . ' ' . $user->surname,
             'salutation' => 'Dear Recruiter,',
-            'body' => "This email is to inform you that ".$user->first_name." ". $user->surname ." has submitted an application for the " . $applicant->post->job->name . " position that you recently advertised. [He/She/They] are interested in learning more about this opportunity and how [his/her/their] skills and experience can benefit your team.",
+            'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $applicant->post->job->name . " position that you recently advertised. [He/She/They] are interested in learning more about this opportunity and how [his/her/their] skills and experience can benefit your team.",
             'closing' => 'Thank you'
         ];
 

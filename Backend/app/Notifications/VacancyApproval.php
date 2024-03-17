@@ -12,13 +12,15 @@ class VacancyApproval extends Notification
     use Queueable;
 
     protected $approved;
+    protected $user;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($approved)
+    public function __construct($approved, $user)
     {
         $this->approved = $approved;
+        $this->user = $user;
     }
 
     /**
@@ -26,9 +28,10 @@ class VacancyApproval extends Notification
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    public function via($notifiable): array
     {
-        return ['mail'];
+        return ['database'];
+        // return ['mail', 'database'];
     }
 
     /**
@@ -53,7 +56,7 @@ class VacancyApproval extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'data' => $this->user,
         ];
     }
 }

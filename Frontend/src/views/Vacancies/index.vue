@@ -39,6 +39,7 @@ const getVacancies = async () => {
             }
         });
         vacancies.value = response.data;
+        console.log(vacancies.value);
     }
 }
 

@@ -48,15 +48,18 @@ class ApplicantController extends Controller
 
         $post = Post::find(request()->post_id);
 
-        $applicant = $post->users()->wherePivot('user_id', auth()->user()->id)->first();
+        $recruiters = User::where('organisation_id', $post->organisation->id)->get();
 
         session()->put(['post' => $post]);
 
-        $this->applied($post);
+        foreach ($recruiters as $recruiter) {
+
+            $this->applied($post, $recruiter);
+        }
 
         $this->applyNotification($post);
 
-        return response()->json($post, 200);
+        return response()->json('Notifications Sent', 200);
     }
 
     /**
@@ -100,17 +103,17 @@ class ApplicantController extends Controller
     //     return response()->json(['posts' => $posts], 200);
     // }
 
-    public function Applied($post)
+    public function Applied($post, $recruiters)
     {
         $user = auth()->user();
         $applied = [
             'subject' => 'Application for ' . $post->job->name . ' - ' . $user->first_name . ' ' . $user->surname,
-            'salutation' => 'Dear Recruiter,',
-            'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $post->job->name . " position that you recently advertised. [He/She/They] are interested in learning more about this opportunity and how [his/her/their] skills and experience can benefit your team.",
+            'salutation' => 'Dear ' . $recruiters->first_name . ' ' . $recruiters->surname, ',',
+            'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $post->job->name . " position that your organisation recently advertised. " . $user->first_name . " is interested in learning more about this opportunity and how " . $user->first_name . "'s skills and experience can benefit your team.",
             'closing' => 'Thank you'
         ];
 
-        Notification::send($user, new VacancyApplied($applied));
+        Notification::send($recruiters, new VacancyApplied($applied, $post->job, $recruiters));
 
         return response()->json("Vacancy Declined Notification sent.", 200);
     }
@@ -126,7 +129,7 @@ class ApplicantController extends Controller
             'url' => url('/')
         ];
 
-        Notification::send($user, new ApplyNotification($apply));
+        Notification::send($user, new ApplyNotification($apply, $post));
 
         return response()->json("Apply Notification sent.", 200);
     }

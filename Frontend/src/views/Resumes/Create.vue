@@ -98,15 +98,16 @@ const createResume = async () => {
                             <FormKit type="text" disabled label="First Name" :value="authStore.authUser.first_name" />
                             <FormKit type="text" disabled label="Surname" :value="authStore.authUser.surname" />
                             <FormKit type="textarea" label="Summary" placeholder="Enter your Professional Summary."
-                                validation="required" />
+                            validation="required" />
                         </FormKit>
                         <FormKit type="step" name="skills">
                             <FormKit type="select" multiple label="Skills" :options="skills"
-                                placeholder="Select the skills which you have." validation="required" />
+                            placeholder="Select the skills which you have." validation="required" />
                         </FormKit>
                         <FormKit type="step" name="Experience">
                             <FormKit type="select" label="Jobs" :options="jobs" placeholder="Select Job Title."
-                                validation="required" />
+                            validation="required" />
+                            <FormKit type="text" label="Organisation Name" placeholder="Enter an Organisation Name" validation="required"/>
                             <FormKit type="month" label="Start Date" placeholder="Enter the school name you attended."
                                 validation="required" />
                             <FormKit type="month" label="Finish Date" placeholder="Enter the school name you attended."

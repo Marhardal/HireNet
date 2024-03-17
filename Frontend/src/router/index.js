@@ -16,6 +16,7 @@ import showVue from '@/views/Shortlist/show.vue';
 import CreateVue from '@/views/Vacancies/Create.vue';
 import Show from '@/views/Resumes/Show.vue';
 import ResumeCreate from '@/views/Resumes/Create.vue';
+import Notification from '@/views/Notification.vue';
 
 function auth(to, from) {
     const auth = useAuthStore();
@@ -116,6 +117,12 @@ const router = createRouter({
       name: 'Seeker Resume Create',
       beforeEnter: auth,
       component: ResumeCreate,
+    },
+    {
+      path: '/notification',
+      name: 'Notification',
+      beforeEnter: auth,
+      component: Notification,
     },
     
   ]

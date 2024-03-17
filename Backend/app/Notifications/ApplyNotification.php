@@ -12,13 +12,16 @@ class ApplyNotification extends Notification
     use Queueable;
 
     private $apply;
+    private $post;
+    // private $apply;
     /**
      * Create a new notification instance.
      */
 
-    public function __construct($apply)
+    public function __construct($apply, $post)
     {
         $this->apply = $apply;
+        $this->post = $post;
     }
 
     /**
@@ -37,11 +40,11 @@ class ApplyNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject($this->apply['subject'])
-                    ->line($this->apply['salutation'])
-                    ->line($this->apply['body'])
-                    ->action($this->apply['text'], url('/'))
-                    ->line('Thank you for using HireNet!');
+            ->subject($this->apply['subject'])
+            ->line($this->apply['salutation'])
+            ->line($this->apply['body'])
+            ->action($this->apply['text'], url('/'))
+            ->line('Thank you for using HireNet!');
     }
 
     /**
@@ -52,7 +55,9 @@ class ApplyNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'title' => $this->post->job->name,
+            'post_id' => $this->post->id,
+            'title' => $this->post,
         ];
     }
 }
