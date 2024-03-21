@@ -45,7 +45,7 @@ Route::post('sign-in', [LoginController::class, 'Login'])->middleware('guest');
 
 // Route::get('user', [LoginController::class, 'User']);
 
-Route::resource('users', UserController::class)->except('create', 'edit');
+Route::resource('sign-up', UserController::class)->only('store')->middleware('guest');
 
 Route::get('auth/redirect', function () {
     Socialite::driver('google')->redirect();
@@ -92,7 +92,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/view/applicant/{id}', [ApplicantController::class, 'viewPdf']);
 
-    Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
 
     Route::get('/apply/notification', [NotificationController::class, 'applyNotification']);
 
@@ -111,7 +110,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('vacancy/applied/notification', [NotificationController::class, 'Applied']);
 
     Route::get('new/vacancy/alert', [NotificationController::class, 'sendVacancy']);
+
+    Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
 });
+
+Route::resource('organisation/', OrganisationController::class)->only(['store']);
 
 // Route::middleware(['guest'])->group(function () {
 //     Route::resource('vacancies', PostController::class)->only(['index', 'show']);

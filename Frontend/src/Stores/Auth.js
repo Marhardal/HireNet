@@ -45,11 +45,16 @@ export const useAuthStore = defineStore("auth", {
 
         async Register(data){
             await this.getToken();
+            if (localStorage.getItem('organisation_id')) {
+                data['organisation_id'] = localStorage.getItem('organisation_id');
+            }
             try{
-                const response = await axios.post("http://127.0.0.1:8000/api/users", data)
+                console.log(data);
+                const response = await axios.post("http://127.0.0.1:8000/api/sign-up", data)
                 this.authUser = response.data.user;
                 this.authToken = response.data.token;
                 localStorage.setItem('authToken', this.authToken);
+                localStorage.removeItem('organisation_id');
                 this.router.push('/')
             }
             catch(error){
@@ -58,12 +63,13 @@ export const useAuthStore = defineStore("auth", {
         },
 
         async Logout(){
-            await this.getToken();
+            this.authToken = localStorage.getItem('authToken');
+            // console.log( `Bearer ${this.authToken}`);
             try {
-                this.authToken = localStorage.getItem('authToken');
                 await axios.post("http://127.0.0.1:8000/api/sign-out", {
                     headers: {
-                        Authorization : `Bearer ${this.authToken}`
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${this.authToken}`
                     }
                 });
                 localStorage.removeItem('authToken');

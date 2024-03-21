@@ -26,7 +26,6 @@ class UserRequest extends FormRequest
         return [
             'first_name' => ['required',],
             'surname' => ['required',],
-            'role_id' => ['required', Rule::exists('roles', 'id')],
             'organisation_id' => ['nullable', Rule::exists('organisations', 'id')],
             'phone' => ['required', 'min:9', 'numeric'],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore(2)],

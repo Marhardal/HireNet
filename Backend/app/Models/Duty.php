@@ -26,6 +26,16 @@ class Duty extends Model
      */
     public function Resume()
     {
-        return $this->belongsToMany(Resume::class, 'resume_duties');
+        return $this->belongsToMany(Resume::class, 'experiences');
+    }
+
+    /**
+     * The Jobs that belong to the Duty
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Jobs()
+    {
+        return $this->belongsToMany(Job::class, 'experiences');
     }
 }

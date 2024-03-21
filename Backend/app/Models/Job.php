@@ -18,4 +18,24 @@ class Job extends Model
     {
         return $this->hasOne(Post::class);
     }
+
+    /**
+     * The Resumes that belong to the Job
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Resumes()
+    {
+        return $this->belongsToMany(Resume::class, 'experiences');
+    }
+
+    /**
+     * The Duties that belong to the Job
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Duties()
+    {
+        return $this->belongsToMany(Duty::class, 'experiences');
+    }
 }

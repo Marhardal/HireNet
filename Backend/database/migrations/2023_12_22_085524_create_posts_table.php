@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Organisation::class);
             $table->foreignIdFor(Job::class);
             $table->foreignIdFor(Arrangement::class);
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->nullable();
             $table->integer('num');
             $table->text('about');
             $table->date('due_date');

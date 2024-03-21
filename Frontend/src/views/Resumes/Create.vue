@@ -67,10 +67,11 @@ const getSkills = async () => {
     skills.value = response.data.skills.map((skill) => ({ value: skill.id, label: skill.name }));
 }
 
-const values = reactive({});
+const value = reactive({});
 
 const createResume = async () => {
-    axios.post('http://127.0.0.1:8000/api/resume', values, {
+    // console.log(value);
+    axios.post('http://127.0.0.1:8000/api/resume', value, {
         headers: {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`
@@ -97,43 +98,36 @@ const createResume = async () => {
                         <FormKit type="step" name="resume">
                             <FormKit type="text" disabled label="First Name" :value="authStore.authUser.first_name" />
                             <FormKit type="text" disabled label="Surname" :value="authStore.authUser.surname" />
-                            <FormKit type="textarea" label="Summary" placeholder="Enter your Professional Summary."
+                            <FormKit type="textarea" v-model="value.summary" label="Summary" placeholder="Enter your Professional Summary."
                             validation="required" />
                         </FormKit>
                         <FormKit type="step" name="skills">
                             <FormKit type="select" multiple label="Skills" :options="skills"
-                            placeholder="Select the skills which you have." validation="required" />
+                            placeholder="Select the skills which you have." v-model="value.skill_id" validation="required" />
                         </FormKit>
                         <FormKit type="step" name="Experience">
-                            <FormKit type="select" label="Jobs" :options="jobs" placeholder="Select Job Title."
+                            <FormKit type="select" label="Jobs" :options="jobs" v-model="value.job_id" placeholder="Select Job Title."
                             validation="required" />
-                            <FormKit type="text" label="Organisation Name" placeholder="Enter an Organisation Name" validation="required"/>
-                            <FormKit type="month" label="Start Date" placeholder="Enter the school name you attended."
+                            <FormKit type="text" label="Organisation Name" v-model="value.organisation" placeholder="Enter an Organisation Name" validation="required"/>
+                            <FormKit type="month" label="Start Date" v-model="value.start" placeholder="Enter the school name you attended."
                                 validation="required" />
-                            <FormKit type="month" label="Finish Date" placeholder="Enter the school name you attended."
-                                validation="required" />
-                            <FormKit type="select" multiple label="Duties" :options="duties"
+                            <FormKit type="month" label="Finish Date" v-model="value.end" placeholder="Enter the school name you attended."/>
+                            <FormKit type="select" multiple label="Duties" v-model="value.duty_id" :options="duties"
                                 placeholder="Select the duties you performed on the job." validation="required" />
                         </FormKit>
                         <FormKit type="step" name="education">
-                            <FormKit type="select" label="Education" :options="certificates" validation="required" />
-                            <FormKit type="text" label="School Name" placeholder="Enter the school name you attended."
-                                validation="required" />
-                            <FormKit type="month" label="Start Date" placeholder="Enter the school name you attended."
-                                validation="required" />
-                            <FormKit type="month" label="Finish Date" placeholder="Enter the school name you attended."
-                                validation="required" />
+                            <FormKit type="select" label="Education" :options="certificates" v-model="value.certificate_id" validation="required" />
+                            <FormKit type="text" label="School Name" placeholder="Enter the school name you attended." v-model="value.school" validation="required" />
+                            <FormKit type="month" label="Start Date" v-model="value.started" placeholder="Enter the school name you attended." validation="required" />
+                            <FormKit type="month" label="Finish Date" v-model="value.finished" placeholder="Enter the school name you attended."/>
                         </FormKit>
                         <FormKit type="step" name="referrals">
-                            <FormKit type="text" label="First Name" placeholder="Enter Referral First Name."
+                            <FormKit type="text" label="Full Name" v-model="value.full_name" placeholder="Enter Referral Full Name."
                                 validation="required" />
-                            <FormKit type="text" label="Surname" placeholder="Enter Referral Surname."
+                            <FormKit type="text" label="Organization Name" v-model="value.company" placeholder="Enter Referral Organization Name." validation="required" />
+                            <FormKit type="tel" label="Phone Number" v-model="value.phone" placeholder="Enter Referral Phone Number."
                                 validation="required" />
-                            <FormKit type="text" label="Organization Name" placeholder="Enter Referral Organization Name."
-                                validation="required" />
-                            <FormKit type="tel" label="Phone Number" placeholder="Enter Referral Phone Number."
-                                validation="required" />
-                            <FormKit type="email" label="Email" placeholder="Enter Referral Email Address."
+                            <FormKit type="email" label="Email" v-model="value.email" placeholder="Enter Referral Email Address."
                                 validation="required" />
                             <!-- <FormKit type="textarea" label="Summary" placeholder="Enter your Professional Summary."
                         validation="required" /> -->
