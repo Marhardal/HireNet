@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Js;
 
 class Resume extends Model
 {
     use HasFactory;
 
-    protected $with = ['user', 'skills', 'duties', 'certificate', 'referrals'];
+    protected $with = ['user', 'skills', 'duties', 'certificates', 'referrals', 'jobs',];
     /**
      * Get the user that owns the Resume
      *
@@ -31,34 +32,43 @@ class Resume extends Model
     }
 
     /**
+     * The Certificate that belong to the Resume
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Certificates()
+    {
+        return $this->belongsToMany(Certificate::class, 'qualifications');
+    }
+
+    /**
+     * Get the Referals that owns the Resume
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Referrals()
+    {
+        return $this->belongsTo(Referrals::class);
+    }
+
+    /**
      * The Duties that belong to the Resume
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function Duties()
     {
-        return $this->belongsToMany(Duty::class, 'resume_duties');
+        return $this->belongsToMany(Duty::class, 'experiences');
     }
 
     /**
-     * The Certificate that belong to the Resume
+     * The Jobs that belong to the Resume
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function Certificate()
+    public function Jobs()
     {
-        return $this->belongsToMany(Certificate::class, 'resume_qualifications');
+        return $this->belongsToMany(Job::class, 'experiences');
     }
-
-    /**
-     * Get all of the Referrals for the Resume
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function Referrals()
-    {
-        return $this->hasMany(Referals::class,);
-    }
-
 
 }

@@ -48,20 +48,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(5)->create();
-        Applicant::factory(20)->create();
         Job::factory(10)->create();
         Duty::factory(30)->create();
         Skill::factory(30)->create();
         Post::factory(10)->create();
         PostSkills::factory(30)->create();
+        Applicant::factory(20)->create();
         PostDuty::factory(30)->create();
         Certificate::factory(30)->create();
         Requirement::factory(30)->create();
         Bookmark::factory(5)->create();
-        Resume::factory(1)->create();
-        ResumeDuties::factory(5)->create();
-        ResumeSkills::factory(5)->create();
-        ResumeQualification::factory(3)->create();
-        Referals::factory(3)->create();
     }
 }

@@ -26,6 +26,6 @@ class Certificate extends Model
      */
     public function Resume()
     {
-        return $this->belongsToMany(Resume::class, 'resume_certificates');
+        return $this->belongsToMany(Resume::class, 'qualifications');
     }
 }

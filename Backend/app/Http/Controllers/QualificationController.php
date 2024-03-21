@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ResumeQualification;
-use App\Http\Requests\StoreResumeQualificationRequest;
-use App\Http\Requests\UpdateResumeQualificationRequest;
+use App\Models\Qualification;
+use App\Http\Requests\StoreQualificationRequest;
+use App\Http\Requests\UpdateQualificationRequest;
 
-class ResumeQualificationController extends Controller
+class QualificationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ResumeQualificationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreResumeQualificationRequest $request)
+    public function store(StoreQualificationRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class ResumeQualificationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ResumeQualification $resumeQualification)
+    public function show(Qualification $qualification)
     {
         //
     }
@@ -43,7 +43,7 @@ class ResumeQualificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ResumeQualification $resumeQualification)
+    public function edit(Qualification $qualification)
     {
         //
     }
@@ -51,7 +51,7 @@ class ResumeQualificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateResumeQualificationRequest $request, ResumeQualification $resumeQualification)
+    public function update(UpdateQualificationRequest $request, Qualification $qualification)
     {
         //
     }
@@ -59,7 +59,7 @@ class ResumeQualificationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ResumeQualification $resumeQualification)
+    public function destroy(Qualification $qualification)
     {
         //
     }

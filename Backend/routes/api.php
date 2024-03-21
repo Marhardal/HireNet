@@ -45,7 +45,7 @@ Route::post('sign-in', [LoginController::class, 'Login'])->middleware('guest');
 
 // Route::get('user', [LoginController::class, 'User']);
 
-Route::resource('users', UserController::class)->except('create', 'edit');
+Route::resource('sign-up', UserController::class)->only('store')->middleware('guest');
 
 Route::get('auth/redirect', function () {
     Socialite::driver('google')->redirect();
@@ -86,30 +86,35 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::resource('shortlist', ShortlistController::class)->except(['create', 'edit']);
 
+    Route::get('notifications', [NotificationController::class, 'index']);
+
     Route::get('applied/{id}', [ApplicantController::class, 'applied']);
 
     Route::get('/view/applicant/{id}', [ApplicantController::class, 'viewPdf']);
 
-    Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
-    
+
     Route::get('/apply/notification', [NotificationController::class, 'applyNotification']);
-    
+
     Route::get('/shortlist/accepted/notification', [NotificationController::class, 'shortlisted']);
-    
+
     Route::get('/shortlist/denied/notification', [NotificationController::class, 'notShortlisted']);
-    
+
     Route::get('vacancy/status/notification', [NotificationController::class, 'vacancyStatus']);
-    
+
     Route::get('vacancy/approved/notification', [NotificationController::class, 'vacancyApproved']);
-    
+
     Route::get('vacancy/denied/notification', [NotificationController::class, 'vacancyDenied']);
-    
+
     Route::get('vacancy/created/notification', [NotificationController::class, 'vacancyCreated']);
-    
+
     Route::get('vacancy/applied/notification', [NotificationController::class, 'Applied']);
-    
+
     Route::get('new/vacancy/alert', [NotificationController::class, 'sendVacancy']);
+
+    Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
 });
+
+Route::resource('organisation/', OrganisationController::class)->only(['store']);
 
 // Route::middleware(['guest'])->group(function () {
 //     Route::resource('vacancies', PostController::class)->only(['index', 'show']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -30,9 +31,19 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = User::create($request->all());
-        $token = $user->createToken('authToken')->plainTextToken;
-        return response()->json(['token' => $token, 'Message' => 'User Created Successfully'], 201);
+        if (!empty($request->organisation_id)) {
+            $request['role_id'] = 1;
+            $user = User::create($request->all());
+            $token = $user->createToken('authToken')->plainTextToken;
+            return response()->json(['token' => $token, 'Message' => 'User Created Successfully'], 201);
+        }
+        else {
+            $request['role_id'] = 2;
+            $user = User::create($request->all());
+            $token = $user->createToken('authToken')->plainTextToken;
+            // $token->delete();
+            return response()->json(['token' => $token, 'Message' => 'User Created Successfully'], 201);
+        }
     }
 
     /**

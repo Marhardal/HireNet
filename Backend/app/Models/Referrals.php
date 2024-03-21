@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Referals extends Model
+class Referrals extends Model
 {
     use HasFactory;
 
     /**
-     * Get the Resume that owns the Referals
+     * Get all of the Resume for the Referals
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function Resume()
     {
-        return $this->belongsTo(Resume::class);
+        return $this->hasMany(Resume::class);
     }
 }

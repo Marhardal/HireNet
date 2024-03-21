@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Organisation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class OrganisationController extends Controller
 {
@@ -37,7 +38,17 @@ class OrganisationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $values = $request->validate([
+            'name' => ['required'],
+            'location' => ['required'],
+            'about' => ['required'],
+        ]);
+
+        $organisation = Organisation::create($values);
+
+        // session(['organisation_id' => $organisation->id]);
+
+        return response()->json(["Organisation Created Successfully", 'organisation' => $organisation], 200);
     }
 
     /**

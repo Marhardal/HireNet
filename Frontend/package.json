@@ -11,6 +11,7 @@
   "dependencies": {
     "@formkit/addons": "^1.5.9",
     "@formkit/icons": "^1.5.7",
+    "@formkit/pro": "^0.122.9",
     "@formkit/themes": "^1.5.7",
     "@formkit/vue": "^1.5.7",
     "@headlessui/vue": "^1.7.18",

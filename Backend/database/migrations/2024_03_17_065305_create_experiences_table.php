@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Duty;
+use App\Models\Job;
 use App\Models\Resume;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,12 +14,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('referals', function (Blueprint $table) {
+        Schema::create('experiences', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Resume::class);
-            $table->string('full_name');
-            $table->string('phone');
-            $table->string('email');
+            $table->foreignIdFor(Job::class);
+            $table->foreignIdFor(Duty::class);
+            $table->string('organisation');
+            $table->string('start');
+            $table->string('end')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('referals');
+        Schema::dropIfExists('experiences');
     }
 };

@@ -10,6 +10,7 @@ use App\Models\PostSkills;
 use App\Models\Requirement;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
+use App\Models\User;
 use App\Notifications\VacancyApplied;
 use App\Notifications\VacancyCreated;
 use App\Notifications\VacancyApproval;
@@ -110,13 +111,14 @@ class PostController extends Controller
             'status' => $request->status,
         ]);
         session()->put('post', $post);
+        $user = User::where('organisation_id', $post->organisation->id)->get();
         if ($post->status == 1) {
             $this->sendVacancy($post);
-            $this->vacancyApproved($post);
+            $this->vacancyApproved($user, $post);
         } else {
-            $this->vacancyDenied($post);
+            $this->vacancyDenied($user, $post);
         }
-        return response()->json($post, 200);
+        return response()->json($user, 200);
     }
 
     /**
@@ -130,6 +132,7 @@ class PostController extends Controller
 
     public function vacancyCreated($user, $vacancy)
     {
+        $user = User::where('role_id', 3)->get();
         $created = [
             'subject' => 'New Vacancy Created: ' . $vacancy->job->name,
             'salutation' => 'Dear Admin,',
@@ -144,7 +147,7 @@ class PostController extends Controller
 
     public function sendVacancy($post)
     {
-        $user = auth()->user();
+        $user = User::where('role_id', 2)->get();
         $vacancy = [
             'subject' => 'Exciting opportunity! New ' . $post->job->name . ' position available',
             'body' => "We're thrilled to announce a new opening for a " . $post->job->name . "! This could be a great fit for someone with your skills and experience. Check out the full details and apply on the link below.",
@@ -152,33 +155,30 @@ class PostController extends Controller
             'url' => url('/')
         ];
 
-        Notification::sendNow($user, new VacancyNotification($vacancy));
+        Notification::send($user, new VacancyNotification($vacancy, $user, $post));
 
         return response()->json('Notification Sent');
     }
 
-    public function vacancyApproved($post)
+    public function vacancyApproved($user, $post)
     {
-        $user = auth()->user();
 
-        $denied = [
+        $approved = [
             'subject' => 'Great news! Your vacancy for ' . $post->job->name . ' has been approved.',
             'salutation' => 'Dear Recruiter,',
             'body' => "I'm happy to inform you that your requisition for the " . $post->job->name . " position has been approved! You can now move forward with advertising the vacancy and start receiving applications from qualified candidates.",
             'closing' => 'Thank you'
         ];
 
-        Notification::send($user, new VacancyApproval($denied));
+        Notification::send($user, new VacancyApproval($approved, $user));
 
         session()->forget('post');
 
         return response()->json("Vacancy Approval Notification sent.", 200);
     }
 
-    public function vacancyDenied($post)
+    public function vacancyDenied($user, $post)
     {
-        $user = auth()->user();
-
         $post = session()->get('post');
 
         $denied = [
@@ -189,7 +189,7 @@ class PostController extends Controller
             'recruiter' => $user->first_name . " " . $user->surname
         ];
 
-        Notification::send($user, new VacancyDeclined($denied));
+        Notification::send($user, new VacancyDeclined($denied, $user));
 
         session()->forget('post');
 

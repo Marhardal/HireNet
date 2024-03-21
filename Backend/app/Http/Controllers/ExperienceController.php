@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ResumeDuties;
-use App\Http\Requests\StoreResumeDutiesRequest;
-use App\Http\Requests\UpdateResumeDutiesRequest;
+use App\Models\Experience;
+use App\Http\Requests\StoreExperienceRequest;
+use App\Http\Requests\UpdateExperienceRequest;
 
-class ResumeDutiesController extends Controller
+class ExperienceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ResumeDutiesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreResumeDutiesRequest $request)
+    public function store(StoreExperienceRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class ResumeDutiesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ResumeDuties $resumeDuties)
+    public function show(Experience $experience)
     {
         //
     }
@@ -43,7 +43,7 @@ class ResumeDutiesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ResumeDuties $resumeDuties)
+    public function edit(Experience $experience)
     {
         //
     }
@@ -51,7 +51,7 @@ class ResumeDutiesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateResumeDutiesRequest $request, ResumeDuties $resumeDuties)
+    public function update(UpdateExperienceRequest $request, Experience $experience)
     {
         //
     }
@@ -59,7 +59,7 @@ class ResumeDutiesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ResumeDuties $resumeDuties)
+    public function destroy(Experience $experience)
     {
         //
     }

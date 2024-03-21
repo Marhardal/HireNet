@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrganisationRequest extends FormRequest
+class StoreQualificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,7 +22,7 @@ class OrganisationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            //
         ];
     }
 }

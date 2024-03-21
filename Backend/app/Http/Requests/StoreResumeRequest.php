@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreResumeRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreResumeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,25 @@ class StoreResumeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'summary' => ['required']
+            'summary' => ['required'],
+            // Skills
+            'skill_id' => ['required', 'numeric', Rule::exists('skills', 'id')],
+            // Experience
+            'job_id' => ['required', 'numeric', Rule::exists('jobs', 'id')],
+            'duty_id' => ['required', 'numeric', Rule::exists('duties', 'id')],
+            'organisation'=>['required'],
+            'start'=>['required'],
+            'end'=>['nullable'],
+            //  Qualification
+            'certificate_id' => ['required', 'numeric', Rule::exists('certificates', 'id')],
+            'school'=>['required'],
+            'started'=>['required'],
+            'finished'=>['required'],
+            // Referrals
+            'full_name'=>['required'],
+            'company'=>['required'],
+            'phone'=>['required', 'numeric', 'min:10', ],
+            'email'=>['required', 'email'],
         ];
     }
 }
