@@ -55,7 +55,7 @@ class VacancyNotification extends Notification
         return [
             'post_id' => $this->post->id,
             'title' => 'New Job Post',
-            'message' => $this->post->organisation->name . 'is hiring for a ' . $this->post->job->name . '. Click for more info.',
+            'message' => $this->post->organisation->name . ' is hiring for a ' . $this->post->job->name . '. Click for more info.',
         ];
     }
 }

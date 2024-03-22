@@ -55,7 +55,7 @@ const getVacancies = async () => {
     </template>
     <template v-slot:main>
         <div class="">
-            <div class="flex mx-8 py-4">
+            <div class="flex mx-8 py-4 max-h-3/4">
                 <div class="flex justify-start">
                     <div class='flex items-center justify-center'>
                         <div class="flex rounded bg-white">

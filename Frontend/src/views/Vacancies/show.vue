@@ -116,7 +116,8 @@ const Decline = () => {
             Authorization: `Bearer ${authToken}`
         }
     }).then((response) => {
-        toast.success("Vacancy Approved Successfully.");
+        console.log(response.data);
+        toast.success("Vacancy Declined Successfully.");
     }).catch((error) => {
         errors.value = error?.response?.data?.errors;
         toast.error("Failed to Approve Vacancy!");

@@ -33,7 +33,7 @@ class PostController extends Controller
         } elseif ($user->role->name == "Recruiter") {
             $post = $posts->where('organisation_id', $user->organisation_id)->get();
         } else {
-            $post = $posts->where('status', false)->get();
+            $post = $posts->where('status', null)->get();
         }
         return response()->json($post);
     }
@@ -61,7 +61,6 @@ class PostController extends Controller
             'organisation_id' => auth()->user()->organisation->id,
             'job_id' => $request->job_id,
             'arrangement_id' => $request->arrangement_id,
-            'status' => false,
             'num' => $request->num,
             'about' => $request->about,
             'due_date' => $request->due_date
@@ -75,7 +74,7 @@ class PostController extends Controller
 
         $this->vacancyCreated(auth()->user(), $post);
 
-        return redirect('/api/vacancy/status/notification');
+        // $this->vacancyApproved();
 
         $job = Job::find($request->job_id);
 
@@ -111,11 +110,12 @@ class PostController extends Controller
             'status' => $request->status,
         ]);
         session()->put('post', $post);
-        $user = User::where('organisation_id', $post->organisation->id)->get();
+        $user = User::where('organisation_id', $post->organisation_id)->get();
+        // $user = auth()->user();
         if ($post->status == 1) {
             $this->sendVacancy($post);
             $this->vacancyApproved($user, $post);
-        } else {
+        } else if ($post->status == 0) {
             $this->vacancyDenied($user, $post);
         }
         return response()->json($user, 200);
@@ -170,7 +170,7 @@ class PostController extends Controller
             'closing' => 'Thank you'
         ];
 
-        Notification::send($user, new VacancyApproval($approved, $user));
+        Notification::send($user, new VacancyApproval($approved, $user, $post));
 
         session()->forget('post');
 
@@ -179,19 +179,14 @@ class PostController extends Controller
 
     public function vacancyDenied($user, $post)
     {
-        $post = session()->get('post');
-
         $denied = [
             'subject' => 'Update on ' . $post->job->name . ' vacancy requisition',
             'salutation' => 'Dear Recruiter,',
             'body' => "This email is to inform you that your requisition for the " . $post->job->name . " position has been Declined at this time. We'll be in touch if the hiring manager decides to reopen the position in the future.",
-            'closing' => 'Thank you',
-            'recruiter' => $user->first_name . " " . $user->surname
+            'closing' => 'Thank you'
         ];
 
-        Notification::send($user, new VacancyDeclined($denied, $user));
-
-        session()->forget('post');
+        Notification::send($user, new VacancyDeclined($denied, $post));
 
         return response()->json("Shortlist Notification sent.", 200);
     }
