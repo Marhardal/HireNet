@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Organisation::class);
-            $table->foreignIdFor(Job::class);
-            $table->foreignIdFor(Arrangement::class);
+            $table->foreignIdFor(Organisation::class)->onDelete('cascade');
+            $table->foreignIdFor(Job::class)->onDelete('cascade');
+            $table->foreignIdFor(Arrangement::class)->onDelete('cascade');
             $table->boolean('status')->nullable();
             $table->integer('num');
             $table->text('about');

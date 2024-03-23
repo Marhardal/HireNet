@@ -14,7 +14,8 @@ return new class extends Migration
     {
         Schema::create('referrals', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Resume::class);
+            $table->foreignIdFor(Resume::class)->onDelete('cascade');
+            $table->string('organisation');
             $table->string('full_name');
             $table->string('phone');
             $table->string('email');

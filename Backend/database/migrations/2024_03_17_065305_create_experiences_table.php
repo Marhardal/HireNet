@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Resume::class);
-            $table->foreignIdFor(Job::class);
-            $table->foreignIdFor(Duty::class);
+            $table->foreignIdFor(Resume::class)->onDelete('cascade');
+            $table->foreignIdFor(Job::class)->onDelete('cascade');
+            $table->foreignIdFor(Duty::class)->onDelete('cascade');
             $table->string('organisation');
             $table->string('start');
             $table->string('end')->nullable();

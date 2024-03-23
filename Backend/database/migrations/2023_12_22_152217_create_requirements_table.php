@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('requirements', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Post::class);
-            $table->foreignIdFor(Certificate::class);
+            $table->foreignIdFor(Post::class)->onDelete('cascade');
+            $table->foreignIdFor(Certificate::class)->onDelete('cascade');
             $table->timestamps();
         });
     }

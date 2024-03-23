@@ -6,7 +6,7 @@
         <div class="col-span-1">
             <slot name="navigation"></slot>
         </div>
-        <div class="col-span-11 bg-blue-200 rounded-md mt-4 mr-6 max-h-full">
+        <div class="col-span-11 bg-blue-200 rounded-md mt-4 mr-6 h-screen">
             <slot name="main"></slot>
         </div>
         <div class="col-span-12">

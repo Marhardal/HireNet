@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('resumes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->text('summary');
             $table->timestamps();
         });

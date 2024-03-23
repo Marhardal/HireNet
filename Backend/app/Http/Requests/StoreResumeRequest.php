@@ -25,10 +25,10 @@ class StoreResumeRequest extends FormRequest
         return [
             'summary' => ['required'],
             // Skills
-            'skill_id' => ['required', 'numeric', Rule::exists('skills', 'id')],
+            'skill_id' => ['required', 'array', Rule::exists('skills', 'id')],
             // Experience
-            'job_id' => ['required', 'numeric', Rule::exists('jobs', 'id')],
-            'duty_id' => ['required', 'numeric', Rule::exists('duties', 'id')],
+            'job_id' => ['required', Rule::exists('jobs', 'id')],
+            'duty_id' => ['required', 'array', Rule::exists('duties', 'id')],
             'organisation'=>['required'],
             'start'=>['required'],
             'end'=>['nullable'],
@@ -36,7 +36,7 @@ class StoreResumeRequest extends FormRequest
             'certificate_id' => ['required', 'numeric', Rule::exists('certificates', 'id')],
             'school'=>['required'],
             'started'=>['required'],
-            'finished'=>['required'],
+            'finished'=>['nullable'],
             // Referrals
             'full_name'=>['required'],
             'company'=>['required'],

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Resume;
 use App\Http\Requests\StoreResumeRequest;
 use App\Http\Requests\UpdateResumeRequest;
+use App\Models\Experience;
 use Illuminate\Support\Facades\Auth;
 
 class ResumeController extends Controller
@@ -30,7 +31,7 @@ class ResumeController extends Controller
      */
     public function store(StoreResumeRequest $request)
     {
-        // return response()->json($request->school);
+        // return response()->json($request->duty_id);
         $resumeValues = [
             'summary' => $request->summary,
             'user_id' => auth()->user()->id,
@@ -44,6 +45,8 @@ class ResumeController extends Controller
             'end' => $request->end,
         ];
 
+
+        $resume = Resume::create($resumeValues);
         $school = [
             'certificate_id' => $request->certificate_id,
             // 'school' => $request->school,
@@ -51,10 +54,9 @@ class ResumeController extends Controller
             // 'finished' => $request->finished,
         ];
 
-        $resume = Resume::create($resumeValues);
-
-        // $resume->skills()->attach($request->skill_id);
         $resume->certificates()->attach($school);
+
+        $resume->skills()->attach($request->skill_id);
 
         $referral = [
             'full_name' => $request->full_name,
@@ -63,15 +65,19 @@ class ResumeController extends Controller
             'email' => $request->email,
             'resume_id' => $resume->id
         ];
-        
-        $resume->jobs()->attach($request->job_id, [
-            'duty_id' => $request->duty_id,
-            'organisation' => $request->organisation,
-            'start' => $request->start,
-            'end' => $request->end,
-        ]);
 
-        // $resume->referrals()->create($referral);
+        foreach ($request->duty_id as $value) {
+            Experience::create([
+                'resume_id'=> $resume->id,
+                'job_id' => $request->job_id,
+                'duty_id' => $value,
+                'organisation' => $request->organisation,
+                'start' => $request->start,
+                'end' => $request->end
+            ]);
+        }
+
+        $resume->referrals()->create($referral);
 
         return response()->json('Resume Created Successfully', 200);
     }
