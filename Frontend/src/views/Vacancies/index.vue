@@ -76,9 +76,9 @@ const getVacancies = async () => {
                     </div>
                 </div>
                 <div class="flex w-full justify-end" v-if="authStore.authRole">
-                    <RouterLink to="vacancy/create" class="bg-blue-500 py-2 px-4 rounded-md text-white"
-                        v-if="authStore.authRole.name == 'Recruiter'">Create Vacancy
+                    <RouterLink to="vacancy/create" class="bg-blue-500 py-2 px-4 rounded-md text-white" v-if="authStore.authRole.name == 'Recruiter'">Create Vacancy
                     </RouterLink>
+                    <span class="text-base text-black font-semibold" v-if="authStore.authRole.name == 'Seeker'">{{ vacancies.length }} New Vacancies Posted.</span>
                 </div>
             </div>
             <main class="flex flex-wrap gap-2 w-full rounded-md" v-if="vacancies.length > 0">

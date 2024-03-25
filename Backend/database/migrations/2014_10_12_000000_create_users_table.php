@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('dob');
             $table->string('password')->unique();
             $table->foreignIdFor(Organisation::class)->nullable()->onDelete('cascade');
+            $table->text('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

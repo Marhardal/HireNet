@@ -5,6 +5,8 @@ import Header from '@/components/Sections/Header.vue';
 import Base from '../Base.vue';
 import Navigation from '@/components/Sections/Navigation.vue';
 import axios from 'axios';
+import one from '@/components/Templates/one.vue';
+import { AcademicCapIcon, Bars3BottomLeftIcon, Bars3Icon,  BriefcaseIcon, LightBulbIcon, UserGroupIcon,  } from "@heroicons/vue/24/solid";
 
 const authStore = useAuthStore();
 
@@ -18,7 +20,7 @@ onMounted(async () => {
     getResume(userId.value);
 });
 
-const resume = ref([]);
+const resume = ref({});
 
 const getResume = async (userId) => {
     // console.log(userId);
@@ -28,8 +30,8 @@ const getResume = async (userId) => {
             Authorization: `Bearer ${authToken}`
         }
     });
-    resume.data = response.data.resume;
-    console.log(resume.data);
+    resume.value = response.data.resume;
+    console.log(resume.value);
 }
 
 </script>
@@ -46,25 +48,48 @@ const getResume = async (userId) => {
     </template>
 
     <template v-slot:main>
-        <div class="max-w-4xl mx-auto text-black" v-if="resume.length">
-            <div class="w-full max-w-sm rounded bg-white h-96 m-auto shadow flex flex-col">
-                <div class="mx-8 shadow rounded border h-10 mt-4 flex p-1 relative items-center bg-gray-200">
-                    <div class="w-full flex justify-center">
-                        <button>Templates</button>
+        <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-4">
+                <div class="max-w-sm rounded bg-white h-96 mx-auto shadow flex flex-col p-2 my-3">
+                    <div class="w-full shadow rounded border h-10 flex relative bg-gray-200">
+                        <div class="w-full elSwitch bg-white shadow text-gray-800 items-center rounded transition-all py-2 flex justify-center">
+                            <button>Templates</button>
+                        </div>
+                        <div class="w-full flex justify-center">
+                            <button>Sections</button>
+                        </div>
+                        <!-- <span
+                            class="elSwitch bg-white shadow text-gray-800 flex items-center justify-center w-1/2 rounded h-8 transition-all top-[4px] absolute left-1 ">
+                            Templates
+                        </span> -->
                     </div>
-                    <div class="w-full flex justify-center">
-                        <button>Sections</button>
+                    <div class="w-full h-full grid grid-cols-2 gap-2 my-4">
+                        <div class="col-span-1">
+                            <Bars3BottomLeftIcon class="fill-black h-12 w-12 mx-auto text-center"/>
+                            <h3 class="mx-auto text-center">Professional Summary</h3>
+                        </div>
+                        <div class="col-span-1 mx-auto text-center">
+                            <AcademicCapIcon class="fill-black h-12 w-12 mx-auto text-center"/>
+                            <h3>Education</h3>
+                        </div>
+                        <div class="col-span-1 mx-auto text-center">
+                            <BriefcaseIcon class="fill-black h-12 w-12 mx-auto text-center"/>
+                            <h3>Work History</h3>
+                        </div>
+                        <div class="col-span-1 mx-auto text-center">
+                            <LightBulbIcon class="fill-black h-12 w-12"/>
+                            <h3>Skills</h3>
+                        </div>
+                        <div class="col-span-1 mx-auto text-center">
+                            <UserGroupIcon class="fill-black h-12 w-12"/>
+                            <h3>Referrals</h3>
+                        </div>
                     </div>
-                    <span
-                        class="elSwitch bg-white shadow text-gray-800 flex items-center justify-center w-1/2 rounded h-8 transition-all top-[4px] absolute left-1 ">
-                        Text
-                    </span>
                 </div>
             </div>
-            <p v-text="resume.summary"></p>
-        </div>
-        <div class="grid grid-cols-12 max-w-2xl mx-auto" v-else>
-            <RouterLink :to="{ path: 'resume/create' }">Create Resume</RouterLink>
+            <div class="col-span-8">
+                <one :resume="resume" />
+            </div>
         </div>
     </template>
     </Base>

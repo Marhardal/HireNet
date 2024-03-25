@@ -42,7 +42,7 @@ const getNotifications = async () => {
         <Navigation />
     </template>
     <template v-slot:main>
-        <div class="flex justify-center bg-gradient-to-t h-screen p-6 bg-no-repeat bg-center w-full">
+        <div class="flex justify-center bg-gradient-to-t h-full p-6 bg-no-repeat bg-center w-full">
             <div class="w-full md:w-1/2 lg:w-full" v-if="notifications">
                 <div class="flex flex-col space-y-4" v-for="(notification, index) in notifications">
                     <Notification v-for="notify in notification" :value="notify" :key="index" />

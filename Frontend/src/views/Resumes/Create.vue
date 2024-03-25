@@ -98,7 +98,7 @@ const createResume = async () => {
             <Header title="Create Job" />
         </template>
         <template v-slot:other>
-            <div class="max-w-2xl mx-auto">
+            <div class="w-full flex h-screen justify-center items-center">
                 <FormKit type="form" :actions="false">
                     <FormKit type="multi-step" tab-style="tab" v-if="authStore.authUser">
                         <FormKit type="step" name="resume">

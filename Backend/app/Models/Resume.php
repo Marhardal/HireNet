@@ -10,7 +10,7 @@ class Resume extends Model
 {
     use HasFactory;
 
-    protected $with = ['user', 'skills', 'duties', 'certificates', 'referrals', 'jobs',];
+    protected $with = ['user', 'skills', 'certificates', 'referrals', 'jobs',];
     /**
      * Get the user that owns the Resume
      *
@@ -38,17 +38,17 @@ class Resume extends Model
      */
     public function Certificates()
     {
-        return $this->belongsToMany(Certificate::class, 'qualifications');
+        return $this->belongsToMany(Certificate::class, 'qualifications')->withPivot(['school', 'started', 'finished']);
     }
 
     /**
-     * Get the Referals that owns the Resume
+     * Get all of the Referrals for the Resume
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function Referrals()
     {
-        return $this->belongsTo(Referrals::class);
+        return $this->hasMany(Referrals::class);
     }
 
     /**
@@ -58,7 +58,7 @@ class Resume extends Model
      */
     public function Duties()
     {
-        return $this->belongsToMany(Duty::class, 'experiences');
+        return $this->belongsToMany(Duty::class, 'experiences')->withPivot(['job_id']);;
     }
 
     /**
@@ -68,7 +68,7 @@ class Resume extends Model
      */
     public function Jobs()
     {
-        return $this->belongsToMany(Job::class, 'experiences');
+        return $this->belongsToMany(Job::class, 'experiences')->withPivot(['duty_id', 'organisation', 'start', 'end']);
     }
 
 }

@@ -15,7 +15,7 @@ class ResumeController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -49,12 +49,16 @@ class ResumeController extends Controller
         $resume = Resume::create($resumeValues);
         $school = [
             'certificate_id' => $request->certificate_id,
-            // 'school' => $request->school,
-            // 'started' => $request->started,
-            // 'finished' => $request->finished,
+            'school' => $request->school,
+            'started' => $request->started,
+            'finished' => $request->finished,
         ];
 
-        $resume->certificates()->attach($school);
+        $resume->certificates()->attach($request->certificate_id, [
+            'school' => $request->school,
+            'started' => $request->started,
+            'finished' => $request->finished,
+        ]);
 
         $resume->skills()->attach($request->skill_id);
 
@@ -88,7 +92,7 @@ class ResumeController extends Controller
     public function show($id)
     {
         $user = auth()->user();
-        $resume = Resume::where('user_id', $user->id)->get();
+        $resume = Resume::where('user_id', $user->id)->get()->first();
         return response()->json(['resume' => $resume], 200);
     }
 
