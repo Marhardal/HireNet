@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('applicants', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Post::class);
+            $table->foreignIdFor(User::class)->onDelete('cascade');
+            $table->foreignIdFor(Post::class)->onDelete('cascade');
             $table->text('document');
             $table->text('message');
-            $table->timestamps();
             $table->boolean('shortlisted')->default(false);
+            $table->timestamps();
         });
     }
 

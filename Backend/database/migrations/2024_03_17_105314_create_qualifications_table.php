@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('qualifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Resume::class);
-            $table->foreignIdFor(Certificate::class);
+            $table->foreignIdFor(Resume::class)->onDelete('cascade');
+            $table->foreignIdFor(Certificate::class)->onDelete('cascade');
             $table->string('school');
             $table->string('started');
             $table->string('finished')->nullable();

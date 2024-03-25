@@ -4,8 +4,11 @@ import Header from '@/components/Sections/Header.vue';
 import Base from '../Base.vue';
 import { onMounted, ref, reactive } from 'vue';
 import axios from "axios";
+import { useToast } from 'vue-toastification';
 
 const authStore = useAuthStore();
+
+const toast = useToast();
 
 const duties = ref([]);
 
@@ -69,6 +72,8 @@ const getSkills = async () => {
 
 const value = reactive({});
 
+const errors = reactive({});
+
 const createResume = async () => {
     // console.log(value);
     axios.post('http://127.0.0.1:8000/api/resume', value, {
@@ -77,6 +82,7 @@ const createResume = async () => {
             Authorization: `Bearer ${authToken}`
         }
     }).then((response) => {
+        // console.log(response.data);
         toast.success(response.data);
         router.push('/vacancies');
     }).catch((error) => {
@@ -92,7 +98,7 @@ const createResume = async () => {
             <Header title="Create Job" />
         </template>
         <template v-slot:other>
-            <div class="max-w-2xl mx-auto">
+            <div class="w-full flex h-screen justify-center items-center">
                 <FormKit type="form" :actions="false">
                     <FormKit type="multi-step" tab-style="tab" v-if="authStore.authUser">
                         <FormKit type="step" name="resume">

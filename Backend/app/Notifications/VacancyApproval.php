@@ -13,14 +13,16 @@ class VacancyApproval extends Notification
 
     protected $approved;
     protected $user;
+    protected $post;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($approved, $user)
+    public function __construct($approved, $user, $post)
     {
         $this->approved = $approved;
         $this->user = $user;
+        $this->post = $post;
     }
 
     /**
@@ -56,7 +58,9 @@ class VacancyApproval extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'data' => $this->user,
+            'post_id' => $this->post->id,
+            'title' => 'Vacancy Approved',
+            'message' => "Your requisition for the " . $this->post->job->name . " position has been approved!",
         ];
     }
 }

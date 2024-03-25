@@ -10,12 +10,12 @@ class Referrals extends Model
     use HasFactory;
 
     /**
-     * Get all of the Resume for the Referals
+     * Get the Resume that owns the Referrals
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function Resume()
     {
-        return $this->hasMany(Resume::class);
+        return $this->belongsTo(Resume::class);
     }
 }

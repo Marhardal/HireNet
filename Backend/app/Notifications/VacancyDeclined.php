@@ -12,13 +12,15 @@ class VacancyDeclined extends Notification
     use Queueable;
 
     protected $denied;
+    protected $post;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($denied)
+    public function __construct($denied, $post)
     {
         $this->denied = $denied;
+        $this->post = $post;
     }
 
     /**
@@ -53,7 +55,9 @@ class VacancyDeclined extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'data' => auth()->user()
+            'post_id' => $this->post->id,
+            'title' => 'Vacancy Declined',
+            'message' => "Your requisition for the " . $this->post->job->name . " position has been declined!",
         ];
     }
 }

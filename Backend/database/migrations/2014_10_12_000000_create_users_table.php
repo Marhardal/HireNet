@@ -20,10 +20,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('username')->unique();
-            $table->foreignIdFor(Role::class);
+            $table->foreignIdFor(Role::class)->onDelete('cascade');
             $table->date('dob');
             $table->string('password')->unique();
-            $table->foreignIdFor(Organisation::class)->nullable();
+            $table->foreignIdFor(Organisation::class)->nullable()->onDelete('cascade');
+            $table->text('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

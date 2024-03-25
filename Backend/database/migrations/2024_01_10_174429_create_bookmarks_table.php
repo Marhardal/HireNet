@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('bookmarks', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Post::class);
+            $table->foreignIdFor(User::class)->onDelete('cascade');
+            $table->foreignIdFor(Post::class)->onDelete('cascade');
             $table->timestamps();
         });
     }

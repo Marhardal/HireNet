@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('location');
             $table->text('about');
+            $table->text('logo')->nullable();
             $table->timestamps();
         });
     }

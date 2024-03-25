@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('post_skills', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Skill::class);
-            $table->foreignIdFor(Post::class);
+            $table->foreignIdFor(Skill::class)->onDelete('cascade');
+            $table->foreignIdFor(Post::class)->onDelete('cascade');
             $table->timestamps();
         });
     }
