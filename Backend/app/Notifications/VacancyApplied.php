@@ -62,8 +62,7 @@ class VacancyApplied extends Notification
         return [
             'title' => 'New Application Received.',
             'applicant_id' => $this->applicant->id,
-            'message' => auth()->user()->first_name. ' '. auth()->user()->surname .' has submitted their application for '. $this->post->name . ' role.',
-            // 'data' => auth()->user()
+            'message' => auth()->user()->first_name. ' '. auth()->user()->surname .' has submitted their application for '. $this->post->job->name . ' role.',
         ];
     }
 }

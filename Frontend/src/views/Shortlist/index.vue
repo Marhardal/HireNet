@@ -23,7 +23,7 @@ const getShortlists = async () => {
         }
     });
     shortlists.value = response.data.shortlisted;
-    // console.log(response.data.shortlisted);
+    console.log(response.data);
 }
 
 onMounted(async => {
@@ -40,7 +40,11 @@ onMounted(async => {
         <Navigation />
     </template>
     <template v-slot:main>
-        <Shortlist v-for="shortlist in shortlists" :shortlist="shortlist" />
+        <div class="flex justify-center bg-gradient-to-t h-full p-6 bg-no-repeat bg-center w-full">
+            <div class="w-full md:w-1/2 lg:w-full mx-auto">
+                <Shortlist v-for="shortlist in shortlists" :shortlist="shortlist" />
+            </div>
+        </div>
     </template>
     </Base>
 </template>

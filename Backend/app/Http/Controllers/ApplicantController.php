@@ -65,11 +65,11 @@ class ApplicantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($postId, $userId)
+    public function show($postId)
     {
-        $applicant = User::find($userId);
-        $post = $applicant->posts()->wherePivot('post_id', $postId)->first();
-        return response()->json(['post' => $post, 'applicant' => $applicant, 'attach' => $post->pivot], 200);
+        $post = Post::find($postId);
+        $applicants = $post->users()->get();
+        return response()->json(['post' => $post, 'applicants' => $applicants], 200);
     }
 
     /**

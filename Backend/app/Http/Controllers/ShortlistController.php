@@ -19,11 +19,11 @@ class ShortlistController extends Controller
             $posts = Post::where('organisation_id', $user->organisation_id)->get();
             $shortlist = [];
             foreach ($posts as $post => $value) {
-                $totalUsersCount = $value->users()->wherePivot('post_id', $value->id)->wherePivot('shortlisted', true);
+                $totalUsersCount = $value->users()->count();
                 $shortlist[] = [
                     'id' => $value->id,
                     'name' => $value->job->name,
-                    'count' => $totalUsersCount->count(),
+                    'count' => $totalUsersCount,
                 ];
             }
             return response()->json(["shortlisted" => $shortlist], 200);
@@ -55,9 +55,9 @@ class ShortlistController extends Controller
     public function show(string $id)
     {
         $user = auth()->user();
-        $post = Post::find($id)->where('organisation_id', $user->organisation_id)->first();
-        $applicants = $post->users()->wherePivot('shortlisted', true);
-        return response()->json(["applicants" => $applicants->get()], 200);
+        $post = Post::where(['organisation_id' => $user->organisation_id, 'id' => $id])->first();
+        $applicants = $post->users();
+        return response()->json(["applicants" => $applicants->get(), "count" => $applicants->count()], 200);
     }
 
     /**

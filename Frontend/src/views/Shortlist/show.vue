@@ -25,17 +25,22 @@ const getApplicants = async (id) => {
         }
     });
     Applicants.value = response.data.applicants;
+    console.log(Applicants.value);
 }
 
-
+174114
 </script>
 <template>
     <Base>
         <template v-slot:header>
             <Header title="Shortlisted Applicants"/>
         </template>
-        <template v-slot:main>
-            <Applicant v-for="Applicant in Applicants" :applicant="Applicant" :postId="Applicant.pivot.post_id"/>
+        <template v-slot:other>
+            <div class="flex justify-center bg-gradient-to-t h-full bg-no-repeat bg-center w-full mx-auto">
+                <div class="w-full md:w-1/2 lg:w-full">
+                    <Applicant v-for="Applicant in Applicants" :applicant="Applicant" :postId="Applicant.pivot.post_id"/>
+                </div>
+            </div>
         </template>
     </Base>
 </template>

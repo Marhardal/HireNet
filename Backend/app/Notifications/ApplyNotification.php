@@ -31,7 +31,8 @@ class ApplyNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        // return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -55,9 +56,9 @@ class ApplyNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'title' => $this->post->job->name,
+            'title' => "Application sent for " . $this->post->job->name . " position!",
             'post_id' => $this->post->id,
-            'title' => $this->post,
+            'message' => "Your application for " . $this->post->job->name . " at " . $this->post->organisation->name . " is submitted!",
         ];
     }
 }
