@@ -56,7 +56,7 @@ class ShortlistController extends Controller
     {
         $user = auth()->user();
         $post = Post::find($id);
-        $applicants = $post->users();
+        $applicants = $post->users()->wherePivot('shortlisted', 'LIKE', '%' . request()->search . '%');
         return response()->json(["applicants" => $applicants->get(), "count" => $applicants->count()], 200);
     }
 

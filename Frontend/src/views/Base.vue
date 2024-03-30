@@ -9,7 +9,7 @@
         <div class="col-span-11 bg-blue-200 rounded-md my-4 mx-4">
             <slot name="main"></slot>
         </div>
-        <div class="col-span-12 rounded-md my-2 mx-4">
+        <div class="col-span-12 rounded-md my-4 mx-4 mt-0 bg-blue-200">
             <slot name="other"></slot>
         </div>
     </div>

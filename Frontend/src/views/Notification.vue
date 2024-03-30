@@ -7,7 +7,11 @@ import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 import Notification from "@/components/Cards/Notification.vue";
 import { BuildingOfficeIcon } from "@heroicons/vue/24/solid";
+import { shallowRef } from "vue";
 
+const Tabs = shallowRef([
+    {label: 'All', component: All}
+]) 
 
 const authStore = useAuthStore();
 

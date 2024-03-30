@@ -16,13 +16,13 @@ class Post extends Model
         // $query->when($filters['search'] ?? false, function ($query, $search) {
         //     $query->where('id', 'LIKE', '%' . $search . '%');
         // });
-        // $query->when($filters['search'] ?? false, function ($query, $search) {
-        //     $query->whereHas(
-        //         'job',
-        //         fn ($query) =>
-        //         $query->where('name', 'LIKE', '%' . $search . '%')
-        //     );
-        // });
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->whereHas(
+                'job',
+                fn ($query) =>
+                $query->where('name', 'LIKE', '%' . $search . '%')
+            );
+        });
 
         // $query->when($filters['search'] ?? false, function ($query, $search) {
         //     $query->whereHas(
@@ -32,13 +32,13 @@ class Post extends Model
         //     );
         // });
 
-        $query->when($filters['search'] ?? false, function ($query, $search) {
-            $query->whereHas(
-                'arrangement',
-                fn ($query) =>
-                $query->where('name', 'LIKE', '%' . $search . '%')
-            );
-        });
+        // $query->when($filters['search'] ?? false, function ($query, $search) {
+        //     $query->whereHas(
+        //         'arrangement',
+        //         fn ($query) =>
+        //         $query->where('name', 'LIKE', '%' . $search . '%')
+        //     );
+        // });
     }
 
     /**

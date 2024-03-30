@@ -1,21 +1,29 @@
 <template>
     <div class="" v-if="applicant">
-        <router-link :to="{ path: 'shortlist/applicant/' + applicant.id }">
-            <div class="bg-blue-200 rounded-md w-full">
-                <div class="grid grid-cols-3 my-4 text-base text-black py-2">
-                    <div class="col-span-1 mx-auto">
-                        <UserCircleIcon class="w-12 h-12 fill-black my-2" />
-                    </div>
-                    <div class="col-span-1 mx-auto my-auto text-center">
-                        <p>{{ applicant.first_name + ' ' + applicant.surname }}</p>
-                        <p v-if="applicant.pivot">Application received {{ moment(applicant.pivot.created_at).fromNow() }}.</p>
-                    </div>
-                    <div class="col-span-1 mx-auto my-auto text-center">
+        <div class="" v-if="applicant.pivot">
+            <router-link :to="{ path: '/shortlist/' + applicant.pivot.post_id + '/applicant/' + applicant.id }">
+                <div class="bg-blue-200 rounded-md w-full">
+                    <div class="grid grid-cols-3 my-4 text-base text-black py-2">
+                        <div class="col-span-1 mx-auto">
+                            <UserCircleIcon class="w-12 h-12 fill-black my-2" />
+                        </div>
+                        <div class="col-span-1 mx-auto my-auto text-center">
+                            <p>{{ applicant.first_name + ' ' + applicant.surname }}</p>
+                            <p v-if="applicant.pivot">Application received {{
+        moment(applicant.pivot.created_at).fromNow() }}.</p>
+                        </div>
+                        <div class="col-span-1 mx-auto" v-if="applicant.pivot">
+                            <p class="mx-auto" v-if="applicant.pivot.shortlisted == true">Applicant Shortlisted</p>
+                            <p class="mx-auto" v-else>Applicant Not Shortlisted</p>
+                            <!-- <p>{{ applicant.pivot.shortlisted  }}</p> -->
+                        </div>
+                        <!-- <div class="col-span-1 mx-auto my-auto text-center">
                         <ResumeIcon class="fill-black"/>
+                    </div> -->
                     </div>
                 </div>
-            </div>
-        </router-link>
+            </router-link>
+        </div>
     </div>
 </template>
 

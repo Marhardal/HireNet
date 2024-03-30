@@ -66,6 +66,7 @@ const showVacancy = async (id) => {
         }
     });
     show.value = response.data.post;
+    console.log(show.value);
 }
 
 const nextPage = () => {
