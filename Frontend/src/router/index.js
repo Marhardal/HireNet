@@ -10,7 +10,6 @@ import ThirdVue from '@/views/Vacancies/Create/Third.vue';
 import HomeViewVue from '@/views/HomeView.vue';
 import ApplyVue from '@/views/Apply.vue';
 import { useAuthStore } from '../Stores/Auth';
-import ApplicantVue from '@/components/Multi-Step/Vacancy/Show/Applicant.vue';
 import indexVue from '@/views/Shortlist/index.vue';
 import showVue from '@/views/Shortlist/show.vue';
 import CreateVue from '@/views/Vacancies/Create.vue';
@@ -18,6 +17,7 @@ import Show from '@/views/Resumes/Show.vue';
 import ResumeCreate from '@/views/Resumes/Create.vue';
 import Notification from '@/views/Notification.vue';
 import Organisation from '@/views/Users/Organisation.vue';
+import applicant from '@/views/Shortlist/applicant.vue';
 
 function auth(to, from) {
     const auth = useAuthStore();
@@ -131,7 +131,12 @@ const router = createRouter({
       beforeEnter: auth,
       component: Notification,
     },
-    
+    {
+      path: '/shortlist/:postId/applicant/:userId',
+      name: 'Shortlist Candidate',
+      beforeEnter: auth,
+      component: applicant,
+    },
   ]
 })
 

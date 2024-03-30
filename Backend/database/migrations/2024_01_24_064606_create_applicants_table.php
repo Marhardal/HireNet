@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Post::class)->onDelete('cascade');
             $table->text('document');
             $table->text('message');
-            $table->boolean('shortlisted')->default(false);
+            $table->boolean('shortlisted')->nullable();
             $table->timestamps();
         });
     }

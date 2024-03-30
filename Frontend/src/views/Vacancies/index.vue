@@ -48,19 +48,19 @@ const getVacancies = async () => {
 <template>
     <Base>
     <template v-slot:header>
-        <Header title="Jobs" />
+        <Header title="Vacancies" />
     </template>
     <template v-slot:navigation>
         <Nav />
     </template>
     <template v-slot:main>
         <div class="">
-            <div class="flex mx-8 py-4 max-h-3/4">
-                <div class="flex justify-start">
-                    <div class='flex items-center justify-center'>
-                        <div class="flex rounded bg-white">
+            <div class="grid grid-cols-2 mx-8 py-4 max-h-3/4">
+                <div class="cols-span-1">
+                    <div class='flex'>
+                        <div class="flex max-w-sm rounded bg-white">
                             <input
-                                class="max-w-full border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
+                                class="border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
                                 type="search" name="search" placeholder="Search..." v-model="searchtxt"
                                 @keyup="getSearch()" />
                             <button type="submit" class="rounded bg-blue-600 py-2 px-4 text-white">
@@ -75,7 +75,7 @@ const getVacancies = async () => {
                         </div>
                     </div>
                 </div>
-                <div class="flex w-full justify-end" v-if="authStore.authRole">
+                <div class="cols-span-1 w-full justify-end text-end" v-if="authStore.authRole">
                     <RouterLink to="vacancy/create" class="bg-blue-500 py-2 px-4 rounded-md text-white" v-if="authStore.authRole.name == 'Recruiter'">Create Vacancy
                     </RouterLink>
                     <span class="text-base text-black font-semibold" v-if="authStore.authRole.name == 'Seeker'">{{ vacancies.length }} New Vacancies Posted.</span>
