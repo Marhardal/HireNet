@@ -8,8 +8,10 @@ use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApplyRequest;
 use App\Notifications\VacancyApplied;
+use App\Notifications\ShortlistDenied;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\ApplyNotification;
+use App\Notifications\ShortlistAccepted;
 use Illuminate\Support\Facades\Notification;
 
 class ApplicantController extends Controller
@@ -20,6 +22,7 @@ class ApplicantController extends Controller
     public function index()
     {
         $posts = Applicant::where('post_id', 2)->get();
+
         return response()->json(['posts' => $posts], 200);
     }
 
@@ -65,11 +68,13 @@ class ApplicantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($postId)
+    public function show($postId, $userId)
     {
         $post = Post::find($postId);
-        $applicants = $post->users()->get();
-        return response()->json(['post' => $post, 'applicants' => $applicants], 200);
+        $applicant = $post->users()->wherePivot('user_id', $userId)->get();
+        $path = storage_path($applicant->first()->pivot->document);
+        $url = route('applicant.resume', ['userId' => $userId, 'postId' => $postId]);
+        return response()->json(['applicant' => $applicant->first(), 'post' => $post, 'url' => $url], 200);
     }
 
     /**
@@ -84,9 +89,17 @@ class ApplicantController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Applicant $apply)
+    public function update(Request $request, $postId,  $userId)
     {
-        //
+        $post = Post::find($postId);
+        $applicant = $post->users()->wherePivot('user_id', $userId)->get()->first();
+        $applicant->pivot->update(['shortlisted' => $request->shortlisted]);
+        if ($applicant->pivot->shortlisted == true) {
+            $this->ShortlistedNotification($post, $applicant);
+        }else if ($applicant->pivot->shortlisted == false) {
+            $this->notShortlistedNotification($post, $applicant);
+        }
+        return response()->json($applicant, 200);
     }
 
     /**
@@ -132,5 +145,35 @@ class ApplicantController extends Controller
         Notification::send($user, new ApplyNotification($apply, $post));
 
         return response()->json("Apply Notification sent.", 200);
+    }
+
+    public function ShortlistedNotification($post, $user)
+    {
+        $shortlisted = [
+            'subject' => "Congratulations! You've Been Shortlisted for " . $post->job->name . " Position",
+            'salutation' => 'Dear ' . $user->first_name . ',',
+            'body' => 'We are pleased to inform you that you have been shortlisted for the ' . $post->job->name . ' position at ' . $post->organisation->name . '. Your exceptional qualifications have impressed us, and we believe your skills align perfectly with our requirements. Please wait while our HR department is setting for a date where we can conduct the interview.',
+            'closing' => 'Best Regards',
+            'recruiter' => $post->organisation->name
+        ];
+
+        Notification::send($user, new ShortlistAccepted($shortlisted, $post));
+
+        return response()->json($post, 200);
+    }
+
+    public function notShortlistedNotification($post, $user)
+    {
+        $denied = [
+            'subject' => 'Application Update for ' . $post->job->name . ' Position',
+            'salutation' => 'Dear ' . $user->first_name . ',',
+            'body' => 'Thank you for your application for the ' . $post->job->name . ' position at ' . $post->organisation->name . '. After careful review, we regret to inform you that you have not been shortlisted for the next stage. We appreciate your interest and effort, and we encourage you to explore other opportunities. Wishing you success in your job search.',
+            'closing' => 'Thank you',
+            'recruiter' => $post->organisation->name
+        ];
+
+        Notification::send($user, new ShortlistDenied($denied, $post));
+
+        return response()->json("Shortlist Notification sent.", 200);
     }
 }

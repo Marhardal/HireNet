@@ -12,12 +12,14 @@ class ShortlistAccepted extends Notification
     use Queueable;
 
     protected $shortlist;
+    protected $post;
     /**
      * Create a new notification instance.
      */
-    public function __construct($shortlist)
+    public function __construct($shortlist, $post)
     {
         $this->shortlist = $shortlist;
+        $this->post = $post;
     }
 
     /**
@@ -27,7 +29,7 @@ class ShortlistAccepted extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -52,7 +54,9 @@ class ShortlistAccepted extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'title' => "Congratulations! You've Been Shortlisted for " . $this->post->job->name . " Position",
+            'applicant_id' => $this->post->id,
+            'message' => 'We are pleased to inform you that you have been shortlisted for the ' . $this->post->job->name . ' position at ' . $this->post->organisation->name . '.',
         ];
     }
 }

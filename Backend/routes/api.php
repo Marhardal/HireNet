@@ -20,6 +20,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\RequirementController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\ShortlistController;
@@ -64,25 +65,27 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::resource('vacancy/requirements', RequirementController::class)->except(['create', 'edit']);
 
-    Route::get('vacancy/{postId}/applicant/{userId}', [ApplicantController::class, 'show']);
+    Route::get('/vacancy/{postId}/applicant/{userId}', [ApplicantController::class, 'show']);
 
     Route::post('sign-out', [LoginController::class, 'Logout']);
 
-    Route::resource('skills', SkillController::class)->only('store', 'update', 'destroy', 'index');
+    Route::resource('skills', SkillController::class)->except(['create', 'edit', 'destroy']);
 
-    Route::resource('duties', DutyController::class)->only('store', 'update', 'destroy', 'index');
+    Route::resource('duties', DutyController::class)->except(['create', 'edit', 'destroy']);
 
-    Route::resource('certificates', CertificateController::class)->only('store', 'update', 'destroy', 'index');
+    Route::resource('certificates', CertificateController::class)->except(['create', 'edit', 'destroy']);
 
     Route::resource('arrangements/', ArrangementController::class)->only(['index']);
 
-    Route::resource('organisation/', OrganisationController::class)->except('create', 'edit');
+    Route::resource('organisation/', OrganisationController::class)->except(['create', 'edit']);
 
     Route::resource('jobs/', JobController::class)->only(['index']);
 
     Route::resource('bookmark', BookmarkController::class)->only(['index', 'store', 'destroy', 'show']);
 
     Route::resource('applicants', ApplicantController::class)->except('create', 'edit', 'destroy');
+
+    Route::put('/vacancy/{postId}/applicant/{userId}', [ApplicantController::class, 'update']);
 
     Route::resource('shortlist', ShortlistController::class)->except(['create', 'edit']);
 
@@ -91,7 +94,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('applied/{id}', [ApplicantController::class, 'applied']);
 
     Route::get('/view/applicant/{id}', [ApplicantController::class, 'viewPdf']);
-
 
     Route::get('/apply/notification', [NotificationController::class, 'applyNotification']);
 
@@ -112,7 +114,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('new/vacancy/alert', [NotificationController::class, 'sendVacancy']);
 
     Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
+
+    Route::get('download/resume', [PDFController::class, 'resume']);
+
+    Route::get('/vacancy/{postId}/applicant/{userId}/resume', [PDFController::class, 'showResume'])->name('applicant.resume');
 });
+
 
 Route::resource('organisation/', OrganisationController::class)->only(['store']);
 

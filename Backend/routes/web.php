@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\NotificationController;
 
 /*
@@ -18,20 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/apply/notification', [NotificationController::class, 'applyNotification']);
-
-Route::get('/shortlist/accepted/notification', [NotificationController::class, 'shortlisted']);
-
-Route::get('/shortlist/denied/notification', [NotificationController::class, 'notShortlisted']);
-
-Route::get('vacancy/status/notification', [NotificationController::class, 'vacancyStatus']);
-
-Route::get('vacancy/approved/notification', [NotificationController::class, 'vacancyApproved']);
-
-Route::get('vacancy/denied/notification', [NotificationController::class, 'vacancyDenied']);
-
-Route::get('vacancy/created/notification', [NotificationController::class, 'vacancyCreated']);
-
-Route::get('vacancy/applied/notification', [NotificationController::class, 'Applied']);
-
-Route::get('/send', [NotificationController::class, 'sendVacancy']);
+Route::get('download/resume', [PDFController::class, 'loadResume']);

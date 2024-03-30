@@ -12,13 +12,15 @@ class ShortlistDenied extends Notification
     use Queueable;
 
     protected $denied;
+    protected $post;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($denied)
+    public function __construct($denied, $post)
     {
         $this->denied = $denied;
+        $this->post = $post;
     }
 
     /**
@@ -28,7 +30,7 @@ class ShortlistDenied extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -53,7 +55,9 @@ class ShortlistDenied extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'title' => 'Application Update for ' . $this->post->job->name . ' Position at ' . $this->post->organisation->name . '.',
+            'applicant_id' => $this->post->id,
+            'message' => ' After careful review, we regret to inform you that you have not been shortlisted for the next stage.',
         ];
     }
 }

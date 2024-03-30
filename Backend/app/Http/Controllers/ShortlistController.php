@@ -52,10 +52,10 @@ class ShortlistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         $user = auth()->user();
-        $post = Post::where(['organisation_id' => $user->organisation_id, 'id' => $id])->first();
+        $post = Post::find($id);
         $applicants = $post->users();
         return response()->json(["applicants" => $applicants->get(), "count" => $applicants->count()], 200);
     }
@@ -71,9 +71,11 @@ class ShortlistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $postId,  $userId)
     {
-        //
+        $post = Post::find($postId);
+        $applicant = $post->users()->wherePivot('user_id', $userId)->first()->updatePivot('shortlisted', $request->shortlisted);
+        return response()->json('Updated', 200);
     }
 
     /**
