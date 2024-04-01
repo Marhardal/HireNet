@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Resume;
 use App\Http\Requests\StoreResumeRequest;
 use App\Http\Requests\UpdateResumeRequest;
+use App\Models\Certificate;
 use App\Models\Experience;
+use App\Models\Field;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ResumeController extends Controller
@@ -93,7 +96,12 @@ class ResumeController extends Controller
     {
         $user = auth()->user();
         $resume = Resume::where('user_id', $user->id)->get()->first();
-        return response()->json(['resume' => $resume], 200);
+        $fieldId = Field::find($resume->certificates->first()->field_id);
+        $certificate = Certificate::where('field_id', $resume->certificates->first()->field_id)->get();
+        $qualified = User::whereHas('resumes.certificates.fields', function($query) use($fieldId){
+            $query->where('id', $fieldId);
+        })->get();
+        return response()->json(['resume' => $qualified], 200);
     }
 
     /**

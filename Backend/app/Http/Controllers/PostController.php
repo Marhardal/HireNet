@@ -78,7 +78,7 @@ class PostController extends Controller
 
         $job = Job::find($request->job_id);
 
-        session()->put(['post' => $job->name, 'user' => auth()->user]);
+        // session()->put(['post' => $job->name, 'user' => auth()->user]);
 
         return response()->json('Vacancy Created Successfully', 200);
     }
@@ -136,11 +136,11 @@ class PostController extends Controller
         $created = [
             'subject' => 'New Vacancy Created: ' . $vacancy->job->name,
             'salutation' => 'Dear Admin,',
-            'body' => 'A new vacancy for the ' . $vacancy->job->name . ' position has been created by the ' . $user->organisation->name . ' team.  Your review and any necessary next steps, such as budget approval, may be required.',
+            'body' => 'A new vacancy for the ' . $vacancy->job->name . ' position has been created by the ' . $vacancy->organisation->name . ' team.  Your review and any necessary next steps, such as budget approval, may be required.',
             'closing' => 'Thank you'
         ];
 
-        Notification::send($user, new VacancyCreated($created));
+        Notification::send($user, new VacancyCreated($created, $vacancy));
 
         return response()->json("Vacancy Created Notification sent.", 200);
     }
