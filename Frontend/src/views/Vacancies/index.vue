@@ -20,13 +20,19 @@ onMounted(async () => (
 ));
 
 const getSearch = async () => {
-    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/?search=${searchtxt.value}`);
+    let response = await axios.get(`http://127.0.0.1:8000/api/vacancies/?search=${searchtxt.value}`, { 
+        headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${authToken}`
+            }
+        });
     vacancies.value = response.data;
 }
 
+const authToken = localStorage.getItem('authToken');
+
 const getVacancies = async () => {
     authStore.getToken()
-    const authToken = localStorage.getItem('authToken');
     if (authToken === "") {
         const response = await axios.get("http://127.0.0.1:8000/api/vacancies");
         vacancies.value = response.data;

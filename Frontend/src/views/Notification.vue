@@ -8,10 +8,23 @@ import axios from "axios";
 import Notification from "@/components/Cards/Notification.vue";
 import { BuildingOfficeIcon } from "@heroicons/vue/24/solid";
 import { shallowRef } from "vue";
+import All from "@/components/Notifications/All.vue";
+import Unread from "@/components/Notifications/Unread.vue";
+import Archived from "@/components/Notifications/Archived.vue";
+import TabButton from '@/components/Sections/TabButton.vue';
+
 
 const Tabs = shallowRef([
-    {label: 'All', component: All}
-]) 
+    {label: 'All', component: All},
+    {label: 'Unread', component: Unread},
+    {label: 'Archive', component: Archived},
+]);
+
+const currentTab = shallowRef(0);
+
+const TabChange = (index)=>{
+    currentTab.value = index;
+}
 
 const authStore = useAuthStore();
 
@@ -46,8 +59,22 @@ const getNotifications = async () => {
         <Navigation />
     </template>
     <template v-slot:main>
-        <div class="flex justify-center bg-gradient-to-t h-full p-6 bg-no-repeat bg-center w-full">
-            <div class="w-full md:w-1/2 lg:w-full" v-if="notifications">
+        <div class="flex justify-center bg-gradient-to-t h-full p-6 bg-no-repeat w-full">
+            <div class="">
+                <div class="border-b border-white dark:border-gray-700 mx-4">
+                    <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
+                        <!-- <TabButton -->
+                        <TabButton v-for="(tab, index) in Tabs" :name="tab.label" @click="TabChange(index)" />
+                    </nav>
+                </div>
+
+                <div class="mt-3 mx-4">
+                    <div id="tabs-with-underline-1" role="tabpanel" aria-labelledby="tabs-with-underline-item-1">
+                        <component :is="Tabs[currentTab].component"></component>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="w-full md:w-1/2 lg:w-full" v-if="notifications">
                 <div class="flex flex-col space-y-4" v-for="(notification, index) in notifications">
                     <Notification v-for="notify in notification" :value="notify" :key="index" />
                 </div>
@@ -56,7 +83,7 @@ const getNotifications = async () => {
                 <div class="flex flex-col space-y-4">
                     You don't have any notifications at the moment.
                 </div>
-            </div>
+            </div> -->
         </div>
     </template>
     </Base>
