@@ -96,12 +96,7 @@ class ResumeController extends Controller
     {
         $user = auth()->user();
         $resume = Resume::where('user_id', $user->id)->get()->first();
-        $fieldId = Field::find($resume->certificates->first()->field_id);
-        $certificate = Certificate::where('field_id', $resume->certificates->first()->field_id)->get();
-        $qualified = User::whereHas('resumes.certificates.fields', function($query) use($fieldId){
-            $query->where('id', $fieldId);
-        })->get();
-        return response()->json(['resume' => $qualified], 200);
+        return response()->json(['resume' => $resume], 200);
     }
 
     /**

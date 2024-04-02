@@ -6,7 +6,7 @@ import Base from '../Base.vue';
 import Navigation from '@/components/Sections/Navigation.vue';
 import axios from 'axios';
 import one from '@/components/Templates/one.vue';
-import { AcademicCapIcon, Bars3BottomLeftIcon, Bars3Icon,  BriefcaseIcon, LightBulbIcon, UserGroupIcon,  } from "@heroicons/vue/24/solid";
+import { AcademicCapIcon, Bars3BottomLeftIcon, Bars3Icon, BriefcaseIcon, LightBulbIcon, UserGroupIcon, ArrowDownIcon, EnvelopeIcon, PrinterIcon, TrashIcon } from "@heroicons/vue/24/solid";
 
 const authStore = useAuthStore();
 
@@ -48,11 +48,36 @@ const getResume = async (userId) => {
     </template>
 
     <template v-slot:main>
-        <div class="grid grid-cols-12 gap-2">
+        <div class="grid grid-cols-12 gap-2 max-h-fit">
             <div class="col-span-4">
+                <div class="max-w-sm rounded bg-white mx-auto shadow flex flex-col p-2 my-3">
+                    <div class="w-full rounded flex relative">
+                        <h3 class="text-base font-semibold text-black text-center mx-auto">My Curriculum Vitae</h3>
+                    </div>
+                    <div class="w-full h-full grid grid-cols-2 gap-2 my-4">
+                        <div class="col-span-1">
+
+                        </div>
+                        <div class="col-span-1">
+                            <div class="grid grid-cols-3 space-y-4 px-4 mx-auto w-full">
+                                <div class="col-span-3">
+                                    <h5 class="text-base text-center">Wanna Pocket your CV?</h5>
+                                </div>
+                                <div class="col-span-1 mx-auto"><ArrowDownIcon class="w-5 h-5 fill-black "/></div>
+                                <div class="col-span-1 mx-auto"><EnvelopeIcon  class="w-5 h-5 fill-black "/></div>
+                                <div class="col-span-1 mx-auto"><PrinterIcon class="w-5 h-5 fill-black "/></div>
+                                <div class="col-span-3">
+                                    <h5 class="text-base text-center">Wanna Delete your CV?</h5>
+                                </div>
+                                <div class="col-span-3 mx-auto"><TrashIcon class="w-5 h-5 fill-black"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="max-w-sm rounded bg-white h-96 mx-auto shadow flex flex-col p-2 my-3">
                     <div class="w-full shadow rounded border h-10 flex relative bg-gray-200">
-                        <div class="w-full elSwitch bg-white shadow text-gray-800 items-center rounded transition-all py-2 flex justify-center">
+                        <div
+                            class="w-full elSwitch bg-white shadow text-gray-800 items-center rounded transition-all py-2 flex justify-center">
                             <button>Templates</button>
                         </div>
                         <div class="w-full flex justify-center">
@@ -65,30 +90,32 @@ const getResume = async (userId) => {
                     </div>
                     <div class="w-full h-full grid grid-cols-2 gap-2 my-4">
                         <div class="col-span-1">
-                            <Bars3BottomLeftIcon class="fill-black h-12 w-12 mx-auto text-center"/>
+                            <Bars3BottomLeftIcon class="fill-black h-12 w-12 mx-auto text-center" />
                             <h3 class="mx-auto text-center">Professional Summary</h3>
                         </div>
                         <div class="col-span-1 mx-auto text-center">
-                            <AcademicCapIcon class="fill-black h-12 w-12 mx-auto text-center"/>
+                            <AcademicCapIcon class="fill-black h-12 w-12 mx-auto text-center" />
                             <h3>Education</h3>
                         </div>
                         <div class="col-span-1 mx-auto text-center">
-                            <BriefcaseIcon class="fill-black h-12 w-12 mx-auto text-center"/>
+                            <BriefcaseIcon class="fill-black h-12 w-12 mx-auto text-center" />
                             <h3>Work History</h3>
                         </div>
                         <div class="col-span-1 mx-auto text-center">
-                            <LightBulbIcon class="fill-black h-12 w-12"/>
+                            <LightBulbIcon class="fill-black h-12 w-12" />
                             <h3>Skills</h3>
                         </div>
                         <div class="col-span-1 mx-auto text-center">
-                            <UserGroupIcon class="fill-black h-12 w-12"/>
+                            <UserGroupIcon class="fill-black h-12 w-12" />
                             <h3>Referrals</h3>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-span-8">
-                <one :resume="resume" />
+                <iframe src="http://127.0.0.1:8000/download/resume" frameborder="0"
+                    class="w-full h-full bg-white my-2 mx-2 py-2"></iframe>
+                <!-- <one :resume="resume" /> -->
             </div>
         </div>
     </template>

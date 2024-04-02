@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Resume;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -31,7 +30,6 @@ class LoginController extends Controller
 
     public function User(){
         $user = request()->user();
-        // $resume = Resume::where('user_id', $user->id)->certificates;
         return response()->json(['user' => $user, 'role' => $user->role], 200);
     }
 }

@@ -38,7 +38,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected $with = ['role', 'organisation', 'resume'];
+    protected $with = ['role', 'organisation',];
 
 
     /**
