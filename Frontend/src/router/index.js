@@ -19,19 +19,19 @@ import Notification from '@/views/Notification.vue';
 import Organisation from '@/views/Users/Organisation.vue';
 import applicant from '@/views/Shortlist/applicant.vue';
 
-function auth(to, from) {
-    const auth = useAuthStore();
-    if (!localStorage.getItem('authToken')) {
-        return "/sign-in";
-    }
-}
+// function auth(to, from) {
+//     const auth = useAuthStore();
+//     if (!localStorage.getItem('authToken')) {
+//         return "/sign-in";
+//     }
+// }
 
-function guest(to, from) {
-    const auth = useAuthStore();
-    if (localStorage.getItem('authToken')) {
-        return "/";
-    }
-}
+// function guest(to, from) {
+//     const auth = useAuthStore();
+//     if (localStorage.getItem('authToken')) {
+//         return "/";
+//     }
+// }
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +39,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'Home',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: HomeViewVue
     },
     {
@@ -50,91 +50,91 @@ const router = createRouter({
     {
       path: '/vacancies/:id',
       name: 'Vacancy Show',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: Vacancy
     },
     {
       path: '/vacancy/create',
       name: 'Vacancy Create',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: CreateVue
     },
     {
       path: '/vacancy/skills/create',
       name: 'Vacancy Skills Create',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: SecondVue
     },
     {
       path: '/vacancy/duties/create',
       name: 'Vacancy duties Create',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: ThirdVue
     },
     {
       path: '/settings',
       name: 'Seeker Settings',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: settings,
     },
     {
       path: '/sign-up',
       name: 'User Register',
-      beforeEnter: guest,
+      // beforeEnter: guest,
       component: registerVue
     },
     {
       path: '/sign-in',
       name: 'User Login',
-      beforeEnter: guest,
+      // beforeEnter: guest,
       component: LoginVue,
     },
     {
       path: '/create/organisation',
       name: 'User Login',
-      beforeEnter: guest,
+      // beforeEnter: guest,
       component: Organisation,
     },
     {
       path: '/apply/:id',
       name: 'Vacancy Apply',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: ApplyVue,
     },
     {
       path: '/shortlist',
       name: 'Vacancy Shortlist',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: indexVue,
     },
     {
       path: '/shortlist/:id',
       name: 'Vacancy Shortlist Applicants',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: showVue,
     },
     {
       path: '/resume',
       name: 'Seeker Resume',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: Show,
     },
     {
       path: '/resume/create',
       name: 'Seeker Resume Create',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: ResumeCreate,
     },
     {
       path: '/notification',
       name: 'Notification',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: Notification,
     },
     {
       path: '/shortlist/:postId/applicant/:userId',
       name: 'Shortlist Candidate',
-      beforeEnter: auth,
+      // beforeEnter: auth,
       component: applicant,
     },
   ]

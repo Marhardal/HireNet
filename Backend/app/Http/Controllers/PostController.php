@@ -63,10 +63,11 @@ class PostController extends Controller
             'arrangement_id' => $request->arrangement_id,
             'num' => $request->num,
             'about' => $request->about,
-            'due_date' => $request->due_date
+            'due_date' => $request->due_date,
+            'duties' => $request->duties
         ]);
 
-        $post->duty()->attach($request->duty_id);
+        // $post->duty()->attach($request->duties);
 
         $post->skills()->attach($request->skill_id);
 
@@ -89,7 +90,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return response()->json(['post' => $post, 'applicants' => $post->users]);
+        return response()->json(['post' => $post->duties, 'applicants' => $post->users]);
     }
 
     /**

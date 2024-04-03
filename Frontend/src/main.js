@@ -14,11 +14,17 @@ import "vue-toastification/dist/index.css";
 
 import { createPinia } from 'pinia';
 
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
 const pro = createProPlugin('fk-6335b120ad1', inputs)
 
 const pinia = createPinia();
 
 const app = createApp(App);
+
+app.component('QuillEditor', QuillEditor)
+
 
 pinia.use(({store}) => {
     store.router = markRaw(router);

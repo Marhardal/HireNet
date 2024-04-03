@@ -1,30 +1,27 @@
 <template>
-    <Base>
-    <template v-slot:other>
-        <div class="max-w-md  max-h-52 mx-auto justify-center align-middle ">
-            <div class="text-2xl font-bold py-2">
-                <h1>Welcome Back</h1>
-            </div>
-            <div class="text-xl font-semibold py-2">
-                <h2>Please fill in all fields.</h2>
-            </div>
-            <FormKit type="form" submit-label="Create" @submit="createOrganisation">
-                <FormKit type="text" placeholder="Enter Organisation Name." v-model="values.name" label="Organisation Name"
-                    validation="required" />
-                <FormKit type="text" label="Organisation Location" placeholder="Enter Organisation Location."
-                    v-model="values.location" validation="required" />
-                <FormKit type="textarea" label="Organisation About" placeholder="Enter Organisation About."
-                    v-model="values.about" validation="required" />
-            </FormKit>
-            <div class="text-base py-2">
-                <h3>Don't have an account.<RouterLink :to="{ path : 'sign-up'}">Create Account.</RouterLink></h3>
-            </div>
-            <div class="text-base py-2">
-                <RouterLink to="">Reset Password.</RouterLink>
-            </div>
+    <div class="max-w-md max-h-52 mx-auto mt-20">
+        <div class="text-2xl font-bold">
+            <h1>Create an organisation.</h1>
         </div>
-    </template>
-    </Base>
+        <div class="text-xl font-semibold py-2">
+            <h2>Please fill in all fields.</h2>
+        </div>
+        <FormKit type="form" submit-label="Create" @submit="createOrganisation">
+            <FormKit type="text" placeholder="Enter Organisation Name." v-model="values.name" label="Organisation Name"
+                validation="required" />
+            <FormKit type="text" label="Organisation Location" placeholder="Enter Organisation Location."
+                v-model="values.location" validation="required" />
+            <FormKit type="textarea" label="Organisation About" placeholder="Enter Organisation About."
+                v-model="values.about" validation="required" />
+        </FormKit>
+        <div class="text-base py-2">
+            <h3>Don't have an account.<RouterLink :to="{ path: 'sign-up' }">Create Account.</RouterLink>
+            </h3>
+        </div>
+        <div class="text-base py-2">
+            <RouterLink to="">Reset Password.</RouterLink>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -61,7 +58,7 @@ const createOrganisation = async () => {
         errors.value = error?.response?.data?.errors;
         toast.error('Please make sure you have filled in all fields.')
     });
-} 
+}
 
 </script>
 

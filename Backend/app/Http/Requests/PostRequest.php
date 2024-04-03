@@ -28,7 +28,7 @@ class PostRequest extends FormRequest
             'arrangement_id' => ['required', Rule::exists('arrangements', 'id')],
             'about' => ['required'],
             'due_date' => ['required'],
-            'duty_id'=>['required'],
+            'duties'=>['required',],
             'skill_id'=>['required'],
             'certificate_id'=>['required']
         ];

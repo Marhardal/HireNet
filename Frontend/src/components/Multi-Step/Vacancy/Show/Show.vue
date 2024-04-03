@@ -57,11 +57,9 @@ const input = shallowReactive({
         <h3 class="font-semibold text-xl mb-2">Position Summary</h3>
         <p>{{ show.about }}</p>
     </div>
-    <div class="w-full my-4 text-base" v-if="show.duty != 0">
+    <div class="w-full my-4 text-base">
         <h3 class="font-semibold text-xl mb-2">Responsibilities</h3>
-        <ol>
-            <li v-for="duty in show.duty">{{ duty.name }}</li>
-        </ol>
+        <!-- <div class="">{{ show.duties }}</div> -->
     </div>
     <div class="w-full my-4 text-base" v-if="show.skills != 0">
         <h3 class="font-semibold text-xl mb-2">Skills</h3>
@@ -72,7 +70,7 @@ const input = shallowReactive({
     <div class="w-full my-4 text-base" v-if="show.certificate != 0">
         <h3 class="font-semibold text-xl mb-2">Qualification</h3>
         <ol>
-            <li v-for="cert in show.certificate">{{ cert.name }}</li>
+            <li v-for="cert in show.certificate">{{ cert.name }}</li>Responsibilities
         </ol>
     </div>
     <!-- <main class="flex flex-wrap gap-2 w-full rounded-md" v-if="vacancies.length > 0">

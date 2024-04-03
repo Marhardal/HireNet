@@ -2,14 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Duty;
-use App\Models\Resume;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ResumeDuties>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Responsibilities>
  */
-class ResumeDutiesFactory extends Factory
+class ResponsibilitiesFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +17,7 @@ class ResumeDutiesFactory extends Factory
     public function definition(): array
     {
         return [
-            'resume_id' => Resume::get()->random()->id,
-            'duty_id' => Duty::get()->random()->id
+            //
         ];
     }
 }

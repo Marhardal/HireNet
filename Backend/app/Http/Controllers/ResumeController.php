@@ -42,7 +42,7 @@ class ResumeController extends Controller
 
         $experience = [
             'job_id' => $request->job_id,
-            'duty_id' => $request->duty_id,
+            'duties' => $request->duties,
             'organisation' => $request->organisation,
             'start' => $request->start,
             'end' => $request->end,
@@ -73,16 +73,17 @@ class ResumeController extends Controller
             'resume_id' => $resume->id
         ];
 
-        foreach ($request->duty_id as $value) {
-            Experience::create([
-                'resume_id'=> $resume->id,
-                'job_id' => $request->job_id,
-                'duty_id' => $value,
-                'organisation' => $request->organisation,
-                'start' => $request->start,
-                'end' => $request->end
-            ]);
-        }
+        $resume->jobs()->attach($experience);
+        // foreach ($request->duty_id as $value) {
+        //     Experience::create([
+        //         'resume_id'=> $resume->id,
+        //         'job_id' => $request->job_id,
+        //         'duties' => $value,
+        //         'organisation' => $request->organisation,
+        //         'start' => $request->start,
+        //         'end' => $request->end
+        //     ]);
+        // }
 
         $resume->referrals()->create($referral);
 

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('post_duties', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Duty::class)->onDelete('cascade');
             $table->foreignIdFor(Post::class)->onDelete('cascade');
+            $table->text('duties');
             $table->timestamps();
         });
     }
