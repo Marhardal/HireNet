@@ -21,6 +21,7 @@ use App\Models\Resume;
 use App\Models\ResumeDuties;
 use App\Models\ResumeQualification;
 use App\Models\ResumeSkills;
+use Database\Seeders\Certificate as SeedersCertificate;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -37,26 +38,34 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Organisation::factory(2)->create();
+        // Organisation::factory(2)->create();
+
+        // $this->call([
+        //     RoleSeeder::class,
+        // ]);
+
+        // $this->call([
+        //     ArrangementSeeder::class
+        // ]);
 
         $this->call([
-            RoleSeeder::class,
+            FieldSeeder::class
         ]);
 
         $this->call([
-            ArrangementSeeder::class
+            SeedersCertificate::class
         ]);
 
-        User::factory(5)->create();
-        Job::factory(10)->create();
-        Duty::factory(30)->create();
-        Skill::factory(30)->create();
-        Post::factory(10)->create();
-        PostSkills::factory(30)->create();
-        Applicant::factory(20)->create();
-        PostDuty::factory(30)->create();
-        Certificate::factory(30)->create();
-        Requirement::factory(30)->create();
-        Bookmark::factory(5)->create();
+        // User::factory(5)->create();
+        // Job::factory(10)->create();
+        // Duty::factory(30)->create();
+        // Skill::factory(30)->create();
+        // Post::factory(10)->create();
+        // PostSkills::factory(30)->create();
+        // Applicant::factory(20)->create();
+        // PostDuty::factory(30)->create();
+        // Certificate::factory(30)->create();
+        // Requirement::factory(30)->create();
+        // Bookmark::factory(5)->create();
     }
 }

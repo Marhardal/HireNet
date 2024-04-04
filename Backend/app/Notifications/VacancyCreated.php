@@ -6,19 +6,22 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class VacancyCreated extends Notification
 {
     use Queueable;
 
     protected $created;
+    protected $post;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($created)
+    public function __construct($created, $post)
     {
         $this->created = $created;
+        $this->post = $post;
     }
 
     /**
@@ -53,7 +56,9 @@ class VacancyCreated extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'data' => auth()->user()
+            'post_id' => $this->post->id,
+            'title' => 'New Vacancy Created: ' . $this->post->job->name,
+            'message' => 'A new vacancy for the ' . $this->post->job->name . ' position has been created by the ' . $this->post->organisation->name . ' team.',
         ];
     }
 }

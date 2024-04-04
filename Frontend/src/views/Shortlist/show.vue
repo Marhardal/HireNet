@@ -12,14 +12,14 @@ import All from "@/components/Shortlist/All.vue";
 import TabButton from '@/components/Sections/TabButton.vue';
 
 const Tabs = shallowRef([
-    {label: 'All', component: All},
-    {label: 'Shortlist', component: Shortlisted},
-    {label: 'Declined', component: Declined},
+    { label: 'All', component: All },
+    { label: 'Shortlist', component: Shortlisted },
+    { label: 'Declined', component: Declined },
 ])
 
 const currentTab = shallowRef(0);
 
-const TabChange = (index)=>{
+const TabChange = (index) => {
     currentTab.value = index;
 }
 
@@ -48,20 +48,19 @@ const getApplicants = async (id) => {
 </script>
 <template>
     <Base>
-        <template v-slot:header>
-            <Header title="Shortlisted Applicants"/>
-        </template>
-        <template v-slot:other>
-            <div class="flex justify-center bg-gradient-to-t h-full bg-no-repeat bg-center w-full mx-auto">
-                <!-- <div class="w-full md:w-1/2 lg:w-full">
+    <template v-slot:header>
+        <Header title="Shortlisted Applicants" />
+    </template>
+    <template v-slot:other>
+        <div class="flex justify-center bg-gradient-to-t h-full bg-no-repeat bg-center w-full mx-auto">
+            <!-- <div class="w-full md:w-1/2 lg:w-full">
                     <Applicant v-for="Applicant in Applicants" :applicant="Applicant" :postId="Applicant.pivot.post_id"/>
                 </div> -->
-                <div class="">
+            <div class="">
                 <div class="border-b border-white dark:border-gray-700 mx-4">
                     <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
                         <!-- <TabButton -->
-                        <TabButton v-for="(tab, index) in Tabs" :name="tab.label"
-                            @click="TabChange(index)" />
+                        <TabButton v-for="(tab, index) in Tabs" :name="tab.label" @click="TabChange(index)" />
                     </nav>
                 </div>
 
@@ -71,12 +70,10 @@ const getApplicants = async (id) => {
                     </div>
                 </div>
             </div>
-            </div>
-        </template>
+        </div>
+    </template>
     </Base>
 </template>
 
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -28,4 +28,14 @@ class Certificate extends Model
     {
         return $this->belongsToMany(Resume::class, 'qualifications');
     }
+
+    /**
+     * Get the Field that owns the Certificate
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Field()
+    {
+        return $this->belongsTo(Field::class);
+    }
 }

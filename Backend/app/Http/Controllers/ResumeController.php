@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Resume;
 use App\Http\Requests\StoreResumeRequest;
 use App\Http\Requests\UpdateResumeRequest;
+use App\Models\Certificate;
 use App\Models\Experience;
+use App\Models\Field;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ResumeController extends Controller

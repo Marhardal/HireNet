@@ -20,9 +20,9 @@
                             {{ $resume->user->first_name . ' ' . $resume->user->surname }}
                         </h3>
                         <div class="text-lg font-semibold gap-4 flex justify-center">
-                            <h5>{{ $resume->district . ', ' . $resume->country }}</h5>
-                        <h5>{{ $resume->user->phone }}</h5>
-                        <h5>{{ $resume->user->email }}</h5>
+                            {{-- <h5>{{ $resume->district . ', ' . $resume->country }}</h5> --}}
+                            <h5>{{ $resume->user->phone }}</h5>
+                            <h5>{{ $resume->user->email }}</h5>
                         </div>
                     </div>
                     <div class="flex w-full text-base my-2">
@@ -35,16 +35,20 @@
                     </div>
                     <hr>
                     <div class="grid grid-cols-4 gap-5">
-                        {{-- @foreach ($resume->experiences as $item1)
+                        @foreach ($resume->jobs as $item1)
                             <div class="col-span-1">
-                                <p class="text-base my-2">{{ $item1->start_date }} to
-                                    {{ $item1->leave_date }}</p>
+                                <span class="text-base my-2">{{ $item1->pivot->start }} To </span>
+                                @if ($item1->pivot->finish == null)
+                                    <span>Current</span>
+                                @else
+                                    <span>{{ $item1->pivot->finish }}</span>
+                                @endif
                             </div>
                             <div class="col-span-3">
-                                <p class="text-base my-2">{{ $item1->job->name }}</p>
-                                <p class="text-base my-2 cols-span-2">
+                                <p class="text-base my-2">{{ $item1->name }}</p>
+                                {{-- <p class="text-base my-2 cols-span-2">
                                     {{ $item1->employer . ' , ' . $item1->City . ' ' . $item1->country }}
-                                </p>
+                                </p> --}}
                                 <ul class="list-disc ml-4">
                                     @if ($item1->duties->count() > 0)
                                         @foreach ($item1->duties as $item)
@@ -54,19 +58,18 @@
                                         @endforeach
                                     @endif
                                 </ul>
-                                @endforeach
                             </div>
-                        @endforeach --}}
+                        @endforeach
                     </div>
                     <div class="flex w-full text-base my-2">
                         <h3 class="text-lg font-semibold flex-auto">Skills</h3>
 
                     </div>
                     <hr>
-                    @if ($resume->skill != '')
+                    @if ($resume->skills != '')
                         <ul
                             class="mx-auto grid max-w-6xl  grid-cols-1 gap-1 p-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5">
-                            @foreach ($resume->skill as $item)
+                            @foreach ($resume->skills as $item)
                                 <div class="text-base p-2 rounded text-black w-full bg-slate-400">
                                     <li><span>{{ $item->name }}</span></li>
                                 </div>
@@ -77,14 +80,18 @@
                         <h3 class="text-lg font-semibold flex-auto">Education</h3>
                     </div>
                     <hr>
-                    @if ($resume->qualification != '')
+                    @if ($resume->certificates != '')
                         <div class="gap-5 my-2 w-full grid grid-cols-3">
-                            @foreach ($resume->qualification as $item)
+                            @foreach ($resume->certificates as $item)
                                 <div class="">
                                     <div class="col-span-1">
                                         <div class="text-base">
-                                            <span>{{ $item->pivot->start_date . ' to ' }}</span>
-                                            <span>{{ $item->pivot->graduation_date }}</span>
+                                            <span>{{ $item->pivot->started . ' To ' }}</span>
+                                            @if ($item->pivot->finished == null)
+                                            <span>Current</span>
+                                            @else
+                                            <span>{{ $item->pivot->finished }}</span>
+                                            @endif
                                         </div>
                                         <br>
                                         <h3 class="text-base font-semibold">Institution</h3>
@@ -108,15 +115,13 @@
                     <div class="flex flex-row gap-8">
                         @if ($resume->referrals->count() > 0)
                             @foreach ($resume->referrals as $item)
-                                <div class="max-w-sm rounded-sm overflow-hidden">
-                                    <div class="text-base flex flex-col">
-                                        <span>{{ $item->first_name . ' ' . $item->Surname }}</span>
-                                        <span>{{ $item->job_title }}</span>
-                                        <span>{{ $item->employer }}</span>
-                                        <span>{{ $item->district . ', ' . $item->country }}</span>
-                                        <span>Phone: {{ $item->phone_number }}</span>
-                                        <span>Email: {{ $item->email }}</span>
+                                <div class="text-base grid grid-cols-2 w-full">
+                                    <div class="cols-span-2"><span>{{ $item->full_name }}</span></div>
+                                    <div class="">
+                                    <span>{{ $item->organisation }}</span>
                                     </div>
+                                    <div class=""><span>Phone: {{ $item->phone }}</span></div>
+                                    <div class=""><span>Email: {{ $item->email }}</span></div>
                                 </div>
                             @endforeach
                         @else

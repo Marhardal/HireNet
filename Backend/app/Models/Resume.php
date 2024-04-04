@@ -10,7 +10,7 @@ class Resume extends Model
 {
     use HasFactory;
 
-    protected $with = ['user', 'skills', 'certificates', 'referrals', 'jobs',];
+    protected $with = ['user', 'skills', 'certificates', 'referrals', 'jobs'];
     /**
      * Get the user that owns the Resume
      *
@@ -70,5 +70,15 @@ class Resume extends Model
     {
         return $this->belongsToMany(Job::class, 'experiences')->withPivot(['duty_id', 'organisation', 'start', 'end']);
     }
+
+    /**
+     * Get all of the Field for the Resume
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    // public function Fields()
+    // {
+    //     return $this->hasManyThrough(Field::class, Certificate::class);
+    // }
 
 }
