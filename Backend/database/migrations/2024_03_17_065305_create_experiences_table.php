@@ -18,8 +18,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Resume::class)->onDelete('cascade');
             $table->foreignIdFor(Job::class)->onDelete('cascade');
-            $table->foreignIdFor(Duty::class)->onDelete('cascade');
             $table->string('organisation');
+            $table->text('duties');
             $table->string('start');
             $table->string('end')->nullable();
             $table->timestamps();

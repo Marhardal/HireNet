@@ -18,6 +18,7 @@ use App\Http\Controllers\PostSkillsController;
 use App\Http\Controllers\ArrangementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\PDFController;
@@ -100,6 +101,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('download/resume', [PDFController::class, 'resume']);
 
     Route::get('/vacancy/{postId}/applicant/{userId}/resume', [PDFController::class, 'showResume'])->name('applicant.resume');
+
+    Route::get('send/my/email', [MailController::class, 'sendCV']);
 });
 
 

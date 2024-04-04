@@ -28,7 +28,7 @@ class StoreResumeRequest extends FormRequest
             'skill_id' => ['required', 'array', Rule::exists('skills', 'id')],
             // Experience
             'job_id' => ['required', Rule::exists('jobs', 'id')],
-            'duty_id' => ['required', 'array', Rule::exists('duties', 'id')],
+            'duties' => ['required', 'array'],
             'organisation'=>['required'],
             'start'=>['required'],
             'end'=>['nullable'],

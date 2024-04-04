@@ -14,9 +14,13 @@ import backIcon from "@/components/icons/Back.vue";
 import Button from '@/components/Forms/Button.vue';
 import { useToast } from 'vue-toastification';
 import Applicant from '@/components/Multi-Step/Vacancy/Show/Applicant.vue';
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt();
 
 const step = shallowRef(2);
 const show = shallowRef({});
+const markdown = shallowRef();
 const checks = shallowRef();
 
 
@@ -66,7 +70,8 @@ const showVacancy = async (id) => {
         }
     });
     show.value = response.data.post;
-    console.log(show.value);
+    markdown.value = response.data.markdown;
+    // console.log(show.value);
 }
 
 const nextPage = () => {
@@ -197,7 +202,7 @@ const vacacyDelete = async () => {
                     <Button value="Decline" @clicked="Decline" v-if="step == 2" />
                 </div>
             </div>
-            <component :is="steps[step]" :show="show" :User="authStore.User" />
+            <component :is="steps[step]" :show="show" :markdown="markdown" :User="authStore.User" />
         </div>
     </template>
     </Base>

@@ -25,17 +25,24 @@ class NotificationController extends Controller
             return [
                 'data' => $notification->data,
                 'created_at' => $notification->created_at,
-                'read_at' => $notification->read_at
+                'read_at' => $notification->read_at,
+                'id' => $notification->id
             ];
         });
         return response()->json($notifies, 200);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $user = $request->user();
-        $user->unreadNotifications->markAsRead();
-        return response()->json($user, 200);
+        if ($id == 1) {
+            $user->unreadNotifications->markAsRead();
+            return response()->json($user, 200);
+        }else {
+            $unread = $user->notifications->find($id)->first();
+            $unread->markAsRead();
+            return response()->json($unread, 200);
+        }
     }
 
      /**

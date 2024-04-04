@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $with = ['organisation', 'job', 'duty', 'skills', 'certificate', 'arrangement', 'users'];
+    protected $with = ['organisation', 'job', 'skills', 'certificate', 'arrangement', 'users', 'responsibilities'];
 
     function scopeFilters($query, array $filters)
     {
@@ -77,10 +77,10 @@ class Post extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function Duty()
-    {
-        return $this->belongsToMany(Duty::class, 'post_duties', 'post_id', 'duty_id')->withTimestamps();
-    }
+    // public function Duty()
+    // {
+    //     return $this->belongsToMany(Duty::class, 'post_duties', 'post_id', 'duty_id')->withTimestamps();
+    // }
 
     /**
      * The Skills that belong to the Post
@@ -110,5 +110,15 @@ class Post extends Model
     public function Users()
     {
         return $this->belongsToMany(User::class, 'applicants')->withPivot(['document', 'message', 'post_id', 'user_id', 'shortlisted'])->withTimestamps();
+    }
+
+    /**
+     * Get the Responsibilities associated with the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function Responsibilities()
+    {
+        return $this->hasOne(Responsibilities::class);
     }
 }

@@ -33,7 +33,7 @@ const props = defineProps({
                     <div class="grid grid-cols-2">
                         <div class="flex items-center text-gray-800 xl:flex-row xl:items-center">
                             <!-- <jobIcon /> -->
-                            <BriefcaseIcon class="fill-black w-7 h-7"/>
+                            <BriefcaseIcon class="fill-black w-7 h-7" />
                         </div>
                         <div class="flex items-center text-gray-800 xl:flex-row xl:items-center">
                             <h2 class="line-clamp-1 text-base font-medium text-gray-800 md:text-lg" title="New York"
@@ -45,12 +45,12 @@ const props = defineProps({
                         v-if="job.organisation">
                         <p class="flex items-center text-gray-800 xl:flex-row xl:items-center gap-x-2">
                             <!-- <companyIcon /> -->
-                            <BuildingOffice2Icon class="fill-black w-5 h-5"/>
+                            <BuildingOffice2Icon class="fill-black w-5 h-5" />
                             <span class="xl:mt-0"> {{ job.organisation.name }} </span>
                         </p>
                         <p class="flex items-center text-gray-800 xl:flex-row xl:items-center gap-x-2">
                             <!-- <locationIcon /> -->
-                            <MapPinIcon class="fill-black w-5 h-5"/>
+                            <MapPinIcon class="fill-black w-5 h-5" />
                             <span class="mt-0"> {{ job.organisation.location }} </span>
                         </p>
                         <p class="flex items-center text-gray-800 xl:flex-row xl:items-center gap-x-2">
@@ -69,10 +69,19 @@ const props = defineProps({
                     <Button value="BookMark" />
                 </div>
             </div>
-            <div class="flex gap-2 mt-2" v-else>
-                <span class="text-black text-base font-semibold" v-if="job.status == true">Approved <CheckCircleIcon class="fill-blue-500 h-5 w-5"/></span>
-                <span class="text-black text-base font-semibold" v-else-if="job.status == false">Declined <XCircleIcon class="fill-rose-700 h-5 w-5"/> </span>
-                <span class="text-black text-base font-semibold" v-else>Waiting Approval <ExclamationCircleIcon class="fill-rose-700 h-5 w-5"/> </span>
+            <div class="flex gap-2 mt-2 my-auto" v-else>
+                <div class="flex-row flex mx-auto" v-if="job.status == true">
+                    <span class="text-black text-base font-semibold pr-2 leading-tight">Approved</span>
+                    <CheckCircleIcon class="fill-blue-500 h-5 w-5" />
+                </div>
+                <div class="flex-row flex mx-auto" v-else-if="job.status == false">
+                    <span class="text-black text-base font-semibold pr-2 leading-tight">Declined</span>
+                    <XCircleIcon class="fill-rose-700 h-5 w-5" />
+                </div>
+                <div class="flex-row flex mx-auto" v-else>
+                    <span class="text-black text-base font-semibold pr-2 leading-tight">Waiting Approval</span>
+                    <ExclamationCircleIcon class="fill-rose-700 h-5 w-5" />
+                </div>
             </div>
         </div>
     </div>

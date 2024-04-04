@@ -10,6 +10,7 @@ use App\Models\PostSkills;
 use App\Models\Requirement;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
+use App\Models\Responsibilities;
 use App\Models\User;
 use App\Notifications\VacancyApplied;
 use App\Notifications\VacancyCreated;
@@ -63,10 +64,19 @@ class PostController extends Controller
             'arrangement_id' => $request->arrangement_id,
             'num' => $request->num,
             'about' => $request->about,
-            'due_date' => $request->due_date
+            'due_date' => $request->due_date,
+            // 'duties' => $request->duties
         ]);
 
-        $post->duty()->attach($request->duty_id);
+        $post->responsibilities()->create([
+            'duties' => $request->duties
+        ]);
+
+        // $post->responsibilities()->associate($request->duties);
+        // Responsibilities::create([
+        //     'resume_id' => $post->id,
+        //     'duties' => $request->duties
+        // ]);
 
         $post->skills()->attach($request->skill_id);
 
@@ -89,7 +99,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return response()->json(['post' => $post, 'applicants' => $post->users]);
+        return response()->json(['post' => $post, 'applicants' => $post->users, 'markdown' => $post->responsibilities]);
     }
 
     /**

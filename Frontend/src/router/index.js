@@ -22,7 +22,7 @@ import applicant from '@/views/Shortlist/applicant.vue';
 function auth(to, from) {
     const auth = useAuthStore();
     if (!localStorage.getItem('authToken')) {
-        return "/sign-in";
+        return "/sign-up";
     }
 }
 
@@ -60,18 +60,6 @@ const router = createRouter({
       component: CreateVue
     },
     {
-      path: '/vacancy/skills/create',
-      name: 'Vacancy Skills Create',
-      beforeEnter: auth,
-      component: SecondVue
-    },
-    {
-      path: '/vacancy/duties/create',
-      name: 'Vacancy duties Create',
-      beforeEnter: auth,
-      component: ThirdVue
-    },
-    {
       path: '/settings',
       name: 'Seeker Settings',
       beforeEnter: auth,
@@ -83,11 +71,16 @@ const router = createRouter({
       beforeEnter: guest,
       component: registerVue
     },
+    // {
+    //   path: '/sign-in',
+    //   name: 'User Login',
+    //   beforeEnter: guest,
+    //   component: LoginVue,
+    // },
+
     {
       path: '/sign-in',
-      name: 'User Login',
-      beforeEnter: guest,
-      component: LoginVue,
+      component: LoginVue
     },
     {
       path: '/create/organisation',

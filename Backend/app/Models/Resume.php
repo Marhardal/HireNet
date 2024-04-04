@@ -56,10 +56,10 @@ class Resume extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function Duties()
-    {
-        return $this->belongsToMany(Duty::class, 'experiences')->withPivot(['job_id']);;
-    }
+    // public function Duties()
+    // {
+    //     return $this->belongsToMany(Duty::class, 'experiences')->withPivot(['job_id']);;
+    // }
 
     /**
      * The Jobs that belong to the Resume

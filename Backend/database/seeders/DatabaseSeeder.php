@@ -48,17 +48,16 @@ class DatabaseSeeder extends Seeder
         //     ArrangementSeeder::class
         // ]);
 
-        $this->call([
-            FieldSeeder::class
-        ]);
+        // $this->call([
+        //     FieldSeeder::class
+        // ]);
 
-        $this->call([
-            SeedersCertificate::class
-        ]);
+        // $this->call([
+        //     SeedersCertificate::class
+        // ]);
 
         // User::factory(5)->create();
-        // Job::factory(10)->create();
-        // Duty::factory(30)->create();
+        Job::factory(50)->create();
         // Skill::factory(30)->create();
         // Post::factory(10)->create();
         // PostSkills::factory(30)->create();

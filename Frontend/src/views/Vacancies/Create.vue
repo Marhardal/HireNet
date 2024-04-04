@@ -1,4 +1,6 @@
 <script setup>
+import { useEditor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
 import Header from '@/components/Sections/Header.vue';
 import Base from '../Base.vue';
 import {
@@ -11,9 +13,16 @@ import { reactive, ref, onMounted } from 'vue';
 import { useAuthStore } from '@/Stores/Auth';
 import axios from "axios";
 import { useToast } from 'vue-toastification';
+import Editor from '@tinymce/tinymce-vue';
 
 const toast = useToast();
 
+const editor = useEditor({
+    content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+    extensions: [
+        StarterKit,
+    ],
+});
 // const router = useToast();
 
 const authStore = useAuthStore();
@@ -37,10 +46,9 @@ onMounted(async () => {
         getArrangements(),
         getJobs(),
         getSkills(),
-        getDuties(),
-        getCertificates(),
-        getDuties()
-})
+        // getDuties(),
+        getCertificates()
+});
 
 const authToken = localStorage.getItem('authToken');
 
@@ -64,15 +72,15 @@ const getJobs = async () => {
     jobs.value = response.data.jobs.map((job) => ({ value: job.id, label: job.name }));
 }
 
-const getDuties = async () => {
-    const response = await axios.get('http://127.0.0.1:8000/api/duties', {
-        headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`
-        }
-    });
-    duties.value = response.data.duties.map((duty) => ({ value: duty.id, label: duty.name }));
-}
+// const getDuties = async () => {
+//     const response = await axios.get('http://127.0.0.1:8000/api/duties', {
+//         headers: {
+//             Accept: 'application/json',
+//             Authorization: `Bearer ${authToken}`
+//         }
+//     });
+//     duties.value = response.data.duties.map((duty) => ({ value: duty.id, label: duty.name }));
+// }
 
 const getCertificates = async () => {
     const response = await axios.get('http://127.0.0.1:8000/api/certificates', {
@@ -94,12 +102,11 @@ const getSkills = async () => {
     skills.value = response.data.skills.map((skill) => ({ value: skill.id, label: skill.name }));
 }
 
-const values = reactive({
-    'organisation_id': org_id
-});
+const values = reactive({});
 
 
 const createVacancy = async () => {
+    // console.log(values.duties);
     axios.post('http://127.0.0.1:8000/api/vacancies', values, {
         headers: {
             Accept: 'application/json',
@@ -107,7 +114,7 @@ const createVacancy = async () => {
         }
     }).then((response) => {
         toast.success(response.data);
-        router.push('/vacancies');
+        $router.push('/vacancies');
     }).catch((error) => {
         errors.value = error?.response?.data?.errors;
         toast.error('Please make sure you have filled in all fields.')
@@ -123,7 +130,7 @@ const createVacancy = async () => {
         <Header title="Create Job" />
     </template>
     <template v-slot:other>
-        <div class="max-w-2xl mx-auto">
+        <div class="max-w-2xl items-center align-middle mx-auto bg-white">
             <FormKit type="form" :actions="false">
                 <FormKit type="multi-step" tab-style="tab">
                     <FormKit type="step" name="post">
@@ -140,8 +147,18 @@ const createVacancy = async () => {
                             placeholder="Enter a Job Summary." validation="required" />
                     </FormKit>
                     <FormKit type="step" name="duties">
-                        <FormKit type="select" v-model="values.duty_id" placeholder="Select Job Duties." multiple
-                            :options="duties" label="Job Duties." validation="required" />
+                        <!-- <FormKit type="select" v-model="values.duty_id" placeholder="Select Job Duties." multiple
+                            :options="duties" label="Job Duties." validation="required" /> -->
+                        <!-- <editor-content :editor="editor" /> -->
+                        <!-- <textarea name="" id="" cols="30" rows="3" v-model="values.duties"></textarea> -->
+                        <!-- <QuillEditor theme="snow" v-model:content="values.duties"/> -->
+                        <!-- <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor> -->
+                        <Editor v-model="values.duties" api-key="c4ej7yvfdtjz97be0lu31ydtglcqma7tdes3dvuvoect8oty" :init="{
+                plugins: 'lists link image table code help wordcount', 
+                selector: 'textarea',  // change this value according to your HTML
+                plugins: 'lists',
+                toolbar: 'numlist bullist'
+            }" />
                     </FormKit>
                     <FormKit type="step" name="skills">
                         <FormKit type="select" v-model="values.skill_id" placeholder="Select Job Skills." multiple

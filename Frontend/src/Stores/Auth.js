@@ -5,11 +5,13 @@ export const useAuthStore = defineStore("auth", {
     state: () => ({
         authUser: null,
         authToken: null,
-        authRole: null
+        authRole: null,
+        authErrors: []
     }),
 
     getters: {
         User: (state) => state.authUser,
+        Errors: (state) => state.authErrors,
     },
 
     actions: {
@@ -30,6 +32,7 @@ export const useAuthStore = defineStore("auth", {
         },
 
         async Login(data){
+            // this.authErrors = [];
             await this.getToken();
             try{
                 const response = await axios.post(`http://127.0.0.1:8000/api/sign-in`, data)
@@ -39,7 +42,7 @@ export const useAuthStore = defineStore("auth", {
                 this.router.push('/')
             }
             catch(error){
-                console.log("Failed to login user.", error);
+                    this.authErrors = error.response.data;
             }
         },
 
@@ -58,7 +61,7 @@ export const useAuthStore = defineStore("auth", {
                 this.router.push('/')
             }
             catch(error){
-                console.log("Failed to register new user.", error);
+                this.authErrors = error.response.data;
             };
         },
 
