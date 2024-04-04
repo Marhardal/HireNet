@@ -114,7 +114,7 @@ const createVacancy = async () => {
         }
     }).then((response) => {
         toast.success(response.data);
-        router.push('/vacancies');
+        $router.push('/vacancies');
     }).catch((error) => {
         errors.value = error?.response?.data?.errors;
         toast.error('Please make sure you have filled in all fields.')
@@ -130,7 +130,7 @@ const createVacancy = async () => {
         <Header title="Create Job" />
     </template>
     <template v-slot:other>
-        <div class="max-w-2xl flex items-center align-middle mx-auto bg-white">
+        <div class="max-w-2xl items-center align-middle mx-auto bg-white">
             <FormKit type="form" :actions="false">
                 <FormKit type="multi-step" tab-style="tab">
                     <FormKit type="step" name="post">

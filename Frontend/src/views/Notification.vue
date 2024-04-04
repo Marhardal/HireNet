@@ -59,8 +59,8 @@ const getNotifications = async () => {
         <Navigation />
     </template>
     <template v-slot:main>
-        <div class="flex justify-center bg-gradient-to-t h-full p-6 bg-no-repeat w-full">
-            <div class="">
+        <div class="flex justify-center bg-gradient-to-t max-h-3/4 p-6 bg-no-repeat">
+            <div class="w-full h-full">
                 <div class="border-b border-white dark:border-gray-700 mx-4">
                     <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
                         <!-- <TabButton -->

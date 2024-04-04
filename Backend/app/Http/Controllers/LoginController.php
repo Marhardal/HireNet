@@ -15,10 +15,14 @@ class LoginController extends Controller
             'password' => ['required']
         ]);
 
-        $login = Auth::attempt($values);
-        $user = $request->user();
-        $token = $user->createToken('authToken')->plainTextToken;
-        return response()->json(['user' => $user, 'token' => $token], 200);
+        if (Auth::attempt($values)){
+            $user = $request->user();
+            $token = $user->createToken('authToken')->plainTextToken;
+            return response()->json(['user' => $user, 'token' => $token], 200);
+        }else {
+            return response()->json(['user' => 'User not found'], 422);
+        }
+
     }
 
     public function Logout(Request $request)

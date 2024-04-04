@@ -7,6 +7,9 @@ import { shallowRef, shallowReactive } from "vue";
 import { useToast } from 'vue-toastification';
 import axios from "axios";
 import { onMounted } from "vue";
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt();
 
 let errors = shallowRef([]);
 
@@ -14,6 +17,11 @@ const toast = useToast();
 
 const props = defineProps({
     show: {
+        type: Object,
+        required: true,
+        default: {}
+    },
+    markdown: {
         type: Object,
         required: true,
         default: {}
@@ -27,6 +35,7 @@ const props = defineProps({
 
 onMounted(async () => {
     console.log(props.User);
+    // console.log(props.markdown.duties);
 })
 
 const input = shallowReactive({
@@ -34,6 +43,8 @@ const input = shallowReactive({
     'post_id': props.show.id
 })
 
+
+// const renderedDuties = md.render(props.markdown.duties);
 </script>
 
 <template>
@@ -45,7 +56,7 @@ const input = shallowReactive({
         <div class="flex gap-x-2">
             <due />
             <span class="text-base text-black font-semibold">Application Closes {{ moment(show.due_date).fromNow()
-            }}</span>
+                }}</span>
         </div>
     </div>
     <hr>
@@ -59,7 +70,7 @@ const input = shallowReactive({
     </div>
     <div class="w-full my-4 text-base">
         <h3 class="font-semibold text-xl mb-2">Responsibilities</h3>
-        <!-- <div class="">{{ show.duties }}</div> -->
+        <div class="ml-4" v-html="show.responsibilities.duties"></div>
     </div>
     <div class="w-full my-4 text-base" v-if="show.skills != 0">
         <h3 class="font-semibold text-xl mb-2">Skills</h3>
@@ -78,4 +89,8 @@ const input = shallowReactive({
         </main> -->
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="css">
+ul {
+    list-style-type: disc;
+}
+</style>

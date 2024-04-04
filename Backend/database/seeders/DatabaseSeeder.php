@@ -38,27 +38,27 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Organisation::factory(2)->create();
+        // Organisation::factory(2)->create();
 
-        $this->call([
-            RoleSeeder::class,
-        ]);
+        // $this->call([
+        //     RoleSeeder::class,
+        // ]);
 
-        $this->call([
-            ArrangementSeeder::class
-        ]);
+        // $this->call([
+        //     ArrangementSeeder::class
+        // ]);
 
-        $this->call([
-            FieldSeeder::class
-        ]);
+        // $this->call([
+        //     FieldSeeder::class
+        // ]);
 
-        $this->call([
-            SeedersCertificate::class
-        ]);
+        // $this->call([
+        //     SeedersCertificate::class
+        // ]);
 
-        User::factory(5)->create();
-        Job::factory(10)->create();
-        Skill::factory(30)->create();
+        // User::factory(5)->create();
+        Job::factory(50)->create();
+        // Skill::factory(30)->create();
         // Post::factory(10)->create();
         // PostSkills::factory(30)->create();
         // Applicant::factory(20)->create();

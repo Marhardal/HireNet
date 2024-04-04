@@ -17,6 +17,9 @@
                 <FormKit type="password" label="Password" placeholder="Enter your Password."
                     v-model="values.password" validation="required" />
             </FormKit>
+            <div class="text-base text-rose-400">
+                <p v-if="authStore.authErrors.user">Please make sure that you are registered.</p>
+            </div>
             <div class="text-base py-2">
                 <h3>Don't have an account.<RouterLink :to="{ path : 'sign-up'}">Create Account.</RouterLink></h3>
             </div>

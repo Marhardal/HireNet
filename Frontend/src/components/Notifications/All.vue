@@ -7,7 +7,7 @@
                         <Button value="Mark all as Read" @clicked="updateAll"/>
                     </div>
                 </div>
-                <div class="cols-span-1">
+                <div class="cols-span-1 flex justify-end">
                     <div class="w-1/2">
                         <Button value="Delete all" @clicked="DeleteAll"/>
                     </div>

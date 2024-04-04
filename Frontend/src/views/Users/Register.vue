@@ -62,8 +62,14 @@ const handleIconClick = (node, e) => {
                 </div>
             </FormKit>
             <div class="text-base py-2">
-                <h3>Create an <RouterLink :to="{ path: '/create/organisation' }">Organisation</RouterLink>.
+                <h3>Create an <RouterLink :to="{ path: '/create/organisation' }">Organisation</RouterLink>.</h3>
+            </div>
+            <div class="text-base py-2">
+                <h3>Already have an account.<RouterLink :to="{ path: 'sign-in' }">Sign-in.</RouterLink>
                 </h3>
+            </div>
+            <div class="text-base py-2">
+                <RouterLink to="">Reset Password.</RouterLink>
             </div>
         </div>
     </div>

@@ -14,13 +14,7 @@
             <FormKit type="textarea" label="Organisation About" placeholder="Enter Organisation About."
                 v-model="values.about" validation="required" />
         </FormKit>
-        <div class="text-base py-2">
-            <h3>Don't have an account.<RouterLink :to="{ path: 'sign-up' }">Create Account.</RouterLink>
-            </h3>
-        </div>
-        <div class="text-base py-2">
-            <RouterLink to="">Reset Password.</RouterLink>
-        </div>
+        
     </div>
 </template>
 
