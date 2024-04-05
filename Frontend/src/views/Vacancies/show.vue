@@ -37,7 +37,7 @@ const authToken = localStorage.getItem('authToken');
 
 const router = useRoute();
 
-const id =router.params.id;
+const id = router.params.id;
 
 onMounted(async => {
     authStore.getUser();
@@ -93,7 +93,7 @@ const bookMarkCheck = async (userId) => {
 }
 
 const bookMark = () => {
-    axios.post('http://127.0.0.1:8000/api/bookmark/', {'id': id}, {
+    axios.post('http://127.0.0.1:8000/api/bookmark/', { 'id': id }, {
         headers: {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`
@@ -111,7 +111,7 @@ const bookMark = () => {
 }
 
 const Approve = () => {
-    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, {'status': true}, {
+    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, { 'status': true }, {
         headers: {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`
@@ -125,7 +125,7 @@ const Approve = () => {
 }
 
 const Decline = () => {
-    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, {'status': false}, {
+    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, { 'status': false }, {
         headers: {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`
@@ -152,6 +152,11 @@ const vacacyDelete = async () => {
         toast.error("Failed to delete a vacancy.");
     });
 }
+
+const isOpen = shallowRef(false);
+
+const loc = router.fullPath;
+const url = 'http://localhost:5173' + loc;
 </script>
 
 <template>
@@ -195,7 +200,7 @@ const vacacyDelete = async () => {
                     <Button value="Bookmark" @clicked="bookMark" />
                 </div>
                 <div class="col-span-1">
-                    <Button value="Share" />
+                    <Button value="Share" @clicked="isOpen" />
                 </div>
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
                     <Button value="Delete" @clicked="vacacyDelete" />
@@ -211,7 +216,42 @@ const vacacyDelete = async () => {
                     <Button value="Decline" @clicked="Decline" v-if="step == 2" />
                 </div>
             </div>
-            <component :is="steps[step]" :show="show" :markdown="markdown" :User="authStore.User" />
+            <component :is="steps[step]" :show="show" :User="authStore.User" />
+            <div class="obsolute top-0 left-0 bg-transparent w-full h-full flex">
+                <div class="">
+                    <h3 class="font-semibold text-base">Share this Vacancy on:</h3>
+                    <div class="flex flex-col">
+                        <div class="bg-black">
+                            <ShareNetwork network="Facebook" :url="url" title="New Vacancy Alert."
+                                description="A vacancy has been recently created, please make sure you view it."
+                                quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                                Facebook
+                            </ShareNetwork>
+                        </div>
+                        <ShareNetwork network="Twitter" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            Twitter
+                        </ShareNetwork>
+                        <ShareNetwork network="Whatsapp" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            Whatsapp
+                        </ShareNetwork>
+                        <ShareNetwork network="LinkedIn" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            LinkedIn
+                        </ShareNetwork>
+                        <ShareNetwork network="Email" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            Email
+                        </ShareNetwork>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </template>
     </Base>

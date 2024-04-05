@@ -12,10 +12,10 @@ import { createProPlugin, inputs } from '@formkit/pro'
 import Toast, {POSITION} from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+import VueSocialSharing from 'vue-social-sharing'
+
 import { createPinia } from 'pinia';
 
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const pro = createProPlugin('fk-6335b120ad1', inputs)
 
@@ -23,14 +23,14 @@ const pinia = createPinia();
 
 const app = createApp(App);
 
-app.component('QuillEditor', QuillEditor)
-
 
 pinia.use(({store}) => {
     store.router = markRaw(router);
 });
 
 app.use(pinia);
+
+app.use(VueSocialSharing);
 
 app.use(router);
 

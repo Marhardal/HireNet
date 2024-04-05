@@ -7,9 +7,7 @@ import { shallowRef, shallowReactive } from "vue";
 import { useToast } from 'vue-toastification';
 import axios from "axios";
 import { onMounted } from "vue";
-import MarkdownIt from 'markdown-it';
-
-const md = new MarkdownIt();
+// import {  } from "@heroicons/vue/24/solid";
 
 let errors = shallowRef([]);
 
@@ -17,11 +15,6 @@ const toast = useToast();
 
 const props = defineProps({
     show: {
-        type: Object,
-        required: true,
-        default: {}
-    },
-    markdown: {
         type: Object,
         required: true,
         default: {}
