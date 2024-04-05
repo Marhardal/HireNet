@@ -20,7 +20,7 @@ const md = new MarkdownIt();
 
 const step = shallowRef(2);
 const show = shallowRef({});
-const markdown = shallowRef();
+const applicants = shallowRef();
 const checks = shallowRef();
 
 
@@ -70,8 +70,8 @@ const showVacancy = async (id) => {
         }
     });
     show.value = response.data.post;
-    markdown.value = response.data.markdown;
-    // console.log(show.value);
+    applicants.value = response.data.applicants;
+    console.log(applicants.value);
 }
 
 const nextPage = () => {
@@ -163,11 +163,18 @@ const url = 'http://localhost:5173' + loc;
     <Base>
     <template v-slot:other>
         <div class="max-w-4xl mx-auto" v-if="authStore.User">
-            <div class="flex justify-between">
-                <RouterLink to="/vacancies"
-                    class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600 py-2">
-                    <backIcon /> Back
-                </RouterLink>
+            <div class="grid grid-cols-2">
+                <div class="col-span-1 justify-start">
+                    <RouterLink to="/vacancies"
+                        class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600 py-2">
+                        <backIcon /> Back
+                    </RouterLink>
+                </div>
+                <div class="col-span-1 py-2 justify-end text-end" v-if="applicants > 1">
+                    <span class="text-base">
+                        {{ applicants }} applicants have applied to this vacancy.
+                    </span>
+                </div>
             </div>
             <div
                 class="h-32 text-white text-center grid bg-cover rounded-md bg-center bg-[url('@/assets/Header/1696668225508.jpg')]">
@@ -220,14 +227,12 @@ const url = 'http://localhost:5173' + loc;
             <div class="obsolute top-0 left-0 bg-transparent w-full h-full flex">
                 <div class="">
                     <h3 class="font-semibold text-base">Share this Vacancy on:</h3>
-                    <div class="flex flex-col">
-                        <div class="bg-black">
-                            <ShareNetwork network="Facebook" :url="url" title="New Vacancy Alert."
-                                description="A vacancy has been recently created, please make sure you view it."
-                                quote="View recent vacancy alert.away" hashtags="HireNet, MW">
-                                Facebook
-                            </ShareNetwork>
-                        </div>
+                    <div class="">
+                        <ShareNetwork network="Facebook" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            Facebook
+                        </ShareNetwork>
                         <ShareNetwork network="Twitter" :url="url" title="New Vacancy Alert."
                             description="A vacancy has been recently created, please make sure you view it."
                             quote="View recent vacancy alert.away" hashtags="HireNet, MW">

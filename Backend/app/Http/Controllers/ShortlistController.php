@@ -15,22 +15,25 @@ class ShortlistController extends Controller
     public function index()
     {
         $user = auth()->user();
-        if ($user->organisation_id != '') {
-            $posts = Post::where('organisation_id', $user->organisation_id)->get();
-            $shortlist = [];
-            foreach ($posts as $post => $value) {
-                $totalUsersCount = $value->users()->count();
-                $shortlist[] = [
-                    'id' => $value->id,
-                    'name' => $value->job->name,
-                    'count' => $totalUsersCount,
-                ];
+        $posts = Post::get();
+            if ($user->organisation_id != '') {
+                $posts = Post::where('organisation_id', $user->organisation_id)->get();
+                $shortlist = [];
+                foreach ($posts as $post => $value) {
+                    $totalUsersCount = $value->users()->count();
+                    $shortlist[] = [
+                        'id' => $value->id,
+                        'name' => $value->job->name,
+                        'count' => $totalUsersCount,
+                    ];
+                }
+                return response()->json(["shortlisted" => $shortlist], 200);
+            } else {
+                $post = $user->posts()->get();
+                return response()->json(["applicants" => $post], 200);
             }
-            return response()->json(["shortlisted" => $shortlist], 200);
-        } else {
-            $post = $user->posts()->wherePivot('shortlisted', true);
-            return response()->json(["applicants" => $post->get()], 200);
-        }
+        // $post = $user->posts()->get();
+        // return response()->json(["applicants" => $post], 200);
     }
 
     /**
@@ -56,6 +59,12 @@ class ShortlistController extends Controller
     {
         $user = auth()->user();
         $post = Post::find($id);
+        if (request()->search) {
+            # code...
+        } else {
+            # code...
+        }
+
         $applicants = $post->users()->wherePivot('shortlisted', 'LIKE', '%' . request()->search . '%');
         return response()->json(["applicants" => $applicants->get(), "count" => $applicants->count()], 200);
     }

@@ -100,7 +100,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $bookmark = auth()->user()->bookmarks->where('post_id', $id)->first();
-        return response()->json(['post' => $post, 'applicants' => $post->users, 'markdown' => $post->responsibilities, 'bookmark' => $bookmark]);
+        $applicants = $post->users()->count();
+        return response()->json(['post' => $post, 'applicants' => $post->users, 'applicants' => $applicants, 'bookmark' => $bookmark]);
     }
 
     /**

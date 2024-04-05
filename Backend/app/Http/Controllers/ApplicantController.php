@@ -109,26 +109,28 @@ class ApplicantController extends Controller
         //
     }
 
-    // public function applied($id)
-    // {
-    //     $posts = Applicant::where('user_id', $id)->get();
-    //     return response()->json(['posts' => $posts], 200);
-    // }
-
-    public function Applied($post, $recruiters)
+    public function applied($id)
     {
-        $user = auth()->user();
-        $applied = [
-            'subject' => 'Application for ' . $post->job->name . ' - ' . $user->first_name . ' ' . $user->surname,
-            'salutation' => 'Dear ' . $post->organisation->name,
-            'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $post->job->name . " position that your organisation recently advertised. " . $user->first_name . " is interested in learning more about this opportunity and how " . $user->first_name . "'s skills and experience can benefit your team.",
-            'closing' => 'Thank you'
-        ];
-
-        Notification::send($recruiters, new VacancyApplied($applied, $post));
-
-        return response()->json("Vacancy Declined Notification sent.", 200);
+        $posts = Applicant::where('user_id', $id)->get();
+        return response()->json(['posts' => $posts], 200);
     }
+
+    // public function Applied($post)
+    // {
+    //     $user = auth()->user();
+    //     // $recruiters = User::where('organisation_id', $post->organisation_id)->get();
+    //     $recruiters = $post->organisation->users;
+    //     $applied = [
+    //         'subject' => 'Application for ' . $post->job->name . ' - ' . $user->first_name . ' ' . $user->surname,
+    //         'salutation' => 'Dear ' . $post->organisation->name,
+    //         'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $post->job->name . " position that your organisation recently advertised. " . $user->first_name . " is interested in learning more about this opportunity and how " . $user->first_name . "'s skills and experience can benefit your team.",
+    //         'closing' => 'Thank you'
+    //     ];
+
+    //     Notification::send($recruiters, new VacancyApplied($applied, $post));
+
+    //     return response()->json("Vacancy Declined Notification sent.", 200);
+    // }
 
     public function applyNotification($post)
     {
