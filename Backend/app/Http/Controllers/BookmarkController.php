@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bookmark;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookmarkController extends Controller
 {
@@ -12,7 +13,8 @@ class BookmarkController extends Controller
      */
     public function index()
     {
-
+        $user = auth()->user();
+        return response()->json(['post' => $user->bookmarks], 200);
     }
 
     /**
@@ -28,8 +30,15 @@ class BookmarkController extends Controller
      */
     public function store(Request $request)
     {
-        $bookmark = Bookmark::create($request->all());
-        return response()->json("Vacancy Bookmarked Successfully", 200);
+        if (!auth()->user()->bookmarks->where('post_id', $request->id)->first()) {
+            $bookmark = Bookmark::create([
+                'post_id' => $request->id,
+                'user_id' => Auth::user()->id
+            ]);
+            return response()->json("Vacancy Bookmarked Successfully", 200);
+        }else {
+            return response()->json("Vacancy Not Bookmarked", 409);
+        }
     }
 
     /**
@@ -37,8 +46,8 @@ class BookmarkController extends Controller
      */
     public function show($id)
     {
-        $bookmark = Bookmark::where('user_id', '=' , $id)->get();
-        $posts = $bookmark->map(function ($bookmark){
+        $bookmark = Bookmark::where('user_id', '=', $id)->get();
+        $posts = $bookmark->map(function ($bookmark) {
             return $bookmark->post;
         });
         return response()->json($posts, 200);

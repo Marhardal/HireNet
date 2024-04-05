@@ -3,7 +3,7 @@
         <div class="w-full md:w-1/2 lg:w-full" v-if="notifications">
             <div class="flex flex-col space-y-4" v-for="(notification, index) in notifications">
                 <div class="" v-for="notify in notification">
-                    <Notification v-if="notify.read_at != null" :value="notify" :key="index" />
+                    <Notification v-if="notify.read_at ==! null" :value="notify" :key="index" />
                 </div>
             </div>
         </div>

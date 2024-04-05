@@ -20,10 +20,10 @@ class VacancyApplied extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct($applied, $applicant, $post)
+    public function __construct($applied, $post)
     {
         $this->applied = $applied;
-        $this->applicant = $applicant;
+        // $this->applicant = $applicant;
         $this->post = $post;
     }
 
@@ -61,7 +61,7 @@ class VacancyApplied extends Notification
     {
         return [
             'title' => 'New Application Received.',
-            'applicant_id' => $this->applicant->id,
+            'applicant_id' => $this->post->id,
             'message' => auth()->user()->first_name. ' '. auth()->user()->surname .' has submitted their application for '. $this->post->job->name . ' role.',
         ];
     }

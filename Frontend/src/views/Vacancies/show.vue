@@ -93,11 +93,20 @@ const bookMarkCheck = async (userId) => {
 }
 
 const bookMark = () => {
-    axios.post('http://127.0.0.1:8000/api/bookmark/', input).then((response) => {
+    axios.post('http://127.0.0.1:8000/api/bookmark/', {'id': id}, {
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${authToken}`
+        }
+    }).then((response) => {
         toast.success("This job has been added to your favorites!");
     }).catch((error) => {
         errors.value = error?.response?.data?.errors;
-        toast.error("Failed to Add the Job to your Favorites!");
+        // console.log(error.response.status);
+        if (error.response.status == 409) {
+            toast.error("Job Already added to your favorite!");
+        }
+
     });
 }
 
@@ -180,7 +189,7 @@ const vacacyDelete = async () => {
             <div class="grid grid-cols-3 gap-2 my-4" v-if="authStore.authRole">
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
                     <Button value="Apply Now" @clicked="nextPage" v-if="step == 2" />
-                    <Button value="Cancel" @clicked="previousPage" v-if="step == 0" />
+                    <Button value="Cancel" @clicked="previousPage" v-if="step == 3" />
                 </div>
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
                     <Button value="Bookmark" @clicked="bookMark" />
