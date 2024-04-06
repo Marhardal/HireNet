@@ -14,6 +14,8 @@ import "vue-toastification/dist/index.css";
 
 import VueSocialSharing from 'vue-social-sharing'
 
+import { VueUiRadar } from "vue-data-ui"
+
 import { createPinia } from 'pinia';
 
 
@@ -42,6 +44,8 @@ const options = {
 app.use(plugin, defaultConfig(config, { plugins: [pro] }));
 
 app.use( Toast, options);
+
+app.component("VueUiRadar", VueUiRadar)
 
 app.mount('#app');
 
