@@ -34,6 +34,8 @@ const getResume = async (userId) => {
     console.log(resume.value);
 }
 
+const url = `http://127.0.0.1:8000/api/view/resume/8`;
+
 </script>
 
 <template>
@@ -48,7 +50,7 @@ const getResume = async (userId) => {
     </template>
 
     <template v-slot:main>
-        <div class="grid grid-cols-12 gap-2 max-h-fit">
+        <div class="grid grid-cols-12 gap-2 max-h-fit" v-if="resume">
             <div class="col-span-4">
                 <div class="max-w-sm rounded bg-white mx-auto shadow flex flex-col p-2 my-3">
                     <div class="w-full rounded flex relative">
@@ -113,9 +115,17 @@ const getResume = async (userId) => {
                 </div>
             </div>
             <div class="col-span-8">
-                <iframe src="http://127.0.0.1:8000/download/resume" frameborder="0"
+                <iframe :src="url" frameborder="0"
                     class="w-full h-full bg-white my-2 mx-2 py-2"></iframe>
                 <!-- <one :resume="resume" /> -->
+            </div>
+            <div class="col-span-12">   
+                
+            </div>
+        </div>
+        <div class="grid grid-cols-12 gap-2 max-h-fit w-full" v-else>
+            <div class="justify-center align-middle text-center">
+                <RouterLink :to="{path: '/resume/create'}">Create Resume</RouterLink>
             </div>
         </div>
     </template>

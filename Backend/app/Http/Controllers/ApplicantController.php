@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApplyRequest;
+use App\Models\Bookmark;
 use App\Notifications\VacancyApplied;
 use App\Notifications\ShortlistDenied;
 use Illuminate\Support\Facades\Storage;
@@ -39,13 +40,13 @@ class ApplicantController extends Controller
      */
     public function store(ApplyRequest $request)
     {
-        $user = Applicant::where('post_id', $request->post_id)->where('user_id', auth()->user()->id)->get()->first();
+        $user = Applicant::where('post_id', $request->post_id)->where('user_id', auth()->user()->id)->first();
         if (!$user) {
-            $file = $request->file('document')->store('Resumes');
+            $path = $request->file('document')->store('Resumes');
             Applicant::create([
                 'user_id' => auth()->user()->id,
                 'post_id' => $request->post_id,
-                'document' => $file,
+                'document' => $path,
                 'message' => $request->message,
             ]);
 
@@ -57,6 +58,8 @@ class ApplicantController extends Controller
             $this->applied($post, $recruiters);
 
             $this->applyNotification($post);
+
+            Bookmark::find($request->post_id)->destroy();
 
             return response()->json('Notifications Sent', 200);
         } else {
@@ -111,8 +114,11 @@ class ApplicantController extends Controller
 
     public function applied($id)
     {
-        $posts = Applicant::where('user_id', $id)->get();
-        return response()->json(['posts' => $posts], 200);
+        // $posts = Applicant::where('user_id', $id)->get();
+        $posts = Post::get();
+        $user = request()->user();
+        $applied = $user->posts()->get();
+        return response()->json(['posts' => $applied], 200);
     }
 
     // public function Applied($post)

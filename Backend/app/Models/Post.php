@@ -109,7 +109,7 @@ class Post extends Model
      */
     public function Users()
     {
-        return $this->belongsToMany(User::class, 'applicants')->withPivot(['document', 'message', 'post_id', 'user_id', 'shortlisted'])->withTimestamps();
+        return $this->belongsToMany(User::class, 'applicants', 'post_id', 'user_id')->withPivot(['document', 'message', 'post_id', 'user_id', 'shortlisted'])->withTimestamps();
     }
 
     /**

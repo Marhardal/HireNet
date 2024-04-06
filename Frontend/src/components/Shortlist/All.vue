@@ -1,8 +1,10 @@
 <template>
-     <div class="w-full md:w-1/2 lg:w-full">
-        <Applicant v-for="Applicant in Applicants" :applicant="Applicant" :postId="Applicant.pivot.post_id"/>
+    <div class="flex justify-center bg-gradient-to-t max-h-3/4 p-6 bg-no-repeat">
+        <div class="w-full h-full">
+            <Applicant v-for="Applicant in Applicants" :applicant="Applicant" :postId="Applicant.pivot.post_id" />
+        </div>
     </div>
-    
+
 </template>
 
 <script setup>

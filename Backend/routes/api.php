@@ -98,13 +98,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
 
-    Route::get('download/resume', [PDFController::class, 'resume']);
-
-    Route::get('/vacancy/{postId}/applicant/{userId}/resume', [PDFController::class, 'showResume'])->name('applicant.resume');
 
     Route::get('send/my/email', [MailController::class, 'sendCV']);
 });
 
+Route::get('/vacancy/{postId}/applicant/{userId}/resume', [PDFController::class, 'showResume'])->name('applicant.resume');
+
+Route::get('view/resume/{id}', [PDFController::class, 'load']);
+
+Route::get('download/resume/{id}', [PDFController::class, 'Download']);
 
 Route::resource('organisation/', OrganisationController::class)->only(['store']);
 

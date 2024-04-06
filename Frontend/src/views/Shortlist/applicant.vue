@@ -49,7 +49,7 @@ const getApplicant = async ([postId, userId]) => {
     applicant.value = response.data.applicant;
     post.value = response.data.post;
     url.value = response.data.url;
-    // console.log(applicant.value);
+    // console.log(url.value);
 }
 
 
