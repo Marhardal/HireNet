@@ -153,7 +153,7 @@ const createVacancy = async () => {
                         <!-- <textarea name="" id="" cols="30" rows="3" v-model="values.duties"></textarea> -->
                         <!-- <QuillEditor theme="snow" v-model:content="values.duties"/> -->
                         <!-- <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor> -->
-                        <Editor v-model="values.duties" api-key="c4ej7yvfdtjz97be0lu31ydtglcqma7tdes3dvuvoect8oty" :init="{
+                        <Editor v-model="values.duties" api-key="p7bxswmc16azpbpvuyzyez274pm0zs0wfkms12gvbk7u2dze" :init="{
                 plugins: 'lists link image table code help wordcount', 
                 selector: 'textarea',  // change this value according to your HTML
                 plugins: 'lists',

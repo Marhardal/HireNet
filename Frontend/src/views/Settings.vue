@@ -91,7 +91,7 @@ const SeekerTabs = shallowRef([
     { label: 'Account', component: Account },
     { label: 'subscription', component: Subscription },
     { label: 'Bookmark', component: Bookmark },
-    { label: 'Applied', component: Applied },
+    // { label: 'Applied', component: Applied },
     { label: 'Shortlist', component: Shortlist },
 ]);
 

@@ -20,7 +20,7 @@ const md = new MarkdownIt();
 
 const step = shallowRef(2);
 const show = shallowRef({});
-const markdown = shallowRef();
+const applicants = shallowRef();
 const checks = shallowRef();
 
 
@@ -37,7 +37,7 @@ const authToken = localStorage.getItem('authToken');
 
 const router = useRoute();
 
-const id =router.params.id;
+const id = router.params.id;
 
 onMounted(async => {
     authStore.getUser();
@@ -70,8 +70,8 @@ const showVacancy = async (id) => {
         }
     });
     show.value = response.data.post;
-    markdown.value = response.data.markdown;
-    // console.log(show.value);
+    applicants.value = response.data.applicants;
+    console.log(applicants.value);
 }
 
 const nextPage = () => {
@@ -93,16 +93,25 @@ const bookMarkCheck = async (userId) => {
 }
 
 const bookMark = () => {
-    axios.post('http://127.0.0.1:8000/api/bookmark/', input).then((response) => {
+    axios.post('http://127.0.0.1:8000/api/bookmark/', { 'id': id }, {
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${authToken}`
+        }
+    }).then((response) => {
         toast.success("This job has been added to your favorites!");
     }).catch((error) => {
         errors.value = error?.response?.data?.errors;
-        toast.error("Failed to Add the Job to your Favorites!");
+        // console.log(error.response.status);
+        if (error.response.status == 409) {
+            toast.error("Job Already added to your favorite!");
+        }
+
     });
 }
 
 const Approve = () => {
-    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, {'status': true}, {
+    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, { 'status': true }, {
         headers: {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`
@@ -116,7 +125,7 @@ const Approve = () => {
 }
 
 const Decline = () => {
-    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, {'status': false}, {
+    axios.put(`http://127.0.0.1:8000/api/vacancies/${id}`, { 'status': false }, {
         headers: {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`
@@ -143,17 +152,29 @@ const vacacyDelete = async () => {
         toast.error("Failed to delete a vacancy.");
     });
 }
+
+const isOpen = shallowRef(false);
+
+const loc = router.fullPath;
+const url = 'http://localhost:5173' + loc;
 </script>
 
 <template>
     <Base>
     <template v-slot:other>
         <div class="max-w-4xl mx-auto" v-if="authStore.User">
-            <div class="flex justify-between">
-                <RouterLink to="/vacancies"
-                    class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600 py-2">
-                    <backIcon /> Back
-                </RouterLink>
+            <div class="grid grid-cols-2">
+                <div class="col-span-1 justify-start">
+                    <RouterLink to="/vacancies"
+                        class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-600 py-2">
+                        <backIcon /> Back
+                    </RouterLink>
+                </div>
+                <div class="col-span-1 py-2 justify-end text-end" v-if="applicants > 1">
+                    <span class="text-base">
+                        {{ applicants }} applicants have applied to this vacancy.
+                    </span>
+                </div>
             </div>
             <div
                 class="h-32 text-white text-center grid bg-cover rounded-md bg-center bg-[url('@/assets/Header/1696668225508.jpg')]">
@@ -180,13 +201,13 @@ const vacacyDelete = async () => {
             <div class="grid grid-cols-3 gap-2 my-4" v-if="authStore.authRole">
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
                     <Button value="Apply Now" @clicked="nextPage" v-if="step == 2" />
-                    <Button value="Cancel" @clicked="previousPage" v-if="step == 0" />
+                    <Button value="Cancel" @clicked="previousPage" v-if="step == 3" />
                 </div>
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Seeker'">
                     <Button value="Bookmark" @clicked="bookMark" />
                 </div>
                 <div class="col-span-1">
-                    <Button value="Share" />
+                    <Button value="Share" @clicked="isOpen" />
                 </div>
                 <div class="col-span-1" v-if="authStore.authRole.name == 'Recruiter'">
                     <Button value="Delete" @clicked="vacacyDelete" />
@@ -202,7 +223,40 @@ const vacacyDelete = async () => {
                     <Button value="Decline" @clicked="Decline" v-if="step == 2" />
                 </div>
             </div>
-            <component :is="steps[step]" :show="show" :markdown="markdown" :User="authStore.User" />
+            <component :is="steps[step]" :show="show" :User="authStore.User" />
+            <div class="obsolute top-0 left-0 bg-transparent w-full h-full flex">
+                <div class="">
+                    <h3 class="font-semibold text-base">Share this Vacancy on:</h3>
+                    <div class="">
+                        <ShareNetwork network="Facebook" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            Facebook
+                        </ShareNetwork>
+                        <ShareNetwork network="Twitter" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            Twitter
+                        </ShareNetwork>
+                        <ShareNetwork network="Whatsapp" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            Whatsapp
+                        </ShareNetwork>
+                        <ShareNetwork network="LinkedIn" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            LinkedIn
+                        </ShareNetwork>
+                        <ShareNetwork network="Email" :url="url" title="New Vacancy Alert."
+                            description="A vacancy has been recently created, please make sure you view it."
+                            quote="View recent vacancy alert.away" hashtags="HireNet, MW">
+                            Email
+                        </ShareNetwork>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </template>
     </Base>

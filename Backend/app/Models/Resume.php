@@ -68,7 +68,7 @@ class Resume extends Model
      */
     public function Jobs()
     {
-        return $this->belongsToMany(Job::class, 'experiences')->withPivot(['duty_id', 'organisation', 'start', 'end']);
+        return $this->belongsToMany(Job::class, 'experiences')->withPivot(['duties', 'organisation', 'start', 'end']);
     }
 
     /**

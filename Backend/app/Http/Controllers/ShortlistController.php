@@ -15,6 +15,7 @@ class ShortlistController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $posts = Post::get();
         if ($user->organisation_id != '') {
             $posts = Post::where('organisation_id', $user->organisation_id)->get();
             $shortlist = [];
@@ -28,9 +29,11 @@ class ShortlistController extends Controller
             }
             return response()->json(["shortlisted" => $shortlist], 200);
         } else {
-            $post = $user->posts()->wherePivot('shortlisted', true);
-            return response()->json(["applicants" => $post->get()], 200);
+            // $post = $posts->users()->wherePivot('user_id', $user->id)->get();
+            $applied = $user->posts()->get();
+            return response()->json(["shortlist" => $applied], 200);
         }
+        // return response()->json(["applicants" => $user], 200);
     }
 
     /**
@@ -56,8 +59,13 @@ class ShortlistController extends Controller
     {
         $user = auth()->user();
         $post = Post::find($id);
-        $applicants = $post->users()->wherePivot('shortlisted', 'LIKE', '%' . request()->search . '%');
-        return response()->json(["applicants" => $applicants->get(), "count" => $applicants->count()], 200);
+        if (request()->search != null) {
+            $applicants = $post->users();
+            return response()->json(["applicants" => $applicants->get(), "count" => $applicants->count()], 200);
+        } else {
+            $applicants = $post->users();
+            return response()->json(["applicants" => $applicants->get(), "count" => $applicants->count()], 200);
+        }
     }
 
     /**

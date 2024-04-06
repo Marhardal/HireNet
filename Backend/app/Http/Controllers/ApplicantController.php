@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApplyRequest;
+use App\Models\Bookmark;
 use App\Notifications\VacancyApplied;
 use App\Notifications\ShortlistDenied;
 use Illuminate\Support\Facades\Storage;
@@ -39,30 +40,31 @@ class ApplicantController extends Controller
      */
     public function store(ApplyRequest $request)
     {
-        // $file = $request->file('document')->store('Resumes');
-        Applicant::create([
-            'user_id' => auth()->user()->id,
-            'post_id' => request()->post_id,
-            'document' => request()->document,
-            'message' => request()->message,
-        ]);
+        $user = Applicant::where('post_id', $request->post_id)->where('user_id', auth()->user()->id)->first();
+        if (!$user) {
+            $path = $request->file('document')->store('Resumes');
+            Applicant::create([
+                'user_id' => auth()->user()->id,
+                'post_id' => $request->post_id,
+                'document' => $path,
+                'message' => $request->message,
+            ]);
 
-        $user = auth()->user();
+            $user = auth()->user();
 
-        $post = Post::find(request()->post_id);
+            $post = Post::find(request()->post_id);
 
-        $recruiters = User::where('organisation_id', $post->organisation->id)->get();
+            $recruiters = User::where('organisation_id', $post->organisation->id)->get();
+            $this->applied($post, $recruiters);
 
-        session()->put(['post' => $post]);
+            $this->applyNotification($post);
 
-        foreach ($recruiters as $recruiter) {
+            Bookmark::find($request->post_id)->destroy();
 
-            $this->applied($post, $recruiter);
+            return response()->json('Notifications Sent', 200);
+        } else {
+            return response()->json('You have already Applied!', 409);
         }
-
-        $this->applyNotification($post);
-
-        return response()->json('Notifications Sent', 200);
     }
 
     /**
@@ -96,7 +98,7 @@ class ApplicantController extends Controller
         $applicant->pivot->update(['shortlisted' => $request->shortlisted]);
         if ($applicant->pivot->shortlisted == true) {
             $this->ShortlistedNotification($post, $applicant);
-        }else if ($applicant->pivot->shortlisted == false) {
+        } else if ($applicant->pivot->shortlisted == false) {
             $this->notShortlistedNotification($post, $applicant);
         }
         return response()->json($applicant, 200);
@@ -110,26 +112,31 @@ class ApplicantController extends Controller
         //
     }
 
-    // public function applied($id)
-    // {
-    //     $posts = Applicant::where('user_id', $id)->get();
-    //     return response()->json(['posts' => $posts], 200);
-    // }
-
-    public function Applied($post, $recruiters)
+    public function applied($id)
     {
-        $user = auth()->user();
-        $applied = [
-            'subject' => 'Application for ' . $post->job->name . ' - ' . $user->first_name . ' ' . $user->surname,
-            'salutation' => 'Dear ' . $recruiters->first_name . ' ' . $recruiters->surname, ',',
-            'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $post->job->name . " position that your organisation recently advertised. " . $user->first_name . " is interested in learning more about this opportunity and how " . $user->first_name . "'s skills and experience can benefit your team.",
-            'closing' => 'Thank you'
-        ];
-
-        Notification::send($recruiters, new VacancyApplied($applied, $post->job, $recruiters));
-
-        return response()->json("Vacancy Declined Notification sent.", 200);
+        // $posts = Applicant::where('user_id', $id)->get();
+        $posts = Post::get();
+        $user = request()->user();
+        $applied = $user->posts()->get();
+        return response()->json(['posts' => $applied], 200);
     }
+
+    // public function Applied($post)
+    // {
+    //     $user = auth()->user();
+    //     // $recruiters = User::where('organisation_id', $post->organisation_id)->get();
+    //     $recruiters = $post->organisation->users;
+    //     $applied = [
+    //         'subject' => 'Application for ' . $post->job->name . ' - ' . $user->first_name . ' ' . $user->surname,
+    //         'salutation' => 'Dear ' . $post->organisation->name,
+    //         'body' => "This email is to inform you that " . $user->first_name . " " . $user->surname . " has submitted an application for the " . $post->job->name . " position that your organisation recently advertised. " . $user->first_name . " is interested in learning more about this opportunity and how " . $user->first_name . "'s skills and experience can benefit your team.",
+    //         'closing' => 'Thank you'
+    //     ];
+
+    //     Notification::send($recruiters, new VacancyApplied($applied, $post));
+
+    //     return response()->json("Vacancy Declined Notification sent.", 200);
+    // }
 
     public function applyNotification($post)
     {

@@ -18,7 +18,6 @@ class ResumeController extends Controller
      */
     public function index()
     {
-
     }
 
     /**
@@ -35,59 +34,64 @@ class ResumeController extends Controller
     public function store(StoreResumeRequest $request)
     {
         // return response()->json($request->duty_id);
-        $resumeValues = [
-            'summary' => $request->summary,
-            'user_id' => auth()->user()->id,
-        ];
+        $user = Resume::where('user_id', auth()->user())->get()->first();
+        if (!$user) {
+            $resumeValues = [
+                'summary' => $request->summary,
+                'user_id' => auth()->user()->id,
+            ];
 
-        $experience = [
-            'job_id' => $request->job_id,
-            'duties' => $request->duties,
-            'organisation' => $request->organisation,
-            'start' => $request->start,
-            'end' => $request->end,
-        ];
+            $experience = [
+                'job_id' => $request->job_id,
+                'duties' => $request->duties,
+                'organisation' => $request->organisation,
+                'start' => $request->start,
+                'end' => $request->end,
+            ];
 
 
-        $resume = Resume::create($resumeValues);
-        $school = [
-            'certificate_id' => $request->certificate_id,
-            'school' => $request->school,
-            'started' => $request->started,
-            'finished' => $request->finished,
-        ];
+            $resume = Resume::create($resumeValues);
+            $school = [
+                'certificate_id' => $request->certificate_id,
+                'school' => $request->school,
+                'started' => $request->started,
+                'finished' => $request->finished,
+            ];
 
-        $resume->certificates()->attach($request->certificate_id, [
-            'school' => $request->school,
-            'started' => $request->started,
-            'finished' => $request->finished,
-        ]);
+            $resume->certificates()->attach($request->certificate_id, [
+                'school' => $request->school,
+                'started' => $request->started,
+                'finished' => $request->finished,
+            ]);
 
-        $resume->skills()->attach($request->skill_id);
+            $resume->skills()->attach($request->skill_id);
 
-        $referral = [
-            'full_name' => $request->full_name,
-            'organisation' => $request->organisation,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'resume_id' => $resume->id
-        ];
+            $referral = [
+                'full_name' => $request->full_name,
+                'organisation' => $request->organisation,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'resume_id' => $resume->id
+            ];
 
-        $resume->jobs()->attach($experience);
-        // foreach ($request->duty_id as $value) {
-        //     Experience::create([
-        //         'resume_id'=> $resume->id,
-        //         'job_id' => $request->job_id,
-        //         'duties' => $value,
-        //         'organisation' => $request->organisation,
-        //         'start' => $request->start,
-        //         'end' => $request->end
-        //     ]);
-        // }
+            // $resume->jobs()->attach($experience);
+            // foreach ($request->duty_id as $value) {
+                Experience::create([
+                    'resume_id'=> $resume->id,
+                    'job_id' => $request->job_id,
+                    'duties' => $request->duties,
+                    'organisation' => $request->organisation,
+                    'start' => $request->start,
+                    'end' => $request->end
+                ]);
+            // }
 
-        $resume->referrals()->create($referral);
+            $resume->referrals()->create($referral);
 
-        return response()->json('Resume Created Successfully', 200);
+            return response()->json('Resume Created Successfully', 200);
+        } else {
+            return response()->json('You already have a resume', 409);
+        }
     }
 
     /**

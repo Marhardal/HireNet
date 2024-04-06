@@ -38,7 +38,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected $with = ['role', 'organisation',];
+    protected $with = ['role', 'organisation', 'bookmarks'];
 
 
     /**
@@ -88,7 +88,17 @@ class User extends Authenticatable
      */
     public function Posts()
     {
-        return $this->belongsToMany(Post::class, 'applicants')->withPivot(['document', 'message', 'post_id', 'user_id']);
+        return $this->belongsToMany(Post::class, 'applicants', 'user_id', 'post_id')->withPivot(['document', 'message', 'post_id', 'user_id']);
+    }
+
+    /**
+     * Get all of the Bookmarks for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
     }
 
 }

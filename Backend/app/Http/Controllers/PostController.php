@@ -99,7 +99,9 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return response()->json(['post' => $post, 'applicants' => $post->users, 'markdown' => $post->responsibilities]);
+        $bookmark = auth()->user()->bookmarks->where('post_id', $id)->first();
+        $applicants = $post->users()->count();
+        return response()->json(['post' => $post, 'applicants' => $post->users, 'applicants' => $applicants, 'bookmark' => $bookmark]);
     }
 
     /**

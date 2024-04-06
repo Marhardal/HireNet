@@ -55,40 +55,45 @@ const Apply = async () => {
         toast.success("You have applied to a vacancy successfully.");
         router.push('/');
     }).catch((error) => {
-        toast.error("Encountered an error while applying.");
+        if (error.response.status == 409) {
+            toast.error("You have already applied to this vacancy.");
+        }
     });
 }
 </script>
 
-<template  v-if="authStore.authRole">
-    <div class="my-5">
-        <FormKit type="form" submit-label="Apply Now" @submit="Apply" default="" v-if="authStore.authRole.name='Seeker'">
-        <div class="grid grid-cols-2 gap-x-4 mx-auto justify-center max-w-4xl">
-            <div class="col-span-2 mb-2">
-                <h2 class="text-base font-semibold">Please fill in all fields to Apply.</h2>
+<template v-if="authStore.authRole">
+    <div class="flex flex-col max-w-2xl my-5 mx-auto justify-center align-middle">
+        <FormKit type="form" submit-label="Apply Now" @submit="Apply" default=""
+            v-if="authStore.authRole.name = 'Seeker'">
+            <div class="grid grid-cols-2 gap-x-4 w-full max-w-4xl">
+                <div class="col-span-2 mb-2">
+                    <h2 class="text-base font-semibold">Please fill in all fields to Apply.</h2>
+                </div>
+                <div class="col-span-1">
+                    <FormKit type="text" v-model="authStore.authUser.first_name" label="First Name" disabled="true" />
+                </div>
+                <div class="col-span-1">
+                    <FormKit type="text" v-model="authStore.authUser.surname" label="Surname" disabled="true" />
+                </div>
+                <div class="col-span-1">
+                    <FormKit type="text" v-model="authStore.authUser.phone" label="Phone Number" disabled="true" />
+                </div>
+                <div class="col-span">
+                    <FormKit type="text" v-model="authStore.authUser.email" label="Email" disabled="true" />
+                </div>
+                <FormKit type="hidden" v-model="authStore.authUser.id" />
+                <div class="col-span-2 flex items-center">
+                    <div class="w-full">
+                        <FormKit type="file" label="Resume" v-model="form.document" accept=".pdf" placeholder="Select your resume." validation="required" />
+                    </div>
+                </div>
+                <div class="col-span-2">
+                    <FormKit type="textarea" v-model="form.message" label="Message" validation="required"
+                        placeholder="Write your Cover Letter here or add any comments which you want the recruiters know." />
+                </div>
             </div>
-            <div class="col-span-1">
-                <FormKit type="text" v-model="authStore.authUser.first_name" label="First Name" disabled="true" />
-            </div>
-            <div class="col-span-1">
-                <FormKit type="text" v-model="authStore.authUser.surname" label="Surname" disabled="true" />
-            </div>
-            <div class="col-span-1">
-                <FormKit type="text" v-model="authStore.authUser.phone" label="Phone Number" disabled="true" />
-            </div>
-            <div class="col-span">
-                <FormKit type="text" v-model="authStore.authUser.email" label="Email" disabled="true" />
-            </div>
-            <FormKit type="hidden" v-model="authStore.authUser.id" />
-            <div class="col-span-2">
-                <FormKit type="file" label="Resume" v-model="form.document" accept=".pdf,.doc,.docx" placeholder="Select your resume." validation="required" />
-            </div>
-            <div class="col-span-2">
-                <FormKit type="textarea" v-model="form.message" label="Message" validation="required"
-                placeholder="Write your Cover Letter here or add any comments which you want the recruiters know." />
-            </div>
-        </div>
-    </FormKit>
+        </FormKit>
     </div>
 </template>
 
