@@ -113,6 +113,16 @@ class Post extends Model
     }
 
     /**
+     * The Interview that belong to the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Interview()
+    {
+        return $this->belongsToMany(Interview::class, 'applicants');
+    }
+
+    /**
      * Get the Responsibilities associated with the Post
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
