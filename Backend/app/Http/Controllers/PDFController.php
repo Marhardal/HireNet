@@ -23,8 +23,7 @@ class PDFController extends Controller
 
     public function Download($id)
     {
-        $resumes = Resume::where('user_id', $id)->get()->first();
-        // dd($resumes->user->first_name . " " . $resumes->user->first_name);
+        $resumes = Resume::where('user_id', auth()->user()->id)->get()->first();
         $pdf = PDF::loadView('resume.template1', compact('resumes'));
         return $pdf->download($resumes->user->first_name . " " . $resumes->user->surname . ".pdf");
     }

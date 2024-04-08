@@ -3,6 +3,7 @@ import { useAuthStore } from '@/Stores/Auth';
 import DashboardIcon from '../icons/DashboardIcon.vue';
 import ResumeIcon from '../icons/ResumeIcon.vue';
 import { onMounted } from 'vue';
+import { Icon } from '@iconify/vue';
 import { ClipboardDocumentListIcon, BellAlertIcon, Cog6ToothIcon, BriefcaseIcon, UserGroupIcon } from "@heroicons/vue/24/solid";
 
 const authStore = useAuthStore();
@@ -20,11 +21,11 @@ onMounted(async => {
         <div class="ml-6 flex w-16 flex-col items-center space-y-10 py-6">
             <div class="space-y-48 rounded-md bg-blue-500">
                 <ul>
-                    <!-- <li class="p-5">
+                    <li class="p-5">
                         <RouterLink to="/">
-                            <DashboardIcon />
+                            <Icon icon="heroicons:home-20-solid" width="30" style="color: white" class="fill-white"/>
                         </RouterLink>
-                    </li> -->
+                    </li>
                     <li class="p-5">
                         <RouterLink to="/vacancies">
                             <BriefcaseIcon class="h-7 w-7 fill-white hover:fill-black active:fill-black"/>

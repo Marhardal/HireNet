@@ -31,10 +31,19 @@ const getResume = async (userId) => {
         }
     });
     resume.value = response.data.resume;
-    console.log(resume.value);
+    // console.log(resume.value);
 }
 
 const url = `http://127.0.0.1:8000/api/view/resume/8`;
+const download = async () => {
+    // console.log(userId.value);
+    const response = await axios.get(`http://127.0.0.1:8000/api/download/resume/${userId.value}`, {
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
 
 </script>
 
@@ -65,13 +74,23 @@ const url = `http://127.0.0.1:8000/api/view/resume/8`;
                                 <div class="col-span-3">
                                     <h5 class="text-base text-center">Wanna Pocket your CV?</h5>
                                 </div>
-                                <div class="col-span-1 mx-auto"><ArrowDownIcon class="w-5 h-5 fill-black "/></div>
-                                <div class="col-span-1 mx-auto"><EnvelopeIcon  class="w-5 h-5 fill-black "/></div>
-                                <div class="col-span-1 mx-auto"><PrinterIcon class="w-5 h-5 fill-black "/></div>
+                                <div class="col-span-1 mx-auto">
+                                    <button type="submit" @click="download">
+                                        <ArrowDownIcon class="w-5 h-5 fill-black " />
+                                    </button>
+                                </div>
+                                <div class="col-span-1 mx-auto">
+                                    <EnvelopeIcon class="w-5 h-5 fill-black " />
+                                </div>
+                                <div class="col-span-1 mx-auto">
+                                    <PrinterIcon class="w-5 h-5 fill-black " />
+                                </div>
                                 <div class="col-span-3">
                                     <h5 class="text-base text-center">Wanna Delete your CV?</h5>
                                 </div>
-                                <div class="col-span-3 mx-auto"><TrashIcon class="w-5 h-5 fill-black"/></div>
+                                <div class="col-span-3 mx-auto">
+                                    <TrashIcon class="w-5 h-5 fill-black" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -115,17 +134,16 @@ const url = `http://127.0.0.1:8000/api/view/resume/8`;
                 </div>
             </div>
             <div class="col-span-8">
-                <iframe :src="url" frameborder="0"
-                    class="w-full h-full bg-white my-2 mx-2 py-2"></iframe>
+                <iframe :src="url" frameborder="0" class="w-full h-full bg-white my-2 mx-2 py-2"></iframe>
                 <!-- <one :resume="resume" /> -->
             </div>
-            <div class="col-span-12">   
-                
+            <div class="col-span-12">
+
             </div>
         </div>
         <div class="grid grid-cols-12 gap-2 max-h-fit w-full" v-else>
             <div class="justify-center align-middle text-center">
-                <RouterLink :to="{path: '/resume/create'}">Create Resume</RouterLink>
+                <RouterLink :to="{ path: '/resume/create' }">Create Resume</RouterLink>
             </div>
         </div>
     </template>

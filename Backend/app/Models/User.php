@@ -92,6 +92,16 @@ class User extends Authenticatable
     }
 
     /**
+     * The Interviews that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Interviews()
+    {
+        return $this->belongsToMany(Interview::class, 'applicants');
+    }
+
+    /**
      * Get all of the Bookmarks for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

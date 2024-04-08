@@ -18,6 +18,7 @@ use App\Http\Controllers\PostSkillsController;
 use App\Http\Controllers\ArrangementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrganisationController;
@@ -98,15 +99,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::resource('resume', ResumeController::class)->except(['create', 'edit']);
 
+    Route::get('download/resume/{id}', [PDFController::class, 'Download']);
 
     Route::get('send/my/email', [MailController::class, 'sendCV']);
+
+    Route::get('dashboard', [DashboardController::class, 'index']);
 });
 
 Route::get('/vacancy/{postId}/applicant/{userId}/resume', [PDFController::class, 'showResume'])->name('applicant.resume');
 
 Route::get('view/resume/{id}', [PDFController::class, 'load']);
 
-Route::get('download/resume/{id}', [PDFController::class, 'Download']);
 
 Route::resource('organisation/', OrganisationController::class)->only(['store']);
 
