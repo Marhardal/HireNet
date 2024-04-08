@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // User::factory(5)->create();
-        Job::factory(50)->create();
+        Job::factory(20)->create();
         // Skill::factory(30)->create();
         // Post::factory(10)->create();
         // PostSkills::factory(30)->create();

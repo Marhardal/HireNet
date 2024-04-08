@@ -104,11 +104,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('send/my/email', [MailController::class, 'sendCV']);
 
     Route::get('dashboard', [DashboardController::class, 'index']);
+
+    Route::get('view/resume/{id}', [PDFController::class, 'load'])->name('load.resume');
 });
 
 Route::get('/vacancy/{postId}/applicant/{userId}/resume', [PDFController::class, 'showResume'])->name('applicant.resume');
 
-Route::get('view/resume/{id}', [PDFController::class, 'load']);
 
 
 Route::resource('organisation/', OrganisationController::class)->only(['store']);

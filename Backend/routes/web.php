@@ -19,4 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('view/resume/{id}', [PDFController::class, 'load'])->name('load.resume');
+
 Route::get('download/resume', [PDFController::class, 'loadResume']);

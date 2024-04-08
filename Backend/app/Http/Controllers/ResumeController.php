@@ -101,7 +101,8 @@ class ResumeController extends Controller
     {
         $user = auth()->user();
         $resume = Resume::where('user_id', $user->id)->get()->first();
-        return response()->json(['resume' => $resume], 200);
+        $routeLink = route('load.resume', ['id' => $resume->id]);
+        return response()->json(['resume' => $resume, 'route' => $routeLink], 200);
     }
 
     /**
