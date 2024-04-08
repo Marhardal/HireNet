@@ -17,10 +17,11 @@ const authToken = localStorage.getItem('authToken');
 onMounted(async () => {
     await authStore.getUser();
     userId.value = authStore.authUser.id;
-    getResume(userId.value);
+    await getResume(userId.value);
 });
 
 const resume = ref({});
+const url = ref();
 
 const getResume = async (userId) => {
     // console.log(userId);
@@ -31,10 +32,10 @@ const getResume = async (userId) => {
         }
     });
     resume.value = response.data.resume;
-    // console.log(resume.value);
+    url.value = response.data.route;
+    console.log(url.value);
 }
 
-const url = `http://127.0.0.1:8000/api/view/resume/8`;
 const download = async () => {
     // console.log(userId.value);
     const response = await axios.get(`http://127.0.0.1:8000/api/download/resume/${userId.value}`, {
@@ -59,7 +60,7 @@ const download = async () => {
     </template>
 
     <template v-slot:main>
-        <div class="grid grid-cols-12 gap-2 max-h-fit" v-if="resume">
+        <div class="grid grid-cols-12 gap-2 max-h-fit" v-if="resume.length != 1">
             <div class="col-span-4">
                 <div class="max-w-sm rounded bg-white mx-auto shadow flex flex-col p-2 my-3">
                     <div class="w-full rounded flex relative">
