@@ -8,7 +8,7 @@
                     <div class="flex-1 group">
                         <div
                             class="flex items-start justify-start text-left my-3 w-full text-Black">
-                            <h3 class="text-xl font-bold ">HN</h3>
+                            <h3 class="text-xl font-bold ">TecHR</h3>
                         </div>
                     </div>
                     <div class="flex-1 group">

@@ -22,7 +22,7 @@ import applicant from '@/views/Shortlist/applicant.vue';
 function auth(to, from) {
     const auth = useAuthStore();
     if (!localStorage.getItem('authToken')) {
-        return "/sign-up";
+        return "/sign-in";
     }
 }
 
@@ -44,6 +44,8 @@ const router = createRouter({
     },
     {
       path: '/vacancies',
+      beforeEnter: auth,
+
       name: 'Vacancy index',
       component: vacancies
     },
