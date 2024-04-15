@@ -20,13 +20,14 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            //
-            'organisation_id' => Organisation::all()->random()->id,
-            'job_id' => Job::all()->random()->id,
-            'arrangement_id' => Arrangement::all()->random()->id,
-            'about' => fake()->paragraph(),
-            'due_date' => now()->addMonth(3),
-            'num' => fake()->randomNumber(),
+            'job_id' => $this->faker->numberBetween(1, 10), // Assuming there are 10 jobs
+            'about' => $this->faker->text,
+            'due_date' => $this->faker->dateTimeBetween('+1 week', '+6 months'),
+            'organisation_id' => function () {
+                return mt_rand(1, 5); // Assuming there are 5 organisations
+            },
+            'arrangement_id' => $this->faker->numberBetween(1, 3), // Assuming arrangement_id ranges from 1 to 3
+            'num' => 1,
         ];
     }
 }

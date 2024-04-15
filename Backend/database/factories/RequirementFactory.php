@@ -7,7 +7,7 @@ use App\Models\Certificate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Requirement>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Qualification>
  */
 class RequirementFactory extends Factory
 {
@@ -19,8 +19,8 @@ class RequirementFactory extends Factory
     public function definition(): array
     {
         return [
-            'post_id' => Post::get()->random()->id,
-            'certificate_id' => Certificate::get()->random()->id,
+            'post_id' => Post::all()->random()->id,
+            'certificate_id' => Certificate::all()->random()->id,
         ];
     }
 }

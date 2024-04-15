@@ -14,10 +14,30 @@ class SkillFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    private static $currentIndex = 0;
+
     public function definition(): array
     {
+        $skills = [
+            'Communication Skills',
+            'Teamwork',
+            'Problem-Solving',
+            'Leadership',
+            'Time Management',
+            'Creativity',
+            'Adaptability',
+            'Critical Thinking',
+            'Attention to Detail',
+            'Decision Making'
+        ];
+        $currentIndex = 0;
+        $selectedSkill = $skills[$currentIndex];
+
+$currentIndex = ($currentIndex + 1) % count($skills);
         return [
-            'name'=>fake()->name(),
+            'name' => $selectedSkill,
+            'created_at' => $this->faker->dateTime(),
+            'updated_at' => $this->faker->dateTime(),
         ];
     }
 }

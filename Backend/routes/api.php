@@ -56,14 +56,12 @@ Route::get('auth/redirect', function () {
 
 Route::get('auth/callback', [AuthController::class, 'google']);
 
+Route::resource('skills', SkillController::class)->except(['create', 'edit', 'destroy']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user', [LoginController::class, 'User']);
 
     Route::resource('vacancies', PostController::class)->except(['create', 'edit']);
-
-    Route::resource('vacancy/duties', PostDutyController::class)->except(['create', 'edit']);
-
-    Route::resource('vacancy/skills', PostSkillsController::class)->except(['create', 'edit']);
 
     Route::resource('vacancy/requirements', RequirementController::class)->except(['create', 'edit']);
 
@@ -73,13 +71,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::resource('skills', SkillController::class)->except(['create', 'edit', 'destroy']);
 
-    Route::resource('duties', DutyController::class)->except(['create', 'edit', 'destroy']);
-
     Route::resource('certificates', CertificateController::class)->except(['create', 'edit', 'destroy']);
 
     Route::resource('arrangements/', ArrangementController::class)->only(['index']);
 
-    Route::resource('organisation/', OrganisationController::class)->except(['create', 'edit']);
+    // Route::resource('organisation', OrganisationController::class)->except(['create', 'edit']);
 
     Route::resource('/jobs', JobController::class)->only(['index']);
 
@@ -105,7 +101,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('dashboard', [DashboardController::class, 'index']);
 
-    Route::get('view/resume/{id}', [PDFController::class, 'load'])->name('load.resume');
+    // Route::get('view/resume/{id}', [PDFController::class, 'load'])->name('load.resume');
 });
 
 Route::get('/vacancy/{postId}/applicant/{userId}/resume', [PDFController::class, 'showResume'])->name('applicant.resume');

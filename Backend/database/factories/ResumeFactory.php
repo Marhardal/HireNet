@@ -18,8 +18,8 @@ class ResumeFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::get()->random()->id,
-            'summary' => fake()->paragraph(3),
+            'user_id' => 6,
+            'summary' => "An accomplished software engineer with over 5 years of experience in full-stack web development. Skilled in PHP, Laravel, JavaScript, and React.js. Proven track record of delivering high-quality solutions that meet client needs and exceed expectations.",
         ];
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->foreignIdFor(Field::class);
+            // $table->foreignIdFor(Field::class);
             $table->timestamps();
         });
     }

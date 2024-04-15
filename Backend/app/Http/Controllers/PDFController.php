@@ -29,8 +29,6 @@ class PDFController extends Controller
         return $pdf->download($resumes->user->first_name . " " . $resumes->user->surname . ".pdf");
     }
 
-
-
     public function showResume($postId, $userId)
     {
         $post = Post::find($postId);
